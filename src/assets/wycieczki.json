@@ -1,0 +1,104 @@
+[
+    {
+      "Nazwa": "Wakacje nad morzem",
+      "Kraj": "Hiszpania",
+      "DataRozpoczecia": "2023-07-01",
+      "DataZakonczenia": "2023-07-15",
+      "CenaJednostkowa": 1500,
+      "MaxIloscMiejsc": 20,
+      "Opis": "Niezapomniane wakacje nad pięknym morzem!",
+      "Zdjecie": "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+    },
+    {
+        "Nazwa": "Górska przygoda",
+        "Kraj": "Szwajcaria",
+        "DataRozpoczecia": "2023-08-01",
+        "DataZakonczenia": "2023-08-10",
+        "CenaJednostkowa": 2000,
+        "MaxIloscMiejsc": 15,
+        "Opis": "Wspinaczka w Alpach dla odważnych!",
+        "Zdjecie": "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      },
+      {
+        "Nazwa": "Zwiedzanie Rzymu",
+        "Kraj": "Włochy",
+        "DataRozpoczecia": "2023-09-01",
+        "DataZakonczenia": "2023-09-07",
+        "CenaJednostkowa": 1200,
+        "MaxIloscMiejsc": 25,
+        "Opis": "Wspaniałe zwiedzanie zabytków Rzymu!",
+        "Zdjecie": "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      },
+      {
+        "Nazwa": "Safari w Tanzanii",
+        "Kraj": "Tanzania",
+        "DataRozpoczecia": "2023-10-01",
+        "DataZakonczenia": "2023-10-14",
+        "CenaJednostkowa": 3000,
+        "MaxIloscMiejsc": 10,
+        "Opis": "Niesamowite safari po parkach narodowych!",
+        "Zdjecie": "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      },
+      {
+        "Nazwa": "Zimowy relaks w Alpach",
+        "Kraj": "Austria",
+        "DataRozpoczecia": "2023-12-01",
+        "DataZakonczenia": "2023-12-10",
+        "CenaJednostkowa": 1800,
+        "MaxIloscMiejsc": 18,
+        "Opis": "Narty i relaks w magicznych Alpach!",
+        "Zdjecie": "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      },
+      {
+        "Nazwa": "Egzotyczna wyspa na Karaibach",
+        "Kraj": "Dominikana",
+        "DataRozpoczecia": "2024-01-01",
+        "DataZakonczenia": "2024-01-14",
+        "CenaJednostkowa": 2500,
+        "MaxIloscMiejsc": 12,
+        "Opis": "Białe plaże i błękitne morze na Dominikanie!",
+        "Zdjecie": "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      },
+      {
+        "Nazwa": "Wędrówka po Wielkich Kanionach",
+        "Kraj": "USA",
+        "DataRozpoczecia": "2024-02-01",
+        "DataZakonczenia": "2024-02-10",
+        "CenaJednostkowa": 2800,
+        "MaxIloscMiejsc": 15,
+        "Opis": "Wspaniała przygoda w sercu Wielkich Kanionów!",
+        "Zdjecie":"https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      },
+      {
+        "Nazwa": "Rejs po Morzu Śródziemnym",
+        "Kraj": "Grecja",
+        "DataRozpoczecia": "2024-05-01",
+        "DataZakonczenia": "2024-05-15",
+        "CenaJednostkowa": 2200,
+        "MaxIloscMiejsc": 20,
+        "Opis": "Luksusowy rejs po pięknych wodach Morza Śródziemnego!",
+        "Zdjecie": "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      },
+      {
+        "Nazwa": "Podróż do Japonii",
+        "Kraj": "Japonia",
+        "DataRozpoczecia": "2024-06-01",
+        "DataZakonczenia": "2024-06-14",
+        "CenaJednostkowa": 3200,
+        "MaxIloscMiejsc": 8,
+        "Opis": "Spotkanie z fascynującą kulturą Japonii!",
+        "Zdjecie": "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      },
+      {
+        "Nazwa": "Wakacje na Hawajach",
+        "Kraj": "USA",
+        "DataRozpoczecia": "2024-07-01",
+        "DataZakonczenia": "2024-07-15",
+        "CenaJednostkowa": 2800,
+        "MaxIloscMiejsc": 15,
+        "Opis": "Relaks na rajskich plażach Hawajów!",
+        "Zdjecie": "https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+      }
+    
+  ]
+  

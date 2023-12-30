@@ -1,0 +1,17 @@
+<app-toolbar></app-toolbar> 
+<div class="wycieczki-container">
+    <div *ngFor="let wycieczka of wycieczki" [ngClass]="{'wycieczka': true, 'cheapest': wycieczka === cheapest_trip, 'expensive': wycieczka === expensive_trip}">
+        <div>
+            <img [src]="wycieczka.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
+            <h3>{{ wycieczka.Nazwa | uppercase }}</h3>
+            <p>Kraj: {{ wycieczka.Kraj | uppercase }}</p>
+            <p>Data: {{ wycieczka.DataRozpoczecia }} - {{ wycieczka.DataZakonczenia }}</p>
+            <p>Cena: {{ wycieczka.CenaJednostkowa }} zł</p>
+            <p>Opis: {{ wycieczka.Opis }}</p>
+            <p>Dostępne miejsca: {{ ilosciMiejscMap.get(wycieczka) }} / {{ wycieczka.MaxIloscMiejsc }}</p>
+            <button *ngIf="ilosciMiejscMap.get(wycieczka)! > 0" (click)="reservePlace(wycieczka)">+</button>
+            <button *ngIf="ilosciMiejscMap.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="cancelReservation(wycieczka)">-</button>
+            <button class="delete" (click)="deleteTrip(wycieczka)">DELETE</button>
+        </div>
+    </div>
+</div>
