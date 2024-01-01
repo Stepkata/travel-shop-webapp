@@ -1,0 +1,20 @@
+.wycieczki-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; /* Dla elastyczności, aby elementy były umieszczane w kilku rzędach */
+    justify-content: space-around; /* Możesz dostosować to do preferencji rozmieszczenia */
+  }
+
+.wycieczka {
+    border-bottom: 1px solid #848484;
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+  }
+
+.round-image {
+    border-radius: 25%;
+    width: 50px;  /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+  }

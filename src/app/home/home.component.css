@@ -1,26 +1,26 @@
 .wycieczki-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap; /* Dla elastyczności, aby elementy były umieszczane w kilku rzędach */
-    justify-content: space-around; /* Możesz dostosować to do preferencji rozmieszczenia */
+    flex-wrap: wrap; 
+    justify-content: space-around;
   }
 
 .wycieczka {
     border: 3px solid #ccc;
     padding: 10px;
     margin: 30px;
-    width: 300px; /* Dostosuj szerokość wycieczki według preferencji */
+    width: 300px; 
     text-align: center;
   }
 
 .wycieczka:hover {
-    transform: scale(1.2); /* Powiększ o 10% przy najechaniu kursorem */
+    transform: scale(1.2); 
   }
 
 .round-image {
     border-radius: 50%;
-    width: 100px;  /* Adjust as needed */
-    height: 100px; /* Adjust as needed */
+    width: 100px;  
+    height: 100px; 
   }
 
 .expensive {

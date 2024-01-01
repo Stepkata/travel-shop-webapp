@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../data.service';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Wycieczka } from '../wycieczka.model';
 
 @Component({
   selector: 'app-home',
@@ -9,55 +12,52 @@ import { DataService } from '../data.service';
 })
 
 export class HomeComponent implements OnInit{
-  wycieczki: any[] = [];
-  ilosciMiejscMap: Map<any, number> = new Map();
+  wycieczki: Wycieczka[] = [];
+
   cheapest_trip: any;
   expensive_trip: any;
-  reserved: Map<any, number> = new Map();
+  reserved: Map<Wycieczka, number> = new Map();
 
-  constructor(private http: HttpClient, private DataService: DataService) { }
+  constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal) { 
+    console.log("constructor!");
+  }
 
   ngOnInit(): void {
-    this.http.get<any[]>('assets/wycieczki.json').subscribe(data => {
+    this.DataService.trips$.subscribe((data) => {
+      if (data == null)
+        console.log("null!");
       this.wycieczki = data;
     });
-    for (const wycieczka of this.wycieczki) {
-      // Ustaw ilość miejsc na przykładową wartość, dostosuj do swoich danych
-      const iloscMiejsc = wycieczka.MaxIloscMiejsc || 0;
-      this.ilosciMiejscMap.set(wycieczka, iloscMiejsc);
-    }
-    this.DataService.updateTrips(this.wycieczki);
+    this.DataService.reserved$.subscribe((data) => {
+      if (data == null)
+        console.log("null!");
+      this.reserved = data;
+    })
+    this.updateTrips();
+    console.log("oninit!");
+  }
+
+  updateTrips(): void {
     this.findCheapestOption();
     this.findMostExpensiveOption();
   }
 
-  reservePlace(wycieczka: any): void {
-    if ( this.ilosciMiejscMap.get(wycieczka)! > 0) {
-      let new_val = this.ilosciMiejscMap.get(wycieczka)!-1;
-      this.ilosciMiejscMap.set(wycieczka, new_val);
-      if (!this.reserved.has(wycieczka)){
-        this.reserved.set(wycieczka, 1);
-      } else{
-        this.reserved.set(wycieczka, this.reserved.get(wycieczka)! + 1);
-      }
+  reservePlace(wycieczka: Wycieczka): void {
+    if ( this.reserved.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
+      this.reserved.set(wycieczka, this.reserved.get(wycieczka)! + 1);
+      this.DataService.updateReserved(this.reserved);
+    }
+
+  }
+
+  cancelReservation(wycieczka: Wycieczka): void {
+    if ( this.reserved.get(wycieczka)!> 0) {
+        this.reserved.set(wycieczka, this.reserved.get(wycieczka)! - 1);
       this.DataService.updateReserved(this.reserved);
     }
   }
 
-  cancelReservation(wycieczka: any): void {
-    if ( this.ilosciMiejscMap.get(wycieczka)! < wycieczka.MaxIloscMiejsc) {
-      let new_val = this.ilosciMiejscMap.get(wycieczka)!+1;
-      this.ilosciMiejscMap.set(wycieczka, new_val);
-      if (new_val == wycieczka.MaxIloscMiejsc){
-        this.reserved.delete(wycieczka)
-      } else{
-        this.reserved.set(wycieczka, wycieczka.MaxIloscMiejsc - new_val);
-      }
-      this.DataService.updateReserved(this.reserved);
-    }
-  }
-
-  findCheapestOption() {
+  findCheapestOption(): void {
     if (this.wycieczki.length > 0) {
       this.cheapest_trip = this.wycieczki[0];
 
@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit{
     }
   }
 
-  findMostExpensiveOption() {
+  findMostExpensiveOption():void  {
     if (this.wycieczki.length > 0) {
       this.expensive_trip = this.wycieczki[0];
 
@@ -81,20 +81,36 @@ export class HomeComponent implements OnInit{
     }
   }
 
-  deleteTrip(wycieczka: any){
+  deleteTrip(wycieczka: Wycieczka): void{
     const index = this.wycieczki.indexOf(wycieczka);
     if (index > -1){
       this.wycieczki.splice(index, 1);
     }
     this.DataService.updateTrips(this.wycieczki)
-    if (this.ilosciMiejscMap.has(wycieczka)){
-      this.ilosciMiejscMap.delete(wycieczka);
-    }
     if (this.reserved.has(wycieczka)){
       this.reserved.delete(wycieczka);
     }
     this.DataService.updateReserved(this.reserved);
     this.findCheapestOption();
     this.findMostExpensiveOption();
+  }
+
+  openFormModal(): void {
+    const modalRef = this.modalService.open(ToolbarComponent, {
+      centered: true,
+      windowClass: 'modal-custom',
+    });
+
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal zamykany. Wynik:', result);
+        this.wycieczki.push(result);
+        this.DataService.updateTrips(this.wycieczki);
+        this.updateTrips();
+      },
+      (reason) => {
+        console.log('Modal odrzucony. Powód:', reason);
+      }
+    );
   }
 }

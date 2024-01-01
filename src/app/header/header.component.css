@@ -1,11 +1,8 @@
 
-
-
 header{
     background: white;
     border-bottom: 3px solid #b2945bff;
     padding: 0;
-
 }
 
 a{
@@ -20,22 +17,13 @@ a:hover{
 .container{
     margin: 0 auto;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
 }
 
 a.logo{
     font-weight: bold;
     padding: 1em;
-}
-
-nav ul{
-    list-style-type: none;
-    margin: 0;
-}
-
-nav ul li a{
-    padding: 1em;
-    display: inline-block;
 }
 
 .alot {
@@ -45,3 +33,4 @@ nav ul li a{
 .little {
     color: red;
 }
+

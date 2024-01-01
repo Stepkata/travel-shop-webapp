@@ -1,4 +1,4 @@
-<app-toolbar></app-toolbar> 
+<button (click)="openFormModal()">Otwórz Modal z Formularzem</button>
 <div class="wycieczki-container">
     <div *ngFor="let wycieczka of wycieczki" [ngClass]="{'wycieczka': true, 'cheapest': wycieczka === cheapest_trip, 'expensive': wycieczka === expensive_trip}">
         <div>
@@ -8,9 +8,9 @@
             <p>Data: {{ wycieczka.DataRozpoczecia }} - {{ wycieczka.DataZakonczenia }}</p>
             <p>Cena: {{ wycieczka.CenaJednostkowa }} zł</p>
             <p>Opis: {{ wycieczka.Opis }}</p>
-            <p>Dostępne miejsca: {{ ilosciMiejscMap.get(wycieczka) }} / {{ wycieczka.MaxIloscMiejsc }}</p>
-            <button *ngIf="ilosciMiejscMap.get(wycieczka)! > 0" (click)="reservePlace(wycieczka)">+</button>
-            <button *ngIf="ilosciMiejscMap.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="cancelReservation(wycieczka)">-</button>
+            <p>Dostępne miejsca: {{ wycieczka.MaxIloscMiejsc - (reserved.get(wycieczka) || 0 )}} / {{ wycieczka.MaxIloscMiejsc }}</p>
+            <button *ngIf="reserved.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="reservePlace(wycieczka)">+</button>
+            <button *ngIf="reserved.get(wycieczka)! > 0" (click)="cancelReservation(wycieczka)">-</button>
             <button class="delete" (click)="deleteTrip(wycieczka)">DELETE</button>
         </div>
     </div>
