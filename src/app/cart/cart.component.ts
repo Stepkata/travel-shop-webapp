@@ -64,12 +64,6 @@ export class CartComponent {
     history.push(newEntry);
     this.DataService.updateHistory(history);
 
-    this.total = 0;
-    this.reserved.splice(this.reserved.indexOf(wycieczka), 1);
-    for (const wycieczka of this.reserved){
-      this.total += wycieczka.CenaJednostkowa * this.reservedMap.get(wycieczka)!;
-    }
-
     let bought: Map<Wycieczka, number> = new Map();
     this.DataService.bought$.subscribe((data) => {
       if (data != null){
@@ -82,12 +76,50 @@ export class CartComponent {
     }
     bought.set(wycieczka, alreadyBought + this.reservedMap.get(wycieczka)!);
     this.DataService.updateBought(bought);
+
+    this.total = 0;
+    this.reserved.splice(this.reserved.indexOf(wycieczka), 1);
+    this.reservedMap.set(wycieczka, 0);
+    this.DataService.updateReserved(this.reservedMap);
+    for (const wycieczka of this.reserved){
+      this.total += wycieczka.CenaJednostkowa * this.reservedMap.get(wycieczka)!;
+    }
+
   }
 
   buyAll(){
+    let history: HistoryItem[] = [];
+    this.DataService.history$.subscribe((data) => {
+      if (data != null){
+        history = data;
+      }
+    })
+
     for (const wycieczka of this.reserved){
-      this.buy(wycieczka);
+      let newEntry: HistoryItem = {
+        Trip: wycieczka,
+        Amount: this.reservedMap.get(wycieczka)!,
+        dateSold: new Date()
+      }
+      history.push(newEntry);
     }
+    this.DataService.updateHistory(history);
+
+    let bought: Map<Wycieczka, number> = new Map();
+    this.DataService.bought$.subscribe((data) => {
+      if (data != null){
+        bought = data;
+      }
+    })
+    for(const [wycieczka, ilosc] of this.reservedMap){
+      bought.set(wycieczka, bought.get(wycieczka)! + ilosc);
+      this.reservedMap.set(wycieczka, 0);
+    }
+    this.DataService.updateBought(bought);
+    this.DataService.updateReserved(this.reservedMap);
+
+    this.total = 0;
+    this.reserved = []
   }
 
 }

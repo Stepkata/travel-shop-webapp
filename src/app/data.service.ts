@@ -10,6 +10,7 @@ export class DataService {
   constructor(private http: HttpClient){
     let trips: any = [];
     let reserved: Map<any, number> = new Map();
+    let bought: Map<any, number> = new Map();
     this.http.get<any[]>('assets/wycieczki.json').subscribe(data => {
       trips = data;
     });
@@ -18,6 +19,10 @@ export class DataService {
       reserved.set(wycieczka, 0);
     }
     this.updateReserved(reserved);
+    for (const wycieczka of trips) {
+      bought.set(wycieczka, 0);
+    }
+    this.updateBought(bought);
     console.log("Data constructor!");
   }
 

@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit{
   cheapest_trip: any;
   expensive_trip: any;
   reserved: Map<Wycieczka, number> = new Map();
+  bought: Map<Wycieczka, number> = new Map();
 
   constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal) { 
     console.log("constructor!");
@@ -33,6 +34,11 @@ export class HomeComponent implements OnInit{
         console.log("null!");
       this.reserved = data;
     })
+    this.DataService.bought$.subscribe((data) => {
+      if (data != null){
+        this.bought = data;
+      }
+    })
     this.updateTrips();
     console.log("oninit!");
   }
@@ -43,7 +49,7 @@ export class HomeComponent implements OnInit{
   }
 
   reservePlace(wycieczka: Wycieczka): void {
-    if ( this.reserved.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
+    if ( this.reserved.get(wycieczka)! + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
       this.reserved.set(wycieczka, this.reserved.get(wycieczka)! + 1);
       this.DataService.updateReserved(this.reserved);
     }
