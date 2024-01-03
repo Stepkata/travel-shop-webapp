@@ -18,9 +18,14 @@ export class HomeComponent implements OnInit{
   expensive_trip: any;
   reserved: Map<Wycieczka, number> = new Map();
   bought: Map<Wycieczka, number> = new Map();
+  starCount: number = 5;
+  ratingArr:any = [];
 
   constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal) { 
     console.log("constructor!");
+    for (let index = 0; index < this.starCount; index++) {
+      this.ratingArr.push(index);
+    }
   }
 
   ngOnInit(): void {
@@ -118,5 +123,22 @@ export class HomeComponent implements OnInit{
         console.log('Modal odrzucony. Powód:', reason);
       }
     );
+  }
+
+  getRating(wycieczka: Wycieczka): number{
+    console.log("home rating");
+    let sum = 0;
+    for (const r of wycieczka.Rating){
+      sum += r;
+    }
+    return sum/wycieczka.Rating.length;
+  }
+
+  showIcon(wycieczka:Wycieczka, index:number) {
+    if (this.getRating(wycieczka)>= index + 1) {
+      return 'star';
+    } else {
+      return 'star_border';
+    }
   }
 }

@@ -1,20 +1,25 @@
+
 .wycieczki-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap; 
     justify-content: space-around;
+    padding: 50px;
   }
 
 .wycieczka {
-    border: 3px solid #ccc;
+    border: none;
     padding: 10px;
     margin: 30px;
     width: 300px; 
     text-align: center;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   }
 
 .wycieczka:hover {
-    transform: scale(1.2); 
+    transform: scale(1.1); 
   }
 
 .round-image {
@@ -24,13 +29,17 @@
   }
 
 .expensive {
-    border-color: green;
+    box-shadow: rgba(71, 208, 121, 0.3) 0px 8px 24px, rgba(71, 208, 121, 0.3) 0px 16px 56px, rgba(71, 208, 121, 0.3) 0px 24px 80px;
   }
 
 .cheapest {
-    border-color: rgb(128, 0, 0);
+    box-shadow: rgba(196, 59, 59, 0.3) 0px 8px 24px, rgba(196, 59, 59, 0.3)  0px 16px 56px, rgba(196, 59, 59, 0.3)  0px 24px 80px;
   }
 
-
+.star-button{
+  background-color: white;
+  border: none;
+  box-shadow: none;
+}
   /* Add more styles as needed */
   

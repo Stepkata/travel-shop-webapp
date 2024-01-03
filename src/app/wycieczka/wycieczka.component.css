@@ -1,0 +1,28 @@
+.wycieczka {
+    border: none;
+    padding: 10px;
+    margin: 30px;
+    width: 800px; 
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  }
+
+  .round-image {
+    border-radius: 50%;
+    width: 100px;  
+    height: 100px; 
+  }
+
+.star-button{
+    background-color: white;
+    border: none;
+    box-shadow: none;
+  }
+
+.star-button:hover{
+  background-color: white;
+}

@@ -1,4 +1,5 @@
 export interface Wycieczka {
+    Id: number;
     Nazwa: string;
     Kraj: string;
     DataRozpoczecia: string;
@@ -7,4 +8,5 @@ export interface Wycieczka {
     MaxIloscMiejsc: number;
     Opis: string;
     Zdjecie: string;
+    Rating: number[];
   }

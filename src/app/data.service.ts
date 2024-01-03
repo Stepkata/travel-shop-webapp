@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Wycieczka } from './wycieczka.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +10,15 @@ import { HttpClient } from '@angular/common/http';
 
 export class DataService {
   constructor(private http: HttpClient){
-    let trips: any = [];
+    let trips: Wycieczka[] = [];
     let reserved: Map<any, number> = new Map();
     let bought: Map<any, number> = new Map();
-    this.http.get<any[]>('assets/wycieczki.json').subscribe(data => {
-      trips = data;
+    this.http.get<Wycieczka[]>('assets/wycieczki.json').subscribe(data => {
+      trips = data.map((wycieczka, index) => ({
+        ...wycieczka,
+        Id: index + 1,
+        Rating: [],
+      }));
     });
     this.updateTrips(trips);
     for (const wycieczka of trips) {

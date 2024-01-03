@@ -12,6 +12,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { WidgetComponent } from './widget/widget.component';
 import { DropdownModule } from '@coreui/angular';
 import { CartComponent } from './cart/cart.component';
+import { WycieczkaComponent } from './wycieczka/wycieczka.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +24,8 @@ import { CartComponent } from './cart/cart.component';
     HomeComponent,
     ToolbarComponent,
     WidgetComponent,
-    CartComponent
+    CartComponent,
+    WycieczkaComponent
   ],
   imports: [ 
     HttpClientModule,
@@ -29,6 +34,8 @@ import { CartComponent } from './cart/cart.component';
     ReactiveFormsModule,
     NgbModule,
     DropdownModule,
+    BrowserAnimationsModule,
+    MatIconModule,
   ],
   providers: [
     provideClientHydration()

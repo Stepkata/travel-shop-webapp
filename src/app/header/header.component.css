@@ -1,17 +1,12 @@
 
 header{
     background: white;
-    border-bottom: 3px solid #b2945bff;
-    padding: 0;
+    border-bottom: 1px solid #7a9e9f;
+    padding: 10px;
 }
 
 a{
-    color: #253237ff;
-}
-
-a:hover{
-    background: #b2945bff;
-    color: white;
+    color: #4f6367;
 }
 
 .container{
@@ -19,6 +14,7 @@ a:hover{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 a.logo{
@@ -27,10 +23,39 @@ a.logo{
 }
 
 .alot {
-    color: green;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: #EEF5DB;
 }
 
 .little {
-    color: red;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: #FE5F55;
 }
 
+.cart{
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    padding: 15px;
+}
+
+.widget{
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: 15px;
+}
+
+button{
+    background-color: #7a9e9f;
+    box-shadow: none;
+    border: none;
+}
+
+button:hover{
+    background-color: #515a47ff;
+}
+
+svg{
+    margin:0px 5px 0 5px;
+}
