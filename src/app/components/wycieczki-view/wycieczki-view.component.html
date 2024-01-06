@@ -1,6 +1,8 @@
-<button (click)="openFormModal()" class="add-trip">Dodaj wycieczkę</button>
-
-<button (click)="openFilterModal()" class="add-trip">Filtruj</button>
+<div class="buttons">
+    <button (click)="openFormModal()" class="add-trip">Dodaj wycieczkę</button>
+    <button (click)="openFilterModal()" class="filter">Filtruj</button>
+    <button (click)="clearFilters()" class="clear-filter">Wyczyść filtry</button>
+</div>
 
 <div class="wycieczki-container">
     <div *ngFor="let wycieczka of wycieczki | country: filterCountry | date: filterStartDate: filterEndDate | price: filterMinPrice: filterMaxPrice | rating: filterMinRating : filterMaxRating" [ngClass]="{'wycieczka': true}">

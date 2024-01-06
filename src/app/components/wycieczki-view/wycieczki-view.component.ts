@@ -177,6 +177,16 @@ export class WycieczkiViewComponent {
 
   }
 
+  clearFilters(){
+    this.filterCountry = [];
+    this.filterMinRating = null;
+    this.filterMaxRating = null;
+    this.filterMinPrice = null;
+    this.filterMaxPrice = null;
+    this.filterStartDate = null;
+    this.filterEndDate = null;
+  }
+
   getRating(wycieczka: Wycieczka): number{
     console.log("home rating");
     let sum = 0;

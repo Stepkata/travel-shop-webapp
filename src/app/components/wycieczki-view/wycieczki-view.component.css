@@ -73,4 +73,11 @@ button{
   background-color: #FE5F55;
   top: 15%;
 }
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
   
