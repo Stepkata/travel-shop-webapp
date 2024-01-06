@@ -53,6 +53,7 @@ import { DatePipe } from './pipes/date.pipe';
     DropdownModule,
     BrowserAnimationsModule,
     MatIconModule,
+    MatSliderModule,
   ],
   providers: [
     provideClientHydration()
@@ -60,7 +61,6 @@ import { DatePipe } from './pipes/date.pipe';
   bootstrap: [AppComponent],
   exports: [
     FormsModule,
-    MatSliderModule,
   ]
 })
 export class AppModule { } 

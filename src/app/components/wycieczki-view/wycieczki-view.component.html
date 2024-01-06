@@ -3,7 +3,7 @@
 <button (click)="openFilterModal()" class="add-trip">Filtruj</button>
 
 <div class="wycieczki-container">
-    <div *ngFor="let wycieczka of wycieczki | country: filterCountry | date: filterStartDate: filterEndDate | price: filterMinPrice: filterMaxPrice | rating: filterRating" [ngClass]="{'wycieczka': true}">
+    <div *ngFor="let wycieczka of wycieczki | country: filterCountry | date: filterStartDate: filterEndDate | price: filterMinPrice: filterMaxPrice | rating: filterMinRating : filterMaxRating" [ngClass]="{'wycieczka': true}">
         <div [routerLink]="['/wycieczki', wycieczka.Id]">
             <div [ngClass]="{'hidden': true, 'cheapest': wycieczka === cheapest_trip, 'expensive': wycieczka === expensive_trip}">
                 {{wycieczka === cheapest_trip ? 'OKAZJA!' : wycieczka === expensive_trip ? 'WYSOKA PÓŁKA' : ''}}

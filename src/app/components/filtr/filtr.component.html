@@ -1,25 +1,24 @@
-<form [formGroup]="filtrForm" (ngSubmit)="onSave()">
+<form [formGroup]="filtrForm" (ngSubmit)="onSave()" (ngModelChange)="onSave()">
     <label>Lokalizacja:</label>
     <select formControlName="lokalizacja" multiple>
       <option *ngFor="let lok of lokalizacja" value="{{lok}}">{{ lok }}</option>
     </select>
   
     <label>Cena:</label>
-    <input type="number" formControlName="cenaMin" placeholder="Min">
-    <input type="number" formControlName="cenaMax" placeholder="Max">
+    <mat-slider min={{minPrice}} max={{maxPrice}} discrete > 
+      <input matSliderStartThumb formControlName="cenaMin" >
+      <input matSliderEndThumb formControlName="cenaMax">
+    </mat-slider>
   
     <label>Data:</label>
     <input type="date" formControlName="dataOd">
     <input type="date" formControlName="dataDo">
   
     <label>Ocena:</label>
-    <select formControlName="ocena" multiple>
-      <option value="1">1 gwiazdka</option>
-      <option value="2">2 gwiazdki</option>
-      <option value="3">3 gwiazdki</option>
-      <option value="4">4 gwiazdki</option>
-      <option value="5">5 gwiazdki</option>
-    </select>
+    <mat-slider min="0" max="5" discrete > 
+      <input matSliderStartThumb formControlName="ocenaMin" >
+      <input matSliderEndThumb formControlName="ocenaMax">
+    </mat-slider>
   
     <button type="submit">Filtruj</button>
   </form>

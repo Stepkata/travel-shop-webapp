@@ -6,21 +6,24 @@ import { Wycieczka } from '../structures/wycieczka.model';
 })
 export class RatingPipe implements PipeTransform {
 
-  transform(tours: Wycieczka[], rating: number[] | null): Wycieczka[] {
-    if (!tours)
-     return [];
-    if (!rating || rating.length == 0)
-     return tours;
-    let retTours : Wycieczka[] = [];
-      rating.forEach(rate => {
-        let filtered = tours.filter(tour => {
-          let avg = tour.Rating.reduce( ( p, c ) => p + c, 0 ) / tour.Rating.length; 
-          console.log(rate);
-          console.log(avg);
-          return avg >= rate && avg < rate + 1; 
-        });
-        retTours = retTours.concat(filtered);
+  transform(tours: Wycieczka[], minInclusive: number | null, maxInclusive: number | null): Wycieczka[] {
+    if(!tours)
+      return [];
+    if(minInclusive == null || maxInclusive == null || minInclusive == 0){
+      console.log("rating null!");
+      return tours;
+    }
+    return tours.filter(tour => {
+      let avg = this.getAverage(tour.Rating);
+      return avg >= minInclusive && avg <= maxInclusive;                                                                    
       });
-      return retTours;
-     } 
+    }
+
+  getAverage(rate: number[]){
+    let sum = 0;
+    for (const n of rate){
+      sum += n;
+    }
+    return sum/rate.length;
+  }
 }

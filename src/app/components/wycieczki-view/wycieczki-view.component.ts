@@ -33,7 +33,8 @@ export class WycieczkiViewComponent {
   ratingArr:any = [];
   
   filterCountry: any = [];
-  filterRating: any = [];
+  filterMinRating: any = null;
+  filterMaxRating: any = null;
   filterMinPrice: any = null;
   filterMaxPrice: any = null;
   filterStartDate: any = null;
@@ -162,7 +163,8 @@ export class WycieczkiViewComponent {
       (result) => {
         console.log('Modal zamykany. Wynik:', result);
         this.filterCountry = result.lokalizacja;
-        this.filterRating = result.ocena;
+        this.filterMinRating = result.ocenaMin;
+        this.filterMaxRating = result.ocenaMax;
         this.filterMinPrice = result.cenaMin;
         this.filterMaxPrice = result.cenaMax;
         this.filterStartDate = result.dataOd? new Date(result.dataOd) : result.dataOd;

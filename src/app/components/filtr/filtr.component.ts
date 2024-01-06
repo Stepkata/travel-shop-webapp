@@ -15,11 +15,11 @@ export class FiltrComponent {
 
   filtrForm: FormGroup;
   lokalizacja: string[] = []
+  minPrice = 100000;
+  maxPrice = 0;
 
   constructor(private formBuilder: FormBuilder, private DataService: DataService, public activeModal: NgbActiveModal) {
     let wycieczki: Wycieczka[] = [];
-    let minPrice = 0;
-    let maxPrice = 0;
 
     this.DataService.trips$.subscribe(
       (data) => {
@@ -31,17 +31,22 @@ export class FiltrComponent {
     for (const wycieczka of wycieczki){
       if (this.lokalizacja.indexOf(wycieczka.Kraj) < 0 ){
         this.lokalizacja.push(wycieczka.Kraj)
+        if (wycieczka.CenaJednostkowa < this.minPrice)
+          this.minPrice = wycieczka.CenaJednostkowa;
+        if (wycieczka.CenaJednostkowa > this.maxPrice)
+          this.maxPrice = wycieczka.CenaJednostkowa;
+
       }
     }
 
-
     this.filtrForm = this.formBuilder.group({
       lokalizacja: [[]],
-      cenaMin: null,
-      cenaMax: null,
+      cenaMin: this.minPrice,
+      cenaMax: this.maxPrice,
       dataOd: null,
       dataDo: null,
-      ocena: [[]]
+      ocenaMin: 0,
+      ocenaMax: 5,
     });
   }
 
