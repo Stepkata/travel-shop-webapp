@@ -23,7 +23,8 @@ import { PricePipe } from './pipes/price.pipe';
 import { CountryPipe } from './pipes/country.pipe';
 import { RatingPipe } from './pipes/rating.pipe';
 import { MatSliderModule } from '@angular/material/slider';
-import { DatePipe } from './pipes/date.pipe';  
+import { DatePipe } from './pipes/date.pipe';
+import { HistoryStatePipe } from './pipes/history-state.pipe';  
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { DatePipe } from './pipes/date.pipe';
     CountryPipe,
     RatingPipe,
     DatePipe,
+    HistoryStatePipe,
   ],
   imports: [ 
     HttpClientModule,
@@ -56,7 +58,7 @@ import { DatePipe } from './pipes/date.pipe';
     MatSliderModule,
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
   ],
   bootstrap: [AppComponent],
   exports: [

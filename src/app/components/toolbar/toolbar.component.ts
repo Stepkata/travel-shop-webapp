@@ -21,6 +21,7 @@ export class ToolbarComponent {
       CenaJednostkowa: ['', Validators.required],
       MaxIloscMiejsc: ['', Validators.required],
       Opis: ['', Validators.required],
+      DlugiOpis: ['', Validators.required],
       Zdjecie: ['', Validators.required]
     });
   }

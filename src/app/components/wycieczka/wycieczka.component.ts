@@ -21,7 +21,7 @@ export class WycieczkaComponent implements OnInit{
   ratingArr:any = [];
 
   constructor(private DataService: DataService, private route: ActivatedRoute) { 
-    console.log("constructor!");
+    console.log("wycieczka constructor!");
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
@@ -35,13 +35,17 @@ export class WycieczkaComponent implements OnInit{
     this.DataService.trips$.subscribe((data) => {
       if (data == null)
         console.log("null!");
-      this.trips = data;
+      else
+        this.trips = data;
     });
     for (const w of this.trips){
       if (w.Id == this.tripId){
         this.wycieczka = w;
       }
     }
+
+    if (this.wycieczka)
+      this.rating = this.getRating();
     this.DataService.reserved$.subscribe((data) => {
       if (data == null)
         console.log("null!");
@@ -52,8 +56,6 @@ export class WycieczkaComponent implements OnInit{
         this.bought = data;
       }
     })
-
-    this.rating = this.getRating();
   }
 
   reservePlace(wycieczka: Wycieczka): void {
@@ -72,6 +74,8 @@ export class WycieczkaComponent implements OnInit{
   }
 
   getRating(): number{
+    if (!this.wycieczka.Rating)
+      return 0;
     let sum = 0;
     for (const r of this.wycieczka.Rating){
       sum += r;

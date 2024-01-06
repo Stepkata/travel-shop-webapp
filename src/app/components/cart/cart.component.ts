@@ -88,38 +88,9 @@ export class CartComponent {
   }
 
   buyAll(){
-    let history: HistoryItem[] = [];
-    this.DataService.history$.subscribe((data) => {
-      if (data != null){
-        history = data;
-      }
-    })
-
-    for (const wycieczka of this.reserved){
-      let newEntry: HistoryItem = {
-        Trip: wycieczka,
-        Amount: this.reservedMap.get(wycieczka)!,
-        dateSold: new Date()
-      }
-      history.push(newEntry);
+    while(this.reserved.length > 0){
+      this.buy(this.reserved[0]);
     }
-    this.DataService.updateHistory(history);
-
-    let bought: Map<Wycieczka, number> = new Map();
-    this.DataService.bought$.subscribe((data) => {
-      if (data != null){
-        bought = data;
-      }
-    })
-    for(const [wycieczka, ilosc] of this.reservedMap){
-      bought.set(wycieczka, bought.get(wycieczka)! + ilosc);
-      this.reservedMap.set(wycieczka, 0);
-    }
-    this.DataService.updateBought(bought);
-    this.DataService.updateReserved(this.reservedMap);
-
-    this.total = 0;
-    this.reserved = []
   }
 
 }

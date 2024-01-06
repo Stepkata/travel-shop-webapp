@@ -12,7 +12,7 @@
     <p>Kraj: {{ wycieczka.Kraj | uppercase }}</p>
     <p>Data: {{ wycieczka.DataRozpoczecia }} - {{ wycieczka.DataZakonczenia }}</p>
     <p>Cena: {{ wycieczka.CenaJednostkowa }} zł</p>
-    <p>Opis: {{ wycieczka.Opis }}</p>
+    <p>Opis: {{ wycieczka.DlugiOpis }}</p>
     <p>Dostępne miejsca: {{ wycieczka.MaxIloscMiejsc - ((reserved.get(wycieczka) || 0) + ( this.bought.get(wycieczka) || 0))}} / {{ wycieczka.MaxIloscMiejsc }}</p>
     <button *ngIf="reserved.get(wycieczka)! + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="reservePlace(wycieczka)">+</button>
     <button *ngIf="reserved.get(wycieczka)! > 0" (click)="cancelReservation(wycieczka)">-</button>

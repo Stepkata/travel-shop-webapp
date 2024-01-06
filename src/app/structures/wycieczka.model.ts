@@ -7,6 +7,7 @@ export interface Wycieczka {
     CenaJednostkowa: number;
     MaxIloscMiejsc: number;
     Opis: string;
+    DlugiOpis: string;
     Zdjecie: string;
     Rating: number[];
   }

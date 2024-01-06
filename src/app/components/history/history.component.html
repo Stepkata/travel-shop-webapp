@@ -1,5 +1,11 @@
-<div class="history-container">
-    <div *ngFor="let histItem of history" [ngClass]="{'hist-item': true}">
+<div class="buttons">
+    <button (click)="toggleFilterState(0)">Nadchodząca</button>
+    <button (click)="toggleFilterState(1)">W trakcie</button>
+    <button (click)="toggleFilterState(2)">Odbyta</button>
+</div>
+
+<div class="history-container"> 
+    <div *ngFor="let histItem of history | hist: filterState" [ngClass]="{'hist-item': true}">
         <div class="info">
             <p>{{ histItem.Trip.Nazwa | uppercase }} </p>
             <p> Kraj: {{ histItem.Trip.Kraj }}</p>

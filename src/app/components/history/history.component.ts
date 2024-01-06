@@ -2,18 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HistoryItem } from '../../structures/history-item';
+import { HistoryStatePipe } from '../../pipes/history-state.pipe';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
-  styleUrl: './history.component.css'
+  styleUrls: ['./history.component.css'],
+  providers: [ HistoryStatePipe ]
 })
 export class HistoryComponent implements OnInit{
   history: HistoryItem[] = [];
   starCount: number = 5;
   ratingArr:any = [];
+  filterState: number | null = null;
 
-  constructor(private DataService: DataService, private modalService: NgbModal) { 
+  constructor(private DataService: DataService, private modalService: NgbModal, private hist: HistoryStatePipe) { 
     console.log("constructor!");
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
@@ -40,6 +43,10 @@ export class HistoryComponent implements OnInit{
       return 2;
     else 
       return 1;
+  }
+
+  toggleFilterState(state: number) {
+    this.filterState = this.filterState === state ? null : state;
   }
 
 }
