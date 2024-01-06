@@ -1,16 +1,16 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { DataService } from '../data.service';
+import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../data.service';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Wycieczka } from '../wycieczka.model';
+import { Wycieczka } from '../../structures/wycieczka.model';
 
 @Component({
-  selector: 'app-wycieczki-view',
-  templateUrl: './wycieczki-view.component.html',
-  styleUrl: './wycieczki-view.component.css'
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
 })
-export class WycieczkiViewComponent {
+
+export class HomeComponent implements OnInit{
   wycieczki: Wycieczka[] = [];
 
   cheapest_trip: any;
@@ -19,10 +19,8 @@ export class WycieczkiViewComponent {
   bought: Map<Wycieczka, number> = new Map();
   starCount: number = 5;
   ratingArr:any = [];
-  filterBy: string = '';
-  filterData: any = {}; 
 
-  constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal) { 
+  constructor(private DataService: DataService, private modalService: NgbModal) { 
     console.log("constructor!");
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
@@ -144,9 +142,4 @@ export class WycieczkiViewComponent {
       return 'star_border';
     }
   }
-
-  applyFilter(filterData: any) {
-    this.filterData = filterData;
-  }
-
 }

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Wycieczka } from './wycieczka.model';
-import { HistoryItem } from './history-item';
+import { Wycieczka } from './structures/wycieczka.model';
+import { HistoryItem } from './structures/history-item';
 
 @Injectable({
   providedIn: 'root'

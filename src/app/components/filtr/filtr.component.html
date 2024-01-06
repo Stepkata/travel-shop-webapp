@@ -1,8 +1,7 @@
-<form [formGroup]="filtrForm" (ngSubmit)="applyFilter()">
+<form [formGroup]="filtrForm" (ngSubmit)="onSave()">
     <label>Lokalizacja:</label>
     <select formControlName="lokalizacja" multiple>
-      <!-- Opcje lokalizacji z wycieczek -->
-      <!-- ... -->
+      <option *ngFor="let lok of lokalizacja" value="{{lok}}">{{ lok }}</option>
     </select>
   
     <label>Cena:</label>

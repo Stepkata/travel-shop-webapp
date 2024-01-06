@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { DataService } from '../data.service';
-import { Wycieczka } from '../wycieczka.model';
-import { HistoryItem } from '../history-item';
+import { DataService } from '../../data.service';
+import { Wycieczka } from '../../structures/wycieczka.model';
+import { HistoryItem } from '../../structures/history-item';
 
 @Component({
   selector: 'app-cart',

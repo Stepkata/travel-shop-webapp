@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { Wycieczka } from '../wycieczka.model';
-import { DataService } from '../data.service';
+import { Wycieczka } from '../../structures/wycieczka.model';
+import { DataService } from '../../data.service';
 import { ActivatedRoute } from '@angular/router';
 
 

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { DataService } from '../../data.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',

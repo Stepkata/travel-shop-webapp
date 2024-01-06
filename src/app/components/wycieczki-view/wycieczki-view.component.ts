@@ -1,16 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { DataService } from '../../data.service';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Wycieczka } from '../wycieczka.model';
+import { Wycieczka } from '../../structures/wycieczka.model';
+import { FiltrComponent } from '../filtr/filtr.component';
+
+import { CountryPipe } from '../../pipes/country.pipe';
+import { DatePipe } from '@angular/common';
+import { PricePipe } from '../../pipes/price.pipe';
+import { RatingPipe } from '../../pipes/rating.pipe';
+
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  selector: 'app-wycieczki-view',
+  templateUrl: './wycieczki-view.component.html',
+  styleUrl: './wycieczki-view.component.css',
+  providers: [CountryPipe, 
+    DatePipe,
+    PricePipe,
+    RatingPipe
+  ]
 })
-
-export class HomeComponent implements OnInit{
+export class WycieczkiViewComponent {
   wycieczki: Wycieczka[] = [];
 
   cheapest_trip: any;
@@ -19,8 +31,17 @@ export class HomeComponent implements OnInit{
   bought: Map<Wycieczka, number> = new Map();
   starCount: number = 5;
   ratingArr:any = [];
+  
+  filterCountry: any = [];
+  filterRating: any = [];
+  filterMinPrice: any = null;
+  filterMaxPrice: any = null;
+  filterStartDate: any = null;
+  filterEndDate: any = null;
 
-  constructor(private DataService: DataService, private modalService: NgbModal) { 
+
+  constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal, 
+    private country: CountryPipe, private date: DatePipe, private rating: RatingPipe, private price: PricePipe) { 
     console.log("constructor!");
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
@@ -116,6 +137,11 @@ export class HomeComponent implements OnInit{
     modalRef.result.then(
       (result) => {
         console.log('Modal zamykany. Wynik:', result);
+        result.Rating = [];
+        result.Id = this.wycieczki.length + 1;
+        this.bought.set(result, 0);
+        this.reserved.set(result, 0);
+        this.DataService.updateBought(this.bought);
         this.wycieczki.push(result);
         this.DataService.updateTrips(this.wycieczki);
         this.updateTrips();
@@ -124,6 +150,30 @@ export class HomeComponent implements OnInit{
         console.log('Modal odrzucony. Powód:', reason);
       }
     );
+  }
+
+  openFilterModal(): void {
+    const modalRef = this.modalService.open(FiltrComponent, {
+      centered: true,
+      windowClass: 'modal-custom',
+    });
+
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal zamykany. Wynik:', result);
+        this.filterCountry = result.lokalizacja;
+        this.filterRating = result.ocena;
+        this.filterMinPrice = result.cenaMin;
+        this.filterMaxPrice = result.cenaMax;
+        this.filterStartDate = result.dataOd? new Date(result.dataOd) : result.dataOd;
+        this.filterEndDate = result.dataDo? new Date(result.dataDo) : result.dataDo;
+
+      },
+      (reason) => {
+        console.log('Modal odrzucony. Powód:', reason);
+      }
+    );
+
   }
 
   getRating(wycieczka: Wycieczka): number{
@@ -142,4 +192,6 @@ export class HomeComponent implements OnInit{
       return 'star_border';
     }
   }
+
+
 }

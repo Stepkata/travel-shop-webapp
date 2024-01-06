@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from '../../data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HistoryItem } from '../history-item';
+import { HistoryItem } from '../../structures/history-item';
 
 @Component({
   selector: 'app-history',

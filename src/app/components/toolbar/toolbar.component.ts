@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataService } from '../data.service';
+import { DataService } from '../../data.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -42,7 +42,7 @@ export class ToolbarComponent {
 
   onSave(): void {
     if (this.wycieczkaForm.valid) {
-      const nowaWycieczka = this.wycieczkaForm.value;;
+      const nowaWycieczka = this.wycieczkaForm.value;
       this.activeModal.close(nowaWycieczka); // Przekazuje dane do komponentu nadrzędnego
     }
   }
