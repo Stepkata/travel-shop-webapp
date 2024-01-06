@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Wycieczka } from './structures/wycieczka.model';
 import { HistoryItem } from './structures/history-item';
+import { Cart } from './structures/cart';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class DataService {
     let trips: Wycieczka[] = [];
     let reserved: Map<any, number> = new Map();
     let bought: Map<any, number> = new Map();
+
+    let cart: Cart = new Cart();
+    this.updateCart(cart);
+
     this.http.get<Wycieczka[]>('assets/wycieczki.json').subscribe(data => {
       trips = data.map((wycieczka, index) => ({
         ...wycieczka,
@@ -22,10 +27,7 @@ export class DataService {
       }));
     });
     this.updateTrips(trips);
-    for (const wycieczka of trips) {
-      reserved.set(wycieczka, 0);
-    }
-    this.updateReserved(reserved);
+
     for (const wycieczka of trips) {
       bought.set(wycieczka, 0);
     }
@@ -33,8 +35,6 @@ export class DataService {
     console.log("Data constructor!");
   }
 
-  private reservedSubject = new BehaviorSubject<any>(null);
-  reserved$ = this.reservedSubject.asObservable();
 
   private tripsSubject = new BehaviorSubject<any>(null);
   trips$ = this.tripsSubject.asObservable();
@@ -45,9 +45,8 @@ export class DataService {
   private boughtSubject = new BehaviorSubject<any>(null);
   bought$ = this.boughtSubject.asObservable();
 
-  updateReserved(data: any) {
-    this.reservedSubject.next(data);
-  }
+  private cartSubject = new BehaviorSubject<any>(null);
+  cart$ = this.cartSubject.asObservable();
 
   updateTrips(data:any) {
     this.tripsSubject.next(data);
@@ -61,6 +60,10 @@ export class DataService {
 
   updateBought(data:any) {
     this.boughtSubject.next(data);
+  }
+
+  updateCart(data:Cart){
+    this.cartSubject.next(data);
   }
 
 }

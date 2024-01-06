@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } fro
 import { Wycieczka } from '../../structures/wycieczka.model';
 import { DataService } from '../../data.service';
 import { ActivatedRoute } from '@angular/router';
+import { Cart } from '../../structures/cart';
 
 
 @Component({
@@ -12,9 +13,9 @@ import { ActivatedRoute } from '@angular/router';
 export class WycieczkaComponent implements OnInit{
   wycieczka: any;
   private tripId: number = 0;
-  reserved: Map<Wycieczka, number> = new Map();
   bought: Map<Wycieczka, number> = new Map();
   trips: Wycieczka[] = [];
+  cart: Cart = new Cart();
 
   rating: number = 0;
   starCount: number = 5;
@@ -46,33 +47,32 @@ export class WycieczkaComponent implements OnInit{
 
     if (this.wycieczka)
       this.rating = this.getRating();
-    this.DataService.reserved$.subscribe((data) => {
-      if (data == null)
-        console.log("null!");
-      this.reserved = data;
-    })
     this.DataService.bought$.subscribe((data) => {
       if (data != null){
         this.bought = data;
       }
-    })
+    });
+
+    this.DataService.cart$.subscribe((data) => {
+      if (data != null){
+        this.cart = data;
+      }
+    });
   }
 
   reservePlace(wycieczka: Wycieczka): void {
-    if ( this.reserved.get(wycieczka)! + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
-      this.reserved.set(wycieczka, this.reserved.get(wycieczka)! + 1);
-      this.DataService.updateReserved(this.reserved);
+    if ( this.cart.getReservedNum(wycieczka) + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
+      this.cart.addItem(wycieczka);
+      this.DataService.updateCart(this.cart);
     }
-
   }
 
   cancelReservation(wycieczka: Wycieczka): void {
-    if ( this.reserved.get(wycieczka)!> 0) {
-        this.reserved.set(wycieczka, this.reserved.get(wycieczka)! - 1);
-      this.DataService.updateReserved(this.reserved);
+    if (this.cart.getReservedNum(wycieczka) > 0) {
+        this.cart.removeItem(wycieczka);
+        this.DataService.updateCart(this.cart);
     }
   }
-
   getRating(): number{
     if (!this.wycieczka.Rating)
       return 0;

@@ -25,6 +25,7 @@ import { RatingPipe } from './pipes/rating.pipe';
 import { MatSliderModule } from '@angular/material/slider';
 import { DatePipe } from './pipes/date.pipe';
 import { HistoryStatePipe } from './pipes/history-state.pipe';  
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { HistoryStatePipe } from './pipes/history-state.pipe';
     BrowserAnimationsModule,
     MatIconModule,
     MatSliderModule,
+    MatCheckboxModule,
   ],
   providers: [
     provideClientHydration(),

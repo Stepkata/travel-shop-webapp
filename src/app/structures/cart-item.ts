@@ -23,5 +23,10 @@ export class CartItem {
         this.reservedNum += 1;
         this.total = this.getTotal();
     }
+
+    removeItem(){
+      this.reservedNum -= 1;
+      this.total = this.getTotal();
+    }
   }
   

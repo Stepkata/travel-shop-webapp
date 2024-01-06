@@ -1,18 +1,20 @@
 <div class="wycieczki-container">
-    <div *ngFor="let wycieczka of reserved" class="wycieczka" [routerLink]="['/wycieczki', wycieczka.Id]">
-        <img [src]="wycieczka.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
+    <div *ngFor="let cartItem of cart.items" class="wycieczka">
+        <img [src]="cartItem.trip.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
         <div class="info">
-            <p>{{ wycieczka.Nazwa | uppercase }} :  {{ reservedMap.get(wycieczka) }}</p>
-            <p>Subtotal: {{ wycieczka.CenaJednostkowa * reservedMap.get(wycieczka)! }}</p>
+            <a href="#" [routerLink]="['/wycieczki', cartItem.trip.Id]"> {{ cartItem.trip.Nazwa | uppercase }} </a>
+            <p>  {{ cartItem.reservedNum}}</p>
+            <p>Subtotal: {{ cartItem.getTotal() }}</p>
+            <mat-checkbox [checked]="cartItem.checked" (change)="onChangeCheckbox(cartItem)"> Include </mat-checkbox>
         </div>
         <div class="buttons">
-            <button *ngIf="reservedMap.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="reservePlace(wycieczka)">+</button>
-            <button *ngIf="reservedMap.get(wycieczka)! > 0" (click)="cancelReservation(wycieczka)">-</button>
-            <button (click)="buy(wycieczka)">KUP TERAZ</button>
+            <button *ngIf="cartItem.reservedNum + this.bought.get(cartItem.trip)! < cartItem.trip.MaxIloscMiejsc" (click)="reservePlace(cartItem.trip, $event)">+</button>
+            <button *ngIf="cartItem.reservedNum > 0" (click)="cancelReservation(cartItem.trip, $event)">-</button>
+            <button (click)="buy(cartItem.trip)">KUP TERAZ</button>
         </div>
     </div>
     <p>----</p>
-    <p>{{total}}</p>
+    <p>{{cart.getTotal()}}</p>
     <p>----</p>
     <button (click)="buyAll()">KUP WSZYSTKIE</button>
 </div>

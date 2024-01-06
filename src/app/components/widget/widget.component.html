@@ -1,10 +1,10 @@
 <div class="wycieczki-container">
-    <div *ngFor="let wycieczka of reserved" [ngClass]="{'wycieczka': true}">
+    <div *ngFor="let cartItem of cart.items" [ngClass]="{'wycieczka': true}">
         <div>
-            <img [src]="wycieczka.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
-            <p>{{ wycieczka.Nazwa | uppercase }} :  {{ reservedMap.get(wycieczka) }}</p>
+            <img [src]="cartItem.trip.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
+            <p>{{ cartItem.trip.Nazwa | uppercase }} :  {{ cartItem.reservedNum }}</p>
         </div>
     </div>
     <p>----</p>
-    <p>{{total}}</p>
+    <p>{{cart.getTotal()}}</p>
 </div>

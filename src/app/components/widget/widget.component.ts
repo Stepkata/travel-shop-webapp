@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DataService } from '../../data.service';
 import { Wycieczka } from '../../structures/wycieczka.model';
+import { Cart } from '../../structures/cart';
 
 @Component({
   selector: 'app-widget',
@@ -8,26 +9,15 @@ import { Wycieczka } from '../../structures/wycieczka.model';
   styleUrl: './widget.component.css'
 })
 export class WidgetComponent {
-  reserved: Wycieczka[] = [];
-  reservedMap: Map<Wycieczka, number> = new Map<any, number>;
-  num_reserved: number = 0;
-  total: number = 0;
+  cart: Cart = new Cart();
 
   constructor( private DataService: DataService) { 
     }
 
   ngOnInit() {
-    this.DataService.reserved$.subscribe((data) => {
+    this.DataService.cart$.subscribe((data) => {
       if (data != null){
-        this.total = 0;
-        this.reserved = [];
-        this.reservedMap = data;
-        for (const [wycieczka, ilosc] of data) {
-          if (ilosc != 0){
-            this.total += ilosc * wycieczka.CenaJednostkowa;
-            this.reserved.push(wycieczka);
-          }
-        }
+        this.cart = data;
       }
     });
   }

@@ -10,6 +10,7 @@ import { CountryPipe } from '../../pipes/country.pipe';
 import { DatePipe } from '@angular/common';
 import { PricePipe } from '../../pipes/price.pipe';
 import { RatingPipe } from '../../pipes/rating.pipe';
+import { Cart } from '../../structures/cart';
 
 
 @Component({
@@ -27,8 +28,11 @@ export class WycieczkiViewComponent {
 
   cheapest_trip: any;
   expensive_trip: any;
-  reserved: Map<Wycieczka, number> = new Map();
   bought: Map<Wycieczka, number> = new Map();
+  cart: Cart = new Cart();
+
+
+
   starCount: number = 5;
   ratingArr:any = [];
   
@@ -43,7 +47,6 @@ export class WycieczkiViewComponent {
 
   constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal, 
     private country: CountryPipe, private date: DatePipe, private rating: RatingPipe, private price: PricePipe) { 
-    console.log("constructor!");
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
@@ -51,22 +54,20 @@ export class WycieczkiViewComponent {
 
   ngOnInit(): void {
     this.DataService.trips$.subscribe((data) => {
-      if (data == null)
-        console.log("null!");
-      this.wycieczki = data;
+      if (data != null)
+        this.wycieczki = data;
     });
-    this.DataService.reserved$.subscribe((data) => {
-      if (data == null)
-        console.log("null!");
-      this.reserved = data;
-    })
+
+    this.DataService.cart$.subscribe((data) => {
+      if (data != null){
+        this.cart = data;
+      }
+    });
     this.DataService.bought$.subscribe((data) => {
       if (data != null){
         this.bought = data;
       }
     })
-    this.updateTrips();
-    console.log("oninit!");
   }
 
   updateTrips(): void {
@@ -75,18 +76,18 @@ export class WycieczkiViewComponent {
   }
 
   reservePlace(wycieczka: Wycieczka, event:any): void {
-    if ( this.reserved.get(wycieczka)! + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
-      this.reserved.set(wycieczka, this.reserved.get(wycieczka)! + 1);
-      this.DataService.updateReserved(this.reserved);
+    if ( this.cart.getReservedNum(wycieczka) + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
+      this.cart.addItem(wycieczka);
+      this.DataService.updateCart(this.cart);
     }
     event.stopPropagation()
 
   }
 
   cancelReservation(wycieczka: Wycieczka,  event:any): void {
-    if ( this.reserved.get(wycieczka)!> 0) {
-        this.reserved.set(wycieczka, this.reserved.get(wycieczka)! - 1);
-      this.DataService.updateReserved(this.reserved);
+    if (this.cart.getReservedNum(wycieczka) > 0) {
+        this.cart.removeItem(wycieczka);
+        this.DataService.updateCart(this.cart);
     }
     event.stopPropagation()
   }
@@ -121,10 +122,9 @@ export class WycieczkiViewComponent {
       this.wycieczki.splice(index, 1);
     }
     this.DataService.updateTrips(this.wycieczki)
-    if (this.reserved.has(wycieczka)){
-      this.reserved.delete(wycieczka);
-    }
-    this.DataService.updateReserved(this.reserved);
+    this.cart.removeItemFromCart(wycieczka);
+    this.DataService.updateCart(this.cart);
+    
     this.findCheapestOption();
     this.findMostExpensiveOption();
   }
@@ -141,7 +141,6 @@ export class WycieczkiViewComponent {
         result.Rating = [];
         result.Id = this.wycieczki.length + 1;
         this.bought.set(result, 0);
-        this.reserved.set(result, 0);
         this.DataService.updateBought(this.bought);
         this.wycieczki.push(result);
         this.DataService.updateTrips(this.wycieczki);
