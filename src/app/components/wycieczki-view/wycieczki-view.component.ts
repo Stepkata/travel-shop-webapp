@@ -67,10 +67,12 @@ export class WycieczkiViewComponent {
       if (data != null){
         this.bought = data;
       }
-    })
+    });
+
+    this.updateSpecialTrips();
   }
 
-  updateTrips(): void {
+  updateSpecialTrips(): void {
     this.findCheapestOption();
     this.findMostExpensiveOption();
   }
@@ -124,9 +126,8 @@ export class WycieczkiViewComponent {
     this.DataService.updateTrips(this.wycieczki)
     this.cart.removeItemFromCart(wycieczka);
     this.DataService.updateCart(this.cart);
-    
-    this.findCheapestOption();
-    this.findMostExpensiveOption();
+  
+    this.updateSpecialTrips();
   }
 
   openFormModal(): void {
@@ -144,7 +145,7 @@ export class WycieczkiViewComponent {
         this.DataService.updateBought(this.bought);
         this.wycieczki.push(result);
         this.DataService.updateTrips(this.wycieczki);
-        this.updateTrips();
+        this.updateSpecialTrips();
       },
       (reason) => {
         console.log('Modal odrzucony. Powód:', reason);
