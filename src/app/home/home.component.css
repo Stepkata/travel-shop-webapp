@@ -1,45 +1,54 @@
-
-.wycieczki-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; 
-    justify-content: space-around;
-    padding: 50px;
-  }
-
-.wycieczka {
-    border: none;
-    padding: 10px;
-    margin: 30px;
-    width: 300px; 
-    text-align: center;
-    border-radius: 30px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  }
-
-.wycieczka:hover {
-    transform: scale(1.1); 
-  }
-
-.round-image {
-    border-radius: 50%;
-    width: 100px;  
-    height: 100px; 
-  }
-
-.expensive {
-    box-shadow: rgba(71, 208, 121, 0.3) 0px 8px 24px, rgba(71, 208, 121, 0.3) 0px 16px 56px, rgba(71, 208, 121, 0.3) 0px 24px 80px;
-  }
-
-.cheapest {
-    box-shadow: rgba(196, 59, 59, 0.3) 0px 8px 24px, rgba(196, 59, 59, 0.3)  0px 16px 56px, rgba(196, 59, 59, 0.3)  0px 24px 80px;
-  }
-
-.star-button{
-  background-color: white;
-  border: none;
-  box-shadow: none;
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-  /* Add more styles as needed */
-  
+
+.box{
+  background-image: url(https://images.pexels.com/photos/386009/pexels-photo-386009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2);
+  background-size: auto 50em;
+  margin: 50px;
+  width: 1000px;
+  height: 50em;
+  border-radius: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  box-sizing: border-box;
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.wizytowka{
+  background: rgba(122,158,159,0.6);
+  padding: 20px;
+  width: 1000px;
+  height: 180px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.full-offer{
+  margin: 40px;
+  margin-bottom: 0;
+  padding: 20px;
+  background-color: rgba(122,158,159,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}
+
+a{
+  color: white;
+  font-size: 40px;
+}
+
+img{
+  width: 100px;
+  height: auto;
+  margin: 0;
+}

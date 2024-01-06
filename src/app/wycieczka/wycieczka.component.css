@@ -1,3 +1,9 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .wycieczka {
     border: none;
     padding: 10px;
@@ -5,6 +11,8 @@
     width: 800px; 
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     border-radius: 30px;
     background-color: white;
@@ -12,17 +20,38 @@
   }
 
   .round-image {
-    border-radius: 50%;
-    width: 100px;  
-    height: 100px; 
+    border-radius: 50px;
+    width: 250px;  
+    height: 250px; 
+    margin: 10px;
   }
 
 .star-button{
-    background-color: white;
+    margin: 10px;
+    background: none;
+    color: rgba(122,158,159,0.6);
+    scale: 1.5;
     border: none;
     box-shadow: none;
   }
 
 .star-button:hover{
-  background-color: white;
+  background: none;
+}
+
+button{
+  background-color: rgba(122,158,159,0.6);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: none;
+  border: none;
+  color: white;
+  margin: 5px;
+}
+
+h3 {
+  font-size: 35px;
+  font-style: italic;
+  font-weight: bolder;
+  color: rgba(122,158,159,0.6);
 }

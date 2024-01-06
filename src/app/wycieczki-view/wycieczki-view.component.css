@@ -1,0 +1,76 @@
+
+.wycieczki-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: space-around;
+    padding: 50px;
+  }
+
+.wycieczka {
+    border: none;
+    padding: 10px;
+    margin: 30px;
+    width: 300px; 
+    text-align: center;
+    border-radius: 30px;
+    background-color: white;
+    position: relative;
+    box-shadow: rgba(122,158,159,0.2) 0px 1px 3px 0px, rgba(122,158,159,0.6) 0px 1px 2px 0px;
+  }
+
+.wycieczka:hover {
+    transform: scale(1.1); 
+  }
+
+.round-image {
+    border-radius: 50%;
+    width: 100px;  
+    height: 100px; 
+  }
+
+button{
+  background-color: rgba(122,158,159,0.6);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: none;
+  border: none;
+  color: white;
+  margin: 5px;
+}
+
+.star-button{
+  background-color: white;
+  border: none;
+  box-shadow: none;
+  color: rgba(122,158,159,0.6);
+  padding: 5px;
+}
+
+.hidden{
+  display: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  top: 8%;
+  color: white;
+  padding: 3px;
+  z-index: 1000;
+  position: absolute;
+}
+
+.expensive {
+  display: block;
+  background-color: rgb(68, 203, 145);
+}
+
+.cheapest {
+  display: block;
+  background-color: #FE5F55;
+}
+
+.almost-gone{
+  display: block;
+  background-color: #FE5F55;
+  top: 15%;
+}
+  

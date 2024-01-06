@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Wycieczka } from './wycieczka.model';
+import { HistoryItem } from './history-item';
 
 @Injectable({
   providedIn: 'root'

@@ -34,28 +34,48 @@ a.logo{
     background-color: #FE5F55;
 }
 
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .cart{
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     padding: 15px;
+    height: 50px;
+    background-color: #7a9e9f;
+    box-shadow: none;
+    border: none;
 }
 
 .widget{
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     padding: 15px;
-}
-
-button{
+    height: 50px;
     background-color: #7a9e9f;
     box-shadow: none;
     border: none;
 }
 
-button:hover{
-    background-color: #515a47ff;
-}
-
 svg{
     margin:0px 5px 0 5px;
+}
+
+.profile{
+    background-color: none;
+    background: none;
+    box-shadow: none;
+    border: none;
+    padding: 20px;
+}
+
+li{
+    padding: 15px;
+    border-bottom: 1px dotted #7a9e9f;
+    display: flex;
+    align-content: center;
 }

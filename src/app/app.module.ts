@@ -15,6 +15,9 @@ import { CartComponent } from './cart/cart.component';
 import { WycieczkaComponent } from './wycieczka/wycieczka.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
+import { WycieczkiViewComponent } from './wycieczki-view/wycieczki-view.component';
+import { HistoryComponent } from './history/history.component';
+import { FiltrComponent } from './filtr/filtr.component';
 
 
 @NgModule({
@@ -25,7 +28,10 @@ import { MatIconModule } from '@angular/material/icon';
     ToolbarComponent,
     WidgetComponent,
     CartComponent,
-    WycieczkaComponent
+    WycieczkaComponent,
+    WycieczkiViewComponent,
+    HistoryComponent,
+    FiltrComponent,
   ],
   imports: [ 
     HttpClientModule,

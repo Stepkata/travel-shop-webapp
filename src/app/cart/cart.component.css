@@ -1,8 +1,14 @@
+div{
+  padding: 20px;
+  margin: 10px;
+}
+
 .wycieczki-container {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap; /* Dla elastyczności, aby elementy były umieszczane w kilku rzędach */
-    justify-content: space-around; /* Możesz dostosować to do preferencji rozmieszczenia */
+    flex-wrap: wrap; 
+    justify-content: space-around;
+    align-items: center;
   }
 
 .wycieczka {
@@ -11,10 +17,32 @@
     margin: 5px;
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
   }
 
 .round-image {
     border-radius: 25%;
-    width: 100px;  /* Adjust as needed */
-    height: 100px; /* Adjust as needed */
+    width: 150px;  /* Adjust as needed */
+    height: 150px; /* Adjust as needed */
   }
+
+button{
+    background-color: rgba(122,158,159,0.6);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: none;
+    border: none;
+    color: white;
+    margin: 5px;
+  }
+
+.buttons{
+  display: flex;
+  flex-direction: column;
+}
+
+.info{
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,16 @@
+<div class="history-container">
+    <div *ngFor="let histItem of history" [ngClass]="{'hist-item': true}">
+        <div class="info">
+            <p>{{ histItem.Trip.Nazwa | uppercase }} </p>
+            <p> Kraj: {{ histItem.Trip.Kraj }}</p>
+            <p>Data: {{histItem.Trip.DataRozpoczecia}} - {{histItem.Trip.DataZakonczenia}}</p>
+            <p>Ilość: {{ histItem.Amount }}</p>
+            <p>Subtotal: {{ histItem.Trip.CenaJednostkowa * histItem.Amount  }}</p>
+            <p>Kupiono: {{ histItem.dateSold }}</p>
+        </div>
+
+        <div [ngClass]="{'oncoming': getState(histItem) == 0, 'in-progress': getState(histItem) == 1, 'done': getState(histItem) == 2}" id="state">
+            {{ getState(histItem) == 0? "nadchodząca" : getState(histItem) == 1? "w trakcie" : "odbyta" }}
+        </div>
+    </div>
+</div>

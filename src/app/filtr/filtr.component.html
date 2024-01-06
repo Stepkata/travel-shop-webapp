@@ -1,0 +1,27 @@
+<form [formGroup]="filtrForm" (ngSubmit)="applyFilter()">
+    <label>Lokalizacja:</label>
+    <select formControlName="lokalizacja" multiple>
+      <!-- Opcje lokalizacji z wycieczek -->
+      <!-- ... -->
+    </select>
+  
+    <label>Cena:</label>
+    <input type="number" formControlName="cenaMin" placeholder="Min">
+    <input type="number" formControlName="cenaMax" placeholder="Max">
+  
+    <label>Data:</label>
+    <input type="date" formControlName="dataOd">
+    <input type="date" formControlName="dataDo">
+  
+    <label>Ocena:</label>
+    <select formControlName="ocena" multiple>
+      <option value="1">1 gwiazdka</option>
+      <option value="2">2 gwiazdki</option>
+      <option value="3">3 gwiazdki</option>
+      <option value="4">4 gwiazdki</option>
+      <option value="5">5 gwiazdki</option>
+    </select>
+  
+    <button type="submit">Filtruj</button>
+  </form>
+  

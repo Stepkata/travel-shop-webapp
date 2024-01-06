@@ -1,5 +1,7 @@
-<div class="wycieczka">
+<div class="container">
+  <div class="wycieczka">
     <img [src]="wycieczka.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
+    <h3>{{ wycieczka.Nazwa | uppercase }}</h3>
     <div class="star-container">
         <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1)" class="star-button">
             <mat-icon>
@@ -7,7 +9,6 @@
             </mat-icon>
           </button>
     </div>
-    <h3>{{ wycieczka.Nazwa | uppercase }}</h3>
     <p>Kraj: {{ wycieczka.Kraj | uppercase }}</p>
     <p>Data: {{ wycieczka.DataRozpoczecia }} - {{ wycieczka.DataZakonczenia }}</p>
     <p>Cena: {{ wycieczka.CenaJednostkowa }} zł</p>
@@ -15,4 +16,5 @@
     <p>Dostępne miejsca: {{ wycieczka.MaxIloscMiejsc - ((reserved.get(wycieczka) || 0) + ( this.bought.get(wycieczka) || 0))}} / {{ wycieczka.MaxIloscMiejsc }}</p>
     <button *ngIf="reserved.get(wycieczka)! + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="reservePlace(wycieczka)">+</button>
     <button *ngIf="reserved.get(wycieczka)! > 0" (click)="cancelReservation(wycieczka)">-</button>
+</div>
 </div>
