@@ -1,6 +1,6 @@
 <form [formGroup]="filtrForm" (ngSubmit)="onSave()" (ngModelChange)="onSave()">
     <label>Lokalizacja:</label>
-    <select formControlName="lokalizacja" multiple>
+    <select multiple formControlName="lokalizacja" ngModel>
       <option *ngFor="let lok of lokalizacja" value="{{lok}}">{{ lok }}</option>
     </select>
   
