@@ -26,25 +26,12 @@ export class ToolbarComponent {
     });
   }
 
-  addTrip() {
-    if (this.wycieczkaForm.valid) {
-      const nowaWycieczka = this.wycieczkaForm.value;
-      this.DataService.trips$.subscribe((data) => {
-        let wycieczki = [];
-        if (data != null){
-          wycieczki = data;
-        }
-        wycieczki.push(nowaWycieczka);
-        this.DataService.updateTrips(wycieczki);
-      });
-      this.wycieczkaForm.reset();
-    }
-  }
-
   onSave(): void {
     if (this.wycieczkaForm.valid) {
       const nowaWycieczka = this.wycieczkaForm.value;
       this.activeModal.close(nowaWycieczka); // Przekazuje dane do komponentu nadrzędnego
+    }else{
+      console.log("invalid!");
     }
   }
 

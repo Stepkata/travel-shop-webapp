@@ -141,11 +141,11 @@ export class WycieczkiViewComponent {
         console.log('Modal zamykany. Wynik:', result);
         result.Rating = [];
         result.Id = this.wycieczki.length + 1;
-        this.bought.set(result, 0);
-        this.DataService.updateBought(this.bought);
         this.wycieczki.push(result);
         this.DataService.updateTrips(this.wycieczki);
         this.updateSpecialTrips();
+        this.bought.set(result, 0);
+        this.DataService.updateBought(this.bought);
       },
       (reason) => {
         console.log('Modal odrzucony. Powód:', reason);
