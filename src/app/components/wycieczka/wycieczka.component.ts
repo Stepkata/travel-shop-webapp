@@ -116,8 +116,8 @@ export class WycieczkaComponent implements OnInit{
     return false;
   }
 
-  showIcon(index:number) {
-    if (this.rating >= index + 1) {
+  showIcon(index:number, rating:number=this.rating) {
+    if (rating >= index + 1) {
       return 'star';
     } else {
       return 'star_border';
@@ -146,8 +146,11 @@ export class WycieczkaComponent implements OnInit{
         } else{
           this.reviews.set(this.tripId, [result]);
         }
-
         this.DataService.updateReviews(this.reviews);
+        this.rating = result.rating;
+        this.wycieczka.Rating.push(this.rating);
+        this.trips[this.tripId-1] = this.wycieczka;
+        this.DataService.updateTrips(this.trips);
       },
       (reason) => {
         console.log('Modal odrzucony. Powód:', reason);

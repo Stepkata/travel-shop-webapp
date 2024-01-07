@@ -2,19 +2,20 @@
     <button (click)="openFormModal()" class="add-trip">Dodaj wycieczkę</button>
     <button (click)="openFilterModal()" class="filter">Filtruj</button>
     <button (click)="clearFilters()" class="clear-filter">Wyczyść filtry</button>
-    <div class="paginate">
-        <h4>Items on page</h4>
-        <button class="pag" (click)="setAmountToShow(5)">5</button>
-        <button class="pag" (click)="setAmountToShow(25)">25</button>
-        <button class="pag" (click)="setAmountToShow(50)">50</button>
-    </div>
       
-    <div class="center">
-        <h4>Page</h4>
-        <button class="page-btn" (click)="changePage(-1)">left</button>
-        <button class="page-btn" (click)="changePage(1)">right</button>
-    </div>
 </div> 
+<div class="page-control">
+    <div class="center">
+        <button class="page-btn" (click)="changePage(-1)">Poprzednia strona</button>
+        <button class="page-btn" (click)="changePage(1)">Następna strona</button>
+    </div>
+    <h4>Ilość wyświetlanych pozycji</h4>
+    <div class="paginate">
+        <button [ngClass]="{'pag': true, 'pag-active': amountToShow===5}" (click)="setAmountToShow(5)">5</button>
+        <button [ngClass]="{'pag': true, 'pag-active': amountToShow===25}" (click)="setAmountToShow(25)">25</button>
+        <button [ngClass]="{'pag': true, 'pag-active': amountToShow===50}" (click)="setAmountToShow(50)">50</button>
+    </div>
+</div>
 
 <div class="wycieczki-container">
     <div *ngFor="let wycieczka of wycieczki | country: filterCountry | date: filterStartDate: filterEndDate | price: filterMinPrice: filterMaxPrice | rating: filterMinRating : filterMaxRating | slicePages: currentPage*amountToShow:  (currentPage+1)*amountToShow" [ngClass]="{'wycieczka': true}">

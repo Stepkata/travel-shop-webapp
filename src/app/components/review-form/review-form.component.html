@@ -5,6 +5,11 @@
   
     <label>Nazwa (wymagane):</label>
     <input formControlName="name" />
+
+    <label>Ocena:</label>
+    <mat-slider min="0" max="5" discrete > 
+      <input matSliderThumb formControlName="rating" >
+    </mat-slider>
   
     <label>Recenzja (wymagana, min. 50 znaków, max. 500 znaków):</label>
     <textarea formControlName="reviewText"></textarea>

@@ -3,7 +3,7 @@
         <img [src]="cartItem.trip.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
         <div class="info">
             <a href="#" [routerLink]="['/wycieczki', cartItem.trip.Id]"> {{ cartItem.trip.Nazwa | uppercase }} </a>
-            <p>  {{ cartItem.reservedNum}}</p>
+            <p> Ilość miejsc: {{ cartItem.reservedNum}}</p>
             <p>Subtotal: {{ cartItem.getTotal() }}</p>
             <mat-checkbox [checked]="cartItem.checked" (change)="onChangeCheckbox(cartItem)"> Include </mat-checkbox>
         </div>
@@ -13,8 +13,8 @@
             <button (click)="buy(cartItem.trip)">KUP TERAZ</button>
         </div>
     </div>
-    <p>----</p>
-    <p>{{cart.getTotal()}}</p>
-    <p>----</p>
+    <div class="total">
+        {{cart.getTotal()}}
+    </div>
     <button (click)="buyAll()">KUP WSZYSTKIE</button>
 </div>

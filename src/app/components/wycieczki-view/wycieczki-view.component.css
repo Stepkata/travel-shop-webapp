@@ -4,7 +4,7 @@
     flex-direction: row;
     flex-wrap: wrap; 
     justify-content: space-around;
-    padding: 50px;
+    padding: 10px 50px;
   }
 
 .wycieczka {
@@ -39,6 +39,10 @@ button{
   margin: 5px;
 }
 
+button:hover{
+  background-color: rgb(245, 213, 7);
+}
+
 .star-button{
   background-color: white;
   border: none;
@@ -60,7 +64,7 @@ button{
 
 .expensive {
   display: block;
-  background-color: rgb(68, 203, 145);
+  background-color: #9DDF63;
 }
 
 .cheapest {
@@ -79,5 +83,42 @@ button{
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  margin-top: 20px;
 }
   
+.page-control{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.paginate{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin: 5px;
+}
+
+.pag{
+  font-size: smaller;
+  background-color: white;
+  border: 1px solid rgba(122,158,159,0.6);
+  color: #9DDF63;
+  margin: 3px;
+  padding: 2px;
+  width: 30px;
+}
+
+.pag-active{
+  color: rgb(245, 213, 7);
+}
+
+h4{
+  margin: 0;
+  font-size: small;
+  font-style: italic;
+  color: rgba(122,158,159,0.6);
+}

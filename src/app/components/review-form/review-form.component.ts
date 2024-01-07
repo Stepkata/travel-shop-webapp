@@ -18,6 +18,7 @@ export class ReviewFormComponent {
     this.reviewForm = this.fb.group({
       nick: ['', Validators.required],
       name: ['', Validators.required],
+      rating: [0, Validators.required],
       reviewText: ['', [Validators.required, Validators.minLength(50), Validators.maxLength(500)]],
       purchaseDate: [''],
     });

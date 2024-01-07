@@ -29,16 +29,25 @@
     <p>Cena: {{ wycieczka.CenaJednostkowa }} zł</p>
     <p>Opis: {{ wycieczka.DlugiOpis }}</p>
     <p>Dostępne miejsca: {{ wycieczka.MaxIloscMiejsc - (cart.getReservedNum(wycieczka) + ( this.bought.get(wycieczka) || 0))}} / {{ wycieczka.MaxIloscMiejsc }}</p>
-    <button *ngIf="cart.getReservedNum(wycieczka) + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="reservePlace(wycieczka)">+</button>
-    <button *ngIf="cart.getReservedNum(wycieczka) > 0" (click)="cancelReservation(wycieczka)">-</button>
+    <div class="buttons">
+      <button *ngIf="cart.getReservedNum(wycieczka) + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="reservePlace(wycieczka)">+</button>
+      <button *ngIf="cart.getReservedNum(wycieczka) > 0" (click)="cancelReservation(wycieczka)">-</button>
+    </div>
 </div>
 <button (click)="openFormModal()" class="add-rev">Dodaj opinię</button>
 <div *ngIf="reviews.has(tripId) && reviews.get(tripId)!.length > 0">
-  <h2>Już napisane recenzje:</h2>
+  <h2>Opinie:</h2>
   <ul>
     <li *ngFor="let review of reviews.get(tripId)">
       <p><strong>NICK:</strong> {{ review.nick }}</p>
       <p><strong>Nazwa:</strong> {{ review.name }}</p>
+      <div class="star-container">
+        <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" class="star-button">
+            <mat-icon>
+              {{showIcon(i, review.rating )}}
+            </mat-icon>
+          </button>
+      </div>  
       <p><strong>Recenzja:</strong> {{ review.reviewText }}</p>
       <p><strong>Data zakupu:</strong> {{ review.purchaseDate || "---" }}</p>
       <hr>
