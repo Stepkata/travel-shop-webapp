@@ -1,16 +1,19 @@
 <div class="container">
+    <div *ngIf="oncoming" class="remainder">
+        Wycieczka już wkrótce!
+    </div>
     <div class="box" routerLink="/wycieczki">
         <div class="full-offer" routerLink="/wycieczki">
             <a href="#" routerLink="/wycieczki"> ZOBACZ PEŁNĄ OFERTĘ </a>
         </div>
-        <div class="wizytowka">
-            <img src = "assets/logo.svg" alt="Logo"/>
-            <div class="details">
-                <h1>FIRMA WYCIECZKI</h1>
-                <p>ul.Mistowska 12</p>
-                <p>21-370 Miasto</p>
-                <p>tel. 213 700 420</p>
-            </div>
+    </div>
+    <div class="wizytowka">
+        <img src = "assets/logo.svg" alt="Logo"/>
+        <div class="details">
+            <h1>FIRMA WYCIECZKI</h1>
+            <p>ul.Mistowska 12</p>
+            <p>21-370 Miasto</p>
+            <p>tel. 213 700 420</p>
         </div>
     </div>
 

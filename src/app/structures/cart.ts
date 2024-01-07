@@ -26,6 +26,9 @@ export class Cart{
             this.items.push(new CartItem(wycieczka));
         } else{
             item.removeItem();
+            if (item.reservedNum == 0){
+                this.removeItemFromCart(wycieczka);
+            }
         }
     }
 

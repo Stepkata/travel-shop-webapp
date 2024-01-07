@@ -10,11 +10,11 @@
   background-size: auto 50em;
   margin: 50px;
   width: 1000px;
-  height: 50em;
+  height: 30em;
   border-radius: 70px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   box-sizing: border-box;
   padding-top: 70px;
@@ -23,12 +23,14 @@
 
 .wizytowka{
   background: rgba(122,158,159,0.6);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
   padding: 20px;
   width: 1000px;
   height: 180px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
 }
 
 .full-offer{
@@ -51,4 +53,15 @@ img{
   width: 100px;
   height: auto;
   margin: 0;
+}
+
+.details{
+  margin: 20px;
+}
+
+.remainder{
+  border-radius: 10px;
+  border: 1px solid #FE5F55;
+  padding: 5px;
+  margin: 15px;
 }

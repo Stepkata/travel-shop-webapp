@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import { Cart } from '../../structures/cart';
+import { HistoryItem } from '../../structures/history-item';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,7 +13,7 @@ export class HeaderComponent implements OnInit{
     constructor( private DataService: DataService) { 
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
       this.DataService.cart$.subscribe((data) => {
         if (data != null){
           this.cart = data;

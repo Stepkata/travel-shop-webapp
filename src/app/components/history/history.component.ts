@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HistoryItem } from '../../structures/history-item';
 import { HistoryStatePipe } from '../../pipes/history-state.pipe';
 
@@ -16,7 +15,7 @@ export class HistoryComponent implements OnInit{
   ratingArr:any = [];
   filterState: number | null = null;
 
-  constructor(private DataService: DataService, private modalService: NgbModal, private hist: HistoryStatePipe) { 
+  constructor(private DataService: DataService) { 
     console.log("constructor!");
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);

@@ -1,14 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&display=swap');
 
 *{
     box-sizing: border-box;
-
 }
 
 body {
     margin: 0;
-    font-family: "Nunito", sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Nunito', sans-serif; 
     font-size: 18px;
     padding: 0;
     background-color: white;
@@ -17,5 +17,32 @@ body {
 a{
     text-decoration: none;
 }
+
+button{
+    background-color: #4F6367;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: none;
+    border: none;
+    color: white;
+    margin: 5px;
+  }
+  
+button:hover{
+    background-color: #AFC5C5;
+  }
+
+form{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

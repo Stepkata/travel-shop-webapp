@@ -25,21 +25,6 @@ div{
     border-radius: 25%;
     width: 150px;  /* Adjust as needed */
     height: 150px; /* Adjust as needed */
-  }
-
-button{
-    background-color: rgba(122,158,159,0.6);
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: none;
-    border: none;
-    color: white;
-    margin: 5px;
-  }
-
-.buttons{
-  display: flex;
-  flex-direction: column;
 }
 
 .info{

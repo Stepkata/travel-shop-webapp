@@ -21,7 +21,7 @@
   }
 
 .star-button{
-    margin: 10px;
+    margin: 0 10px;
     background: none;
     color: rgba(122,158,159,0.6);
     scale: 1.5;
@@ -33,19 +33,8 @@
   background: none;
 }
 
-button{
-  background-color: rgba(122,158,159,0.6);
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: none;
-  border: none;
-  color: white;
-  margin: 5px;
-}
-
 h3 {
   font-size: 35px;
-  font-style: italic;
   font-weight: bolder;
   color: rgba(122,158,159,0.6);
 }
@@ -64,4 +53,10 @@ h3 {
   color: rgba(122,158,159,0.6);
   margin: 15px;
 
+}
+
+.star-container{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
 }

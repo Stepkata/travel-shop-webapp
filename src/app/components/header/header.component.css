@@ -22,26 +22,6 @@ a.logo{
     padding: 1em;
     font-size: large;
 }
-
-.alot {
-    padding: 5px;
-    border-radius: 50%;
-    background-color: #EEF5DB;
-}
-
-.little {
-    padding: 5px;
-    border-radius: 50%;
-    background-color: #FE5F55;
-}
-
-.buttons{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .cart{
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -50,6 +30,14 @@ a.logo{
     background-color: #7a9e9f;
     box-shadow: none;
     border: none;
+}
+
+.alot {
+    background-color: #9DDF63;
+}
+
+.little {
+    background-color: #FE5F55;
 }
 
 .widget{
@@ -89,3 +77,8 @@ li{
     box-sizing: content-box;
 }
 
+img{
+    width: 60px;
+    height: auto;
+    margin: 0;
+  }

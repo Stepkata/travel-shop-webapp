@@ -37,21 +37,3 @@ p{
   font-weight: 300;
 
 }
-
-button{
-  background-color: rgba(122,158,159,0.6);
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: none;
-  border: none;
-  color: white;
-  margin: 5px;
-  width: 120px;
-}
-
-.buttons{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-}
