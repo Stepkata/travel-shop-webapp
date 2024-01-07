@@ -1,6 +1,21 @@
 <div class="container">
+  <a href="#" routerLink="/wycieczki" class="oferta">back</a>
   <div class="wycieczka">
-    <img [src]="wycieczka.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
+    <c-carousel [interval]="0" style="width: 90%; margin: 20px;">
+      <c-carousel-inner>
+        <c-carousel-item *ngFor="let slide of getSlides(wycieczka)">
+          <img
+            [src]="slide"
+            alt="image url"
+            class="d-block w-100"
+            style="max-height: 400px; border-radius: 30px;"
+            loading="lazy"
+          />
+        </c-carousel-item>
+      </c-carousel-inner>
+      <c-carousel-control [routerLink] caption="Previous" direction="prev"></c-carousel-control>
+      <c-carousel-control [routerLink] caption="Next" direction="next"></c-carousel-control>
+    </c-carousel>
     <h3>{{ wycieczka.Nazwa | uppercase }}</h3>
     <div class="star-container">
         <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1)" class="star-button">
@@ -16,5 +31,18 @@
     <p>Dostępne miejsca: {{ wycieczka.MaxIloscMiejsc - (cart.getReservedNum(wycieczka) + ( this.bought.get(wycieczka) || 0))}} / {{ wycieczka.MaxIloscMiejsc }}</p>
     <button *ngIf="cart.getReservedNum(wycieczka) + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="reservePlace(wycieczka)">+</button>
     <button *ngIf="cart.getReservedNum(wycieczka) > 0" (click)="cancelReservation(wycieczka)">-</button>
+</div>
+<button (click)="openFormModal()" class="add-rev">Dodaj opinię</button>
+<div *ngIf="reviews.has(tripId) && reviews.get(tripId)!.length > 0">
+  <h2>Już napisane recenzje:</h2>
+  <ul>
+    <li *ngFor="let review of reviews.get(tripId)">
+      <p><strong>NICK:</strong> {{ review.nick }}</p>
+      <p><strong>Nazwa:</strong> {{ review.name }}</p>
+      <p><strong>Recenzja:</strong> {{ review.reviewText }}</p>
+      <p><strong>Data zakupu:</strong> {{ review.purchaseDate || "---" }}</p>
+      <hr>
+    </li>
+  </ul>
 </div>
 </div>

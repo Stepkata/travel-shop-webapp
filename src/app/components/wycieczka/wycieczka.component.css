@@ -1,5 +1,6 @@
 .container{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -54,4 +55,10 @@ h3 {
   font-style: italic;
   font-weight: bolder;
   color: rgba(122,158,159,0.6);
+}
+
+.c-carousel-item img {
+  width: auto !important;
+  height: 400px;
+  max-height: 400px;
 }

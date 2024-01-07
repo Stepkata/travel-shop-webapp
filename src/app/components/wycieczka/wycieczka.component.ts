@@ -3,6 +3,9 @@ import { Wycieczka } from '../../structures/wycieczka.model';
 import { DataService } from '../../data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Cart } from '../../structures/cart';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReviewFormComponent } from '../review-form/review-form.component';
+import { Review } from '../../structures/review';
 
 
 @Component({
@@ -12,8 +15,9 @@ import { Cart } from '../../structures/cart';
 })
 export class WycieczkaComponent implements OnInit{
   wycieczka: any;
-  private tripId: number = 0;
+  tripId: number = 0;
   bought: Map<Wycieczka, number> = new Map();
+  reviews: Map<number, Review[]> = new Map();
   trips: Wycieczka[] = [];
   cart: Cart = new Cart();
 
@@ -21,7 +25,7 @@ export class WycieczkaComponent implements OnInit{
   starCount: number = 5;
   ratingArr:any = [];
 
-  constructor(private DataService: DataService, private route: ActivatedRoute) { 
+  constructor(private DataService: DataService, private route: ActivatedRoute, private modalService: NgbModal) { 
     console.log("wycieczka constructor!");
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
@@ -33,23 +37,43 @@ export class WycieczkaComponent implements OnInit{
       this.tripId = parseInt(params.get('id')!);
     });
 
-    this.DataService.trips$.subscribe((data) => {
+    this.DataService.trips$.subscribe((data: Wycieczka[]) => {
       if (data == null)
         console.log("null!");
-      else
+      else{
+        this.wycieczka = data.find(item => item.Id == this.tripId);
         this.trips = data;
-    });
-    for (const w of this.trips){
-      if (w.Id == this.tripId){
-        this.wycieczka = w;
       }
-    }
+    });
 
-    if (this.wycieczka)
-      this.rating = this.getRating();
+    if(!this.wycieczka){
+      this.wycieczka = {
+          Id: this.tripId,
+          Nazwa: "",
+          Kraj: "",
+          DataRozpoczecia: "",
+          DataZakonczenia: "",
+          CenaJednostkowa: 0,
+          MaxIloscMiejsc: 0,
+          Opis: "",
+          DlugiOpis: "",
+          Zdjecie:"",
+          DodatkoweZdjecia: [],
+          Rating: []
+      }
+    };
+
+    this.rating = this.getRating();
+    
     this.DataService.bought$.subscribe((data) => {
       if (data != null){
         this.bought = data;
+      }
+    });
+
+    this.DataService.review$.subscribe((data) => {
+      if (data != null){
+        this.reviews = data;
       }
     });
 
@@ -100,7 +124,36 @@ export class WycieczkaComponent implements OnInit{
     }
   }
 
+  getSlides(wycieczka:Wycieczka){
+    if (!wycieczka)
+      return;
+    return [wycieczka.Zdjecie, ...wycieczka.DodatkoweZdjecia];
+  }
 
+  openFormModal(): void {
+    const modalRef = this.modalService.open(ReviewFormComponent, {
+      centered: true,
+      windowClass: 'modal-custom',
+    });
+
+    modalRef.result.then(
+      (result) => {
+        console.log('Modal zamykany. Wynik:', result);
+        result.tripId = this.tripId;
+        result.userId = 0;
+        if (this.reviews.has(this.tripId)){
+          this.reviews.get(this.tripId)?.push(result);
+        } else{
+          this.reviews.set(this.tripId, [result]);
+        }
+
+        this.DataService.updateReviews(this.reviews);
+      },
+      (reason) => {
+        console.log('Modal odrzucony. Powód:', reason);
+      }
+    );
+  }
 }
 
 export enum StarRatingColor {

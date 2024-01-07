@@ -9,5 +9,6 @@ export interface Wycieczka {
     Opis: string;
     DlugiOpis: string;
     Zdjecie: string;
+    DodatkoweZdjecia: [];
     Rating: number[];
   }

@@ -40,7 +40,8 @@ export class Cart{
 
     getTotal(){
         this.total = 0;
-        for (const item of this.items){
+        let itemsToBuy = this.items.filter(item => item.checked);
+        for (const item of itemsToBuy){
             this.total += item.getTotal();
         }
         return this.total;

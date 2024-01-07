@@ -23,8 +23,16 @@
     <label for="dlugiOpis">Opis:</label>
     <textarea id="dlugiOpis" formControlName="DlugiOpis" required></textarea>
   
-    <label for="zdjecie">Link do Zdjęcia:</label>
+    <label for="zdjecie">Link do Zdjęcia (thumbnail):</label>
     <input type="text" id="zdjecie" formControlName="Zdjecie" required>
+
+    <div formArrayName="DodatkoweZdjecia">
+      <label>Dodatkowe Zdjęcia:</label>
+      <div *ngFor="let zdjecieControl of dodatkoweZdjeciaArray.controls; let i = index">
+        <input formControlName="{{i}}" placeholder="Image URL {{ i + 1 }}">
+      </div>
+      <button type="button" (click)="addDodatkoweZdjecie()">Add Image</button>
+    </div>
 
     <button type="submit" [disabled]="wycieczkaForm.invalid">Dodaj Wycieczkę</button>
   </form>

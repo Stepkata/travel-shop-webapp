@@ -26,7 +26,9 @@ import { MatSliderModule } from '@angular/material/slider';
 import { DatePipe } from './pipes/date.pipe';
 import { HistoryStatePipe } from './pipes/history-state.pipe';  
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { CarouselModule } from '@coreui/angular';
+import { ReviewFormComponent } from './components/review-form/review-form.component';
+import { SlicePagesPipe } from './pipes/slice-pages.pipe';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     RatingPipe,
     DatePipe,
     HistoryStatePipe,
+    ReviewFormComponent,
+    SlicePagesPipe,
   ],
   imports: [ 
     HttpClientModule,
@@ -57,7 +61,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     BrowserAnimationsModule,
     MatIconModule,
     MatSliderModule,
-    MatCheckboxModule,
+    MatCheckboxModule, 
+    CarouselModule,
   ],
   providers: [
     provideClientHydration(),

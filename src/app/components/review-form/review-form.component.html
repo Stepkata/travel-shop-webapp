@@ -1,0 +1,24 @@
+<!-- review-form.component.html -->
+<form [formGroup]="reviewForm" (ngSubmit)="onSave()">
+    <label>NICK:</label>
+    <input formControlName="nick" />
+  
+    <label>Nazwa (wymagane):</label>
+    <input formControlName="name" />
+  
+    <label>Recenzja (wymagana, min. 50 znaków, max. 500 znaków):</label>
+    <textarea formControlName="reviewText"></textarea>
+  
+    <label>Data zakupu:</label>
+    <input type="date" formControlName="purchaseDate" />
+  
+    <button type="submit">Dodaj recenzję</button>
+  
+    <div *ngIf="errors.length > 0">
+      <p>Błędy:</p>
+      <ul>
+        <li *ngFor="let error of errors">{{ error }}</li>
+      </ul>
+    </div>
+  </form>
+  

@@ -10,6 +10,7 @@ import { CountryPipe } from '../../pipes/country.pipe';
 import { DatePipe } from '@angular/common';
 import { PricePipe } from '../../pipes/price.pipe';
 import { RatingPipe } from '../../pipes/rating.pipe';
+import { SlicePagesPipe } from '../../pipes/slice-pages.pipe';
 import { Cart } from '../../structures/cart';
 
 
@@ -20,7 +21,8 @@ import { Cart } from '../../structures/cart';
   providers: [CountryPipe, 
     DatePipe,
     PricePipe,
-    RatingPipe
+    RatingPipe,
+    SlicePagesPipe
   ]
 })
 export class WycieczkiViewComponent {
@@ -44,9 +46,11 @@ export class WycieczkiViewComponent {
   filterStartDate: any = null;
   filterEndDate: any = null;
 
+  amountToShow: number = 5;
+  currentPage: number = 0;
 
-  constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal, 
-    private country: CountryPipe, private date: DatePipe, private rating: RatingPipe, private price: PricePipe) { 
+
+  constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal) { 
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
     }
@@ -203,6 +207,21 @@ export class WycieczkiViewComponent {
     } else {
       return 'star_border';
     }
+  }
+
+  setAmountToShow(n: number){
+    this.amountToShow = n;
+    this.currentPage = 0;
+  }
+
+  changePage(i: number){
+    this.currentPage += i;
+    if(this.currentPage <0)
+      this.currentPage = 0;
+  }
+
+  createRange(n: number): any[] {
+    return new Array(n);
   }
 
 

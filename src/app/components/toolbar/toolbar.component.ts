@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../data.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -22,8 +22,18 @@ export class ToolbarComponent {
       MaxIloscMiejsc: ['', Validators.required],
       Opis: ['', Validators.required],
       DlugiOpis: ['', Validators.required],
-      Zdjecie: ['', Validators.required]
+      Zdjecie: ['', Validators.required],
+      DodatkoweZdjecia: this.fb.array([]),
     });
+  }
+
+  get dodatkoweZdjeciaArray() {
+    return this.wycieczkaForm.get('DodatkoweZdjecia') as FormArray;
+  }
+
+  // Add a new control to the DodatkoweZdjecia FormArray
+  addDodatkoweZdjecie() {
+    this.dodatkoweZdjeciaArray.push(this.fb.control(''));
   }
 
   onSave(): void {

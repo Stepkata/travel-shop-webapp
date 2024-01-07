@@ -13,16 +13,22 @@ import { Cart } from './structures/cart';
 export class DataService {
   constructor(private http: HttpClient){
     let trips: Wycieczka[] = [];
-    let reserved: Map<any, number> = new Map();
     let bought: Map<any, number> = new Map();
+    let reviews: Map<number, string[]> = new Map();
 
     let cart: Cart = new Cart();
     this.updateCart(cart);
+
+    let photos: any;
+    this.http.get<any>('assets/photos.json').subscribe(data => {
+      photos = data;
+    });
 
     this.http.get<Wycieczka[]>('assets/wycieczki.json').subscribe(data => {
       trips = data.map((wycieczka, index) => ({
         ...wycieczka,
         Id: index + 1,
+        DodatkoweZdjecia: photos!.find((item: { Id: number; Photos: []}) => item.Id === index+1)!.Photos || [],
         Rating: [],
       }));
     });
@@ -30,6 +36,7 @@ export class DataService {
 
     for (const wycieczka of trips) {
       bought.set(wycieczka, 0);
+      reviews.set(wycieczka.Id, []);
     }
     this.updateBought(bought);
     console.log("Data constructor!");
@@ -44,6 +51,9 @@ export class DataService {
 
   private boughtSubject = new BehaviorSubject<any>(null);
   bought$ = this.boughtSubject.asObservable();
+
+  private reviewSubject = new BehaviorSubject<any>(null);
+  review$ = this.reviewSubject.asObservable();
 
   private cartSubject = new BehaviorSubject<any>(null);
   cart$ = this.cartSubject.asObservable();
@@ -64,6 +74,10 @@ export class DataService {
 
   updateCart(data:Cart){
     this.cartSubject.next(data);
+  }
+
+  updateReviews(data:any){
+    this.reviewSubject.next(data);
   }
 
 }
