@@ -38,21 +38,20 @@
 <button (click)="openFormModal()" class="add-rev">Dodaj opinię</button>
 <div *ngIf="reviews.has(tripId) && reviews.get(tripId)!.length > 0">
   <h2>Opinie:</h2>
-  <ul>
-    <li *ngFor="let review of reviews.get(tripId)">
-      <p><strong>NICK:</strong> {{ review.nick }}</p>
-      <p><strong>Nazwa:</strong> {{ review.name }}</p>
-      <div class="star-container">
-        <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" class="star-button">
-            <mat-icon>
-              {{showIcon(i, review.rating )}}
-            </mat-icon>
-          </button>
-      </div>  
-      <p><strong>Recenzja:</strong> {{ review.reviewText }}</p>
-      <p><strong>Data zakupu:</strong> {{ review.purchaseDate || "---" }}</p>
-      <hr>
-    </li>
-  </ul>
+  <div *ngFor="let review of reviews.get(tripId)" class="review">
+    <p><strong>NICK:</strong> {{ review.nick }}</p>
+    <p><strong>Nazwa:</strong> {{ review.name }}</p>
+    <div class="star-container">
+      <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" class="star-button">
+          <mat-icon>
+            {{showIcon(i, review.rating )}}
+          </mat-icon>
+        </button>
+    </div>  
+    <p><strong>Recenzja:</strong> {{ review.reviewText }}</p>
+    <p><strong>Data zakupu:</strong> {{ review.purchaseDate || "---" }}</p>
+    <hr>
+
+  </div>
 </div>
 </div>
