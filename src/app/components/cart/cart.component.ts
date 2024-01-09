@@ -68,23 +68,25 @@ export class CartComponent {
   }
 
   buy(wycieczka: Wycieczka){
+    let newIlosc = wycieczka.IloscMiejsc - this.cart.getReservedNum(wycieczka);
     let newEntry: HistoryItem | null = this.cart.buy(wycieczka);
     if (newEntry === null)
       return;
     this.DataService.addHistory(newEntry);
+    this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
   }
 
   buyAll(){
+    
     let newHistory: HistoryItem[] = this.cart.buyAll();
-    console.log("New history", newHistory);
-    let history: HistoryItem[] = [];
-    this.DataService.history$.subscribe((data) => {
-      if (data != null){
-        history = data;
-      }
-    })
-    for (const item of newHistory)
+    if (!newHistory)
+      return;
+    for (const item of newHistory){
       this.DataService.addHistory(item);
+      let wycieczka: Wycieczka = this.trips.find(i => i.Id === item.TripId)!;
+      let newIlosc = wycieczka.IloscMiejsc - item.Amount;
+      this.DataService.updateIloscMiejsc(item.TripId, newIlosc);
+    }
 
   }
 

@@ -1,35 +1,65 @@
   <form [formGroup]="wycieczkaForm" (ngSubmit)="onSave()">
     <label for="nazwa">Nazwa:</label>
     <input type="text" id="nazwa" formControlName="Nazwa" required>
+    <div *ngIf="wycieczkaForm.get('Nazwa')!.hasError('required')">
+      Pole jest wymagane.
+    </div>
 
     <label for="kraj">Kraj:</label>
     <input type="text" id="kraj" formControlName="Kraj" required>
+    <div *ngIf="wycieczkaForm.get('Kraj')!.hasError('required')">
+      Pole jest wymagane.
+    </div>
 
     <label for="dataRozpoczecia">Data Rozpoczęcia:</label>
     <input type="date" id="dataRozpoczecia" formControlName="DataRozpoczecia" required>
+    <div *ngIf="wycieczkaForm.get('DataRozpoczecia')!.hasError('required')">
+      Pole jest wymagane.
+    </div>
   
     <label for="dataZakonczenia">Data Zakończenia:</label>
     <input type="date" id="dataZakonczenia" formControlName="DataZakonczenia" required>
+    <div *ngIf="wycieczkaForm.get('DataZakonczenia')!.hasError('required')">
+      Pole jest wymagane.
+    </div>
   
     <label for="cenaJednostkowa">Cena Jednostkowa:</label>
     <input type="number" id="cenaJednostkowa" formControlName="CenaJednostkowa" required>
+    <div *ngIf="wycieczkaForm.get('CenaJednostkowa')!.hasError('required')">
+      Pole jest wymagane.
+    </div>
   
     <label for="maxIloscMiejsc">Maksymalna Ilość Miejsc:</label>
     <input type="number" id="maxIloscMiejsc" formControlName="MaxIloscMiejsc" required>
+    <div *ngIf="wycieczkaForm.get('MaxIloscMiejsc')!.hasError('required')">
+      Pole jest wymagane.
+    </div>
   
     <label for="opis">Krótki opis:</label>
     <textarea id="opis" formControlName="Opis" required></textarea>
+    <div *ngIf="wycieczkaForm.get('OPis')!.hasError('required')">
+      Pole jest wymagane.
+    </div>
 
     <label for="dlugiOpis">Opis:</label>
     <textarea id="dlugiOpis" formControlName="DlugiOpis" required></textarea>
+    <div *ngIf="wycieczkaForm.get('DlugiOpis')!.hasError('required')">
+      Pole jest wymagane.
+    </div>
   
     <label for="zdjecie">Link do Zdjęcia (thumbnail):</label>
     <input type="text" id="zdjecie" formControlName="Zdjecie" required>
+    <div *ngIf="wycieczkaForm.get('Zdjecie')!.hasError('required')">
+      Pole jest wymagane.
+    </div>
 
     <div formArrayName="DodatkoweZdjecia">
       <label>Dodatkowe Zdjęcia:</label>
       <div *ngFor="let zdjecieControl of dodatkoweZdjeciaArray.controls; let i = index">
         <input formControlName="{{i}}" placeholder="Image URL {{ i + 1 }}">
+        <div *ngIf="wycieczkaForm.get('{{i}}')!.hasError('required')">
+          Pole jest wymagane.
+        </div>
       </div>
       <button type="button" (click)="addDodatkoweZdjecie()">Add Image</button>
     </div>

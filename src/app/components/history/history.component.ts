@@ -51,4 +51,12 @@ export class HistoryComponent implements OnInit{
     this.filterState = this.filterState === state ? null : state;
   }
 
+  getFormatedDate(timestamp: any){
+    const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    
+    return formattedDate;
+  }
+
 }

@@ -13,7 +13,7 @@
             <p>Opis: {{ histItem.Description }}</p>
             <p>Ilość: {{ histItem.Amount }}</p>
             <p>Subtotal: {{ histItem.Total  }}</p>
-            <p>Kupiono: {{ histItem.dateSold }}</p>
+            <p>Kupiono: {{ getFormatedDate(histItem.dateSold) }}</p>
         </div>
 
         <div [ngClass]="{'oncoming': getState(histItem) == 0, 'in-progress': getState(histItem) == 1, 'done': getState(histItem) == 2}" id="state">

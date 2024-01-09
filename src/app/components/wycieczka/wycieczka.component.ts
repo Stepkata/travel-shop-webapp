@@ -78,21 +78,17 @@ export class WycieczkaComponent implements OnInit{
     });
   }
 
-  reservePlace(wycieczka: Wycieczka): void {
-    if ( this.wycieczka?.IloscMiejsc! > 0){
-      this.cart.addItem(wycieczka);
+  reservePlace(): void {
+    if ( this.wycieczka!.IloscMiejsc! - this.cart.getReservedNum(this.wycieczka!) > 0){
+      this.cart.addItem(this.wycieczka!);
       this.DataService.updateCart(this.cart);
-      let newIlosc = wycieczka.IloscMiejsc - 1;
-      this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
   }
 
-  cancelReservation(wycieczka: Wycieczka): void {
-    if (this.cart.getReservedNum(wycieczka) > 0) {
-        this.cart.removeItem(wycieczka);
+  cancelReservation(): void {
+    if (this.cart.getReservedNum(this.wycieczka!) > 0) {
+        this.cart.removeItem(this.wycieczka!);
         this.DataService.updateCart(this.cart);
-        let newIlosc = wycieczka.IloscMiejsc + 1;
-      this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
   }
 

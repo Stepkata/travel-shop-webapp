@@ -9,7 +9,7 @@
 
 .wycieczka {
     border: none;
-    padding: 10px;
+    padding: 15px;
     margin: 30px;
     width: 300px; 
     text-align: center;
@@ -27,6 +27,7 @@
     border-radius: 50%;
     width: 100px;  
     height: 100px; 
+    margin: 10px
   }
 
 .star-button{
@@ -107,4 +108,20 @@ h4{
   font-size: small;
   font-style: italic;
   color: rgba(122,158,159,0.6);
+}
+
+.hidden-border{
+  background: none;
+  border: none;
+  border-radius: 20px;
+  width: 270px; 
+  padding: 10px;
+}
+
+.cheapest-border{
+  border: 2px solid #FE5F55;
+}
+
+.expensive-border{
+  border: 2px solid #9DDF63;
 }

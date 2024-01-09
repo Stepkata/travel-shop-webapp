@@ -103,11 +103,9 @@ export class WycieczkiViewComponent {
   }
 
   reservePlace(wycieczka: Wycieczka, event:any): void {
-    if ( wycieczka.IloscMiejsc > 0){
+    if ( wycieczka.IloscMiejsc - this.cart.getReservedNum(wycieczka) > 0){
       this.cart.addItem(wycieczka);
       this.DataService.updateCart(this.cart);
-      let newIlosc = wycieczka.IloscMiejsc - 1;
-      this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
     event.stopPropagation()
   }
@@ -121,8 +119,6 @@ export class WycieczkiViewComponent {
     if (this.cart.getReservedNum(wycieczka) > 0) {
         this.cart.removeItem(wycieczka);
         this.DataService.updateCart(this.cart);
-        let newIlosc = wycieczka.IloscMiejsc + 1;
-      this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
   }
 

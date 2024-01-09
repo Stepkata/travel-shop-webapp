@@ -29,10 +29,10 @@
     <p>Data: {{ wycieczka!.DataRozpoczecia }} - {{ wycieczka!.DataZakonczenia }}</p>
     <p>Cena: {{ wycieczka!.CenaJednostkowa }} zł</p>
     <p>Opis: {{ wycieczka!.DlugiOpis }}</p>
-    <p>Dostępne miejsca: {{ wycieczka!.IloscMiejsc || 0}} / {{ wycieczka!.MaxIloscMiejsc || 0 }}</p>
+    <p>Dostępne miejsca: {{ wycieczka!.IloscMiejsc- cart.getReservedNum(wycieczka!) || 0}} / {{ wycieczka!.MaxIloscMiejsc || 0 }}</p>
     <div class="buttons">
-      <button *ngIf="this.wycieczka?.IloscMiejsc! > 0" (click)="reservePlace(wycieczka!)">+</button>
-      <button *ngIf="cart.getReservedNum(wycieczka!) > 0" (click)="cancelReservation(wycieczka!)">-</button>
+      <button *ngIf="wycieczka?.IloscMiejsc! - cart.getReservedNum(wycieczka!) > 0" (click)="reservePlace()">+</button>
+      <button *ngIf="cart.getReservedNum(wycieczka!) > 0" (click)="cancelReservation()">-</button>
     </div>
 </div>
 <button (click)="openFormModal()" class="add-rev">Dodaj opinię</button>
