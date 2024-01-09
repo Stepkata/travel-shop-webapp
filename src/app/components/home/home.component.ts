@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
-import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Wycieczka } from '../../structures/wycieczka.model';
 import { HistoryItem } from '../../structures/history-item';
 
 @Component({
@@ -14,6 +12,9 @@ import { HistoryItem } from '../../structures/history-item';
 export class HomeComponent implements OnInit{
   history: HistoryItem[] = [];
   oncoming:boolean = false;
+  isLoading: boolean = true;
+  comingStart: string = "";
+  comingName: string = "";
   
   constructor(private DataService: DataService, private modalService: NgbModal) { 
   }
@@ -23,7 +24,29 @@ export class HomeComponent implements OnInit{
       if (data == null)
         console.log("null!");
       this.history = data;
+      this.checkTripNotif();
+      this.isLoading = false;
     });
+  }
+
+  checkTripNotif(){
+    for (const item of this.history){
+      const startDate = new Date(item.startDate);
+      const currentDate = new Date();
+      const timeDifference = startDate.getTime() - currentDate.getTime();
+
+      // Convert milliseconds to days
+      const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+      // Check if the difference is less than 4 days
+      if (daysDifference > 0 && daysDifference < 4){
+        this.oncoming = true;
+        this.comingName = item.Name;
+        this.comingStart = item.startDate;
+        return;
+      }
+    }
+    this.oncoming = false;
   }
 
 }

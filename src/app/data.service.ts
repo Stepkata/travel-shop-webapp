@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, interval } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Wycieczka } from './structures/wycieczka.model';
@@ -25,9 +26,6 @@ export class DataService {
   historyCollection:any;
   reviewsCollection:any;
   photosCollection:any;
-
-  private boughtSubject = new BehaviorSubject<any>(null);
-  bought$ = this.boughtSubject.asObservable();
 
   private cartSubject = new BehaviorSubject<any>(null);
   cart$ = this.cartSubject.asObservable();
@@ -125,4 +123,5 @@ export class DataService {
   updateCart(data:Cart){
     this.cartSubject.next(data);
   }
+
 }

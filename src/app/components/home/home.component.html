@@ -1,6 +1,7 @@
-<div class="container">
-    <div *ngIf="oncoming" class="remainder">
-        Wycieczka już wkrótce!
+<div *ngIf="!isLoading"  class="container">
+    <div *ngIf="oncoming" class="remainder" routerLink="/historia">
+        <a href="#" routerLink="/historia"> Wycieczka już wkrótce: {{comingName}} {{comingStart}} </a>
+        
     </div>
     <div class="box" routerLink="/wycieczki">
         <div class="full-offer" routerLink="/wycieczki">

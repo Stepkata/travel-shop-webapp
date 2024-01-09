@@ -23,8 +23,7 @@
 
 .wizytowka{
   background: rgba(122,158,159,0.6);
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
+  border-radius: 20px;
   padding: 20px;
   width: 1000px;
   height: 180px;
@@ -62,6 +61,12 @@ img{
 .remainder{
   border-radius: 10px;
   border: 1px solid #FE5F55;
-  padding: 5px;
+  padding: 10px;
   margin: 15px;
+  color: #FE5F55;
+}
+
+.remainder a{
+  color: #FE5F55;
+  font-size: medium;
 }
