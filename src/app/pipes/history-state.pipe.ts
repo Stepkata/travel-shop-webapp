@@ -20,8 +20,8 @@ export class HistoryStatePipe implements PipeTransform {
   }
 
   getState(item: HistoryItem){
-    const startDate = new Date(item.Trip.DataRozpoczecia);
-    const endDate = new Date(item.Trip.DataZakonczenia);
+    const startDate = new Date(item.startDate);
+    const endDate = new Date(item.endDate);
     const currentDate = new Date();
 
     if (currentDate < startDate)

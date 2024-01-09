@@ -1,6 +1,6 @@
-<div class="wycieczki-container">
+<div *ngIf="!isLoading" class="wycieczki-container">
     <div *ngFor="let cartItem of cart.items" class="wycieczka">
-        <img [src]="cartItem.trip.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
+        <img [src]="getPhoto(cartItem.id)" alt="Zdjęcie wycieczki" class="round-image">
         <div class="info">
             <a href="#" [routerLink]="['/wycieczki', cartItem.trip.Id]"> {{ cartItem.trip.Nazwa | uppercase }} </a>
             <p> Ilość miejsc: {{ cartItem.reservedNum}}</p>

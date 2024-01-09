@@ -2,15 +2,17 @@ import { DataService } from "../data.service";
 import { Wycieczka } from "./wycieczka.model";
 
 export class CartItem {
+    trip: Wycieczka;
     id: number;
     price: number;
     reservedNum: number;
     total: number;
     checked: boolean;
   
-    constructor(tripId: number, price: number) {
-      this.id = tripId;
-      this.price = price;
+    constructor(trip:Wycieczka) {
+      this.trip = trip;
+      this.id = trip.Id;
+      this.price = trip.CenaJednostkowa;
       this.reservedNum = 1;
       this.total = this.getTotal();
       this.checked = true;

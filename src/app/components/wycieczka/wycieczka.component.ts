@@ -19,6 +19,7 @@ export class WycieczkaComponent implements OnInit{
   photos: Photo[] = [];
   reviews: Review[] = [];
   cart: Cart = new Cart();
+  isLoading: boolean = true;
 
   tripId: number = 0;
   wycieczka: Wycieczka | null = null;
@@ -35,6 +36,10 @@ export class WycieczkaComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    let tripsLoading: boolean= true;
+    let photosLoading: boolean= true;
+    let reviewsLoading: boolean= true;
+
     this.route.paramMap.subscribe(params => {
       this.tripId = parseInt(params.get('id')!);
     });
@@ -46,36 +51,25 @@ export class WycieczkaComponent implements OnInit{
         this.wycieczka = data.find(item => item.Id == this.tripId) || null;
         this.trips = data;
       }
+      tripsLoading = false;
+      this.isLoading = photosLoading || tripsLoading || reviewsLoading;
     });
 
     this.DataService.photos$.subscribe((data) => {
       if (data != null){
-        this.photos = data;
+        this.photos = data.filter(item => item.tripId == this.tripId);
+      photosLoading = false;
+      this.isLoading = photosLoading || tripsLoading || reviewsLoading;
       }
     });
 
     this.DataService.reviews$.subscribe((data) => {
       if (data != null){
-        this.reviews = data;
+        this.reviews = data.filter(item => item.tripId === this.tripId);
       }
+      reviewsLoading = false;
+      this.isLoading = photosLoading || tripsLoading || reviewsLoading;
     });
-
-    if(!this.wycieczka){
-      this.wycieczka = {
-          Id: this.tripId,
-          Nazwa: "",
-          Kraj: "",
-          DataRozpoczecia: "",
-          DataZakonczenia: "",
-          CenaJednostkowa: 0,
-          MaxIloscMiejsc: 0,
-          IloscMiejsc: 0,
-          Opis: "",
-          DlugiOpis: ""
-      }
-    };
-
-    this.rating = this.getRating();
 
     this.DataService.cart$.subscribe((data) => {
       if (data != null){
@@ -103,27 +97,16 @@ export class WycieczkaComponent implements OnInit{
   }
 
   getRating(): number{
-    console.log("home rating");
-    let sum = 0;
     let oceny = this.reviews.filter(item => item.tripId === this.tripId);
-    for (const r of oceny){
-      sum += r.rating;
-    }
-    return sum/oceny.length;
+    return oceny.length;
   }
 
-  showIcon(index:number, rating:number=this.rating) {
+  showIcon(index:number, rating:number=this.wycieczka!.Ocena) {
     if (rating >= index + 1) {
       return 'star';
     } else {
       return 'star_border';
     }
-  }
-
-  getSlides(wycieczka:Wycieczka){
-    if (!wycieczka)
-      return;
-    return this.photos.filter(item => item.tripId === this.tripId);
   }
 
   openFormModal(): void {
@@ -138,6 +121,7 @@ export class WycieczkaComponent implements OnInit{
         result.tripId = this.tripId;
         result.userId = 0;
         this.DataService.addReview(result);
+        this.DataService.updateRating(this.tripId);
       },
       (reason) => {
         console.log('Modal odrzucony. Powód:', reason);

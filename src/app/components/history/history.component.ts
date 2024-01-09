@@ -16,6 +16,7 @@ export class HistoryComponent implements OnInit{
   starCount: number = 5;
   ratingArr:any = [];
   filterState: number | null = null;
+  isLoading: boolean = true;
 
   constructor(private DataService: DataService) { 
     console.log("constructor!");
@@ -29,17 +30,13 @@ export class HistoryComponent implements OnInit{
       if (data == null)
         console.log("null!");
       this.history = data;
+      this.isLoading = false;
     });
-    this.DataService.trips$.subscribe((data) => {
-      if (data != null)
-        this.trips = data;
-    });
-    console.log("oninit!");
   }
 
   getState(item: HistoryItem){
-    const startDate = new Date(this.getTrip(item).DataRozpoczecia);
-    const endDate = new Date(this.getTrip(item).DataZakonczenia);
+    const startDate = new Date(item.startDate);
+    const endDate = new Date(item.endDate);
     const currentDate = new Date();
 
     if (currentDate < startDate)
@@ -48,10 +45,6 @@ export class HistoryComponent implements OnInit{
       return 2;
     else 
       return 1;
-  }
-
-  getTrip(item: HistoryItem): Wycieczka{
-    return this.trips.find(i => i.Id === item.TripId)!
   }
 
   toggleFilterState(state: number) {

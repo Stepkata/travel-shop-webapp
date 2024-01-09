@@ -14,13 +14,27 @@ import { now } from 'sequelize/types/utils';
 export class ToolbarComponent {
   wycieczkaForm: FormGroup;
   wycieczki: Wycieczka[] = [];
+  nextIndex: number = -1;
+
+  isLoading: boolean = true;
 
 
   constructor(private fb: FormBuilder, private DataService: DataService) {
+    let tripsLoading: boolean = true;
+    let serialLoading: boolean = true;
+
     this.DataService.trips$.subscribe((data) => {
       if (data != null)
         this.wycieczki = data;
+      tripsLoading = false;
+      this.isLoading = tripsLoading || serialLoading;
     });
+
+    this.DataService.serial$.subscribe((data: any) => {
+      this.nextIndex = data.index;
+      serialLoading = false;
+      this.isLoading = tripsLoading || serialLoading;
+    })
 
     this.wycieczkaForm = this.fb.group({
       Nazwa: ['', Validators.required],
@@ -47,8 +61,21 @@ export class ToolbarComponent {
 
   onSave(): void {
     if (this.wycieczkaForm.valid) {
-      const nowaWycieczka = this.wycieczkaForm.value;
-      nowaWycieczka.Id = this.wycieczki.length;
+      let newId: number = this.nextIndex;
+      const nowaWycieczka: Wycieczka = {
+        Id: newId,
+        Nazwa: this.wycieczkaForm.value.Nazwa,
+        Kraj: this.wycieczkaForm.value.Kraj,
+        DataRozpoczecia: this.wycieczkaForm.value.DataRozpoczecia,
+        DataZakonczenia: this.wycieczkaForm.value.DataZakonczenia,
+        CenaJednostkowa: this.wycieczkaForm.value.CenaJednostkowa,
+        MaxIloscMiejsc: this.wycieczkaForm.value.MaxIloscMiejsc,
+        IloscMiejsc: this.wycieczkaForm.value.MaxIloscMiejsc,
+        Opis: this.wycieczkaForm.value.Opis,
+        DlugiOpis: this.wycieczkaForm.value.DlugiOpis,
+        Ocena: 0
+      }
+
       let thumbnail: Photo = {
         tripId: nowaWycieczka.Id,
         url: this.wycieczkaForm.value.Zdjecie,
@@ -64,6 +91,8 @@ export class ToolbarComponent {
         photos.push(photo);
       }
       this.DataService.addNewTrip(nowaWycieczka, photos);
+      this.DataService.updateSerial(this.nextIndex+1);
+      this.wycieczkaForm.reset();
       
     }else{
       console.log("invalid!");

@@ -14,6 +14,7 @@ import { SlicePagesPipe } from '../../pipes/slice-pages.pipe';
 import { Cart } from '../../structures/cart';
 import { Photo } from '../../structures/photo';
 import { Review } from '../../structures/review';
+import { max } from 'rxjs';
 
 
 @Component({
@@ -52,6 +53,8 @@ export class WycieczkiViewComponent {
   amountToShow: number = 5;
   currentPage: number = 0;
 
+  isLoading: boolean = true;
+
 
   constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal) { 
     for (let index = 0; index < this.starCount; index++) {
@@ -60,9 +63,16 @@ export class WycieczkiViewComponent {
   }
 
   ngOnInit(): void {
+    let tripsLoading: boolean= true;
+    let photosLoading: boolean= true;
+    let reviewsLoading: boolean= true;
+
     this.DataService.trips$.subscribe((data) => {
       if (data != null)
         this.wycieczki = data;
+      this.updateSpecialTrips();
+      tripsLoading = false;
+      this.isLoading = photosLoading || tripsLoading || reviewsLoading;
     });
 
     this.DataService.cart$.subscribe((data) => {
@@ -74,15 +84,17 @@ export class WycieczkiViewComponent {
       if (data != null){
         this.zdjecia = data;
       }
+      photosLoading = false;
+      this.isLoading = photosLoading || tripsLoading || reviewsLoading;
     });
 
     this.DataService.reviews$.subscribe((data) => {
       if (data != null){
         this.reviews = data;
       }
+      reviewsLoading = false;
+      this.isLoading = photosLoading || tripsLoading || reviewsLoading;
     });
-
-    this.updateSpecialTrips();
   }
 
   updateSpecialTrips(): void {
@@ -138,13 +150,13 @@ export class WycieczkiViewComponent {
     }
   }
 
-  deleteTrip(wycieczka: Wycieczka): void{
+  deleteTrip(wycieczka: Wycieczka, event: any): void{
     let numReserved = this.cart.getReservedNum(wycieczka);
         for (let i=0; i<numReserved; i++){
           this._cancelReservation(wycieczka);
         }
     this.DataService.deleteTrip(wycieczka.Id); //@TODO: check
-    this.ngOnInit();
+    event.stopPropagation();
   }
 
   openFilterModal(): void {
@@ -182,18 +194,8 @@ export class WycieczkiViewComponent {
     this.filterEndDate = null;
   }
 
-  getRating(wycieczka: Wycieczka): number{
-    console.log("home rating");
-    let sum = 0;
-    let oceny = this.reviews.filter(item => item.tripId === wycieczka.Id);
-    for (const r of oceny){
-      sum += r.rating;
-    }
-    return sum/oceny.length;
-  }
-
   showIcon(wycieczka:Wycieczka, index:number) {
-    if (this.getRating(wycieczka)>= index + 1) {
+    if (wycieczka.Ocena>= index + 1) {
       return 'star';
     } else {
       return 'star_border';
@@ -209,10 +211,22 @@ export class WycieczkiViewComponent {
     this.currentPage += i;
     if(this.currentPage <0)
       this.currentPage = 0;
+    let maxPages = Math.floor(this.wycieczki.length/this.amountToShow);
+    if(this.currentPage > maxPages)
+      this.currentPage = maxPages;
   }
 
   createRange(n: number): any[] {
     return new Array(n);
+  }
+
+  getPhoto(wycieczka: Wycieczka): string{
+    if (!this.zdjecia)
+      return "";
+    let photo:Photo[] = this.zdjecia.filter(item => item.tripId == wycieczka.Id && item.thumbnail);
+    if (!photo || photo.length == 0)
+      return "";
+    return photo[0].url;
   }
 
 

@@ -1,6 +1,6 @@
-<div class="wycieczki-container">
+<div *ngIf="!isLoading" class="wycieczki-container">
     <div *ngFor="let cartItem of cart.items" [ngClass]="{'wycieczka': true}">
-        <img [src]="cartItem.trip.Zdjecie" alt="Zdjęcie wycieczki" class="round-image">
+        <img [src]="getPhoto(cartItem.trip)" alt="Zdjęcie wycieczki" class="round-image">
         <p>{{ cartItem.trip.Nazwa }}:  {{ cartItem.reservedNum }}</p>
     </div>
     <div class="total">

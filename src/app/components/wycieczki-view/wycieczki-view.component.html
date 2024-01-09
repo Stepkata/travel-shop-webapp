@@ -1,5 +1,5 @@
 <div class="buttons">
-    <button  [routerLink]='wycieczki/add' class="add-trip">Dodaj wycieczkę</button>
+    <button  [routerLink]="['/wycieczki', 'add']" class="add-trip">Dodaj wycieczkę</button>
     <button (click)="openFilterModal()" class="filter">Filtruj</button>
     <button (click)="clearFilters()" class="clear-filter">Wyczyść filtry</button>
       
@@ -17,17 +17,17 @@
     </div>
 </div>
 
-<div class="wycieczki-container">
+<div *ngIf="!isLoading" class="wycieczki-container">
     <div *ngFor="let wycieczka of wycieczki | country: filterCountry | date: filterStartDate: filterEndDate | price: filterMinPrice: filterMaxPrice | rating: filterMinRating : filterMaxRating | slicePages: currentPage*amountToShow:  (currentPage+1)*amountToShow" [ngClass]="{'wycieczka': true}">
         <div [routerLink]="['/wycieczki', wycieczka.Id]">
             <div [ngClass]="{'hidden': true, 'cheapest': wycieczka === cheapest_trip, 'expensive': wycieczka === expensive_trip}">
                 {{wycieczka === cheapest_trip ? 'OKAZJA!' : wycieczka === expensive_trip ? 'WYSOKA PÓŁKA' : ''}}
             </div>
 
-            <div [ngClass]="{'hidden': true, 'almost-gone': wycieczka.MaxIloscMiejsc - (cart.getReservedNum(wycieczka) +  wycieczka.IloscMiejsc ) < 4}">
+            <div [ngClass]="{'hidden': true, 'almost-gone': wycieczka.IloscMiejsc < 4}">
                 OSTATNIE MIEJSCA!
             </div>
-            <img [src]="zdjecia.filter(item => item.tripId == wycieczka.Id && item.thumbnail)" alt="Zdjęcie wycieczki" class="round-image">
+            <img [src]="getPhoto(wycieczka)" alt="Zdjęcie wycieczki" class="round-image">
             <div class="star-container">
                 <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" class="star-button">
                     <mat-icon>
@@ -44,7 +44,7 @@
             <div class="buttons">
                 <button *ngIf="wycieczka.IloscMiejsc > 0" (click)="reservePlace(wycieczka, $event)">+</button>
                 <button *ngIf="cart.getReservedNum(wycieczka) > 0" (click)="cancelReservation(wycieczka, $event)">-</button>
-                <button class="delete" (click)="deleteTrip(wycieczka)">DELETE</button>
+                <button class="delete" (click)="deleteTrip(wycieczka, $event)">DELETE</button>
             </div>
         </div>
     </div>

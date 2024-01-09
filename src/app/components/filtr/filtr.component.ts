@@ -18,26 +18,10 @@ export class FiltrComponent {
   minPrice = 100000;
   maxPrice = 0;
 
+  isLoading: boolean = true;
+
   constructor(private formBuilder: FormBuilder, private DataService: DataService, public activeModal: NgbActiveModal) {
     let wycieczki: Wycieczka[] = [];
-
-    this.DataService.trips$.subscribe(
-      (data) => {
-        if (data != null)
-          wycieczki = data;
-      }
-    );
-
-    for (const wycieczka of wycieczki){
-      if (this.lokalizacja.indexOf(wycieczka.Kraj) < 0 ){
-        this.lokalizacja.push(wycieczka.Kraj)
-        if (wycieczka.CenaJednostkowa < this.minPrice)
-          this.minPrice = wycieczka.CenaJednostkowa;
-        if (wycieczka.CenaJednostkowa > this.maxPrice)
-          this.maxPrice = wycieczka.CenaJednostkowa;
-
-      }
-    }
 
     this.filtrForm = this.formBuilder.group({
       lokalizacja: [[]],
@@ -48,6 +32,35 @@ export class FiltrComponent {
       ocenaMin: 0,
       ocenaMax: 5,
     });
+
+    this.DataService.trips$.subscribe(
+      (data) => {
+        if (data != null){
+          wycieczki = data;
+          for (const wycieczka of wycieczki){
+            if (this.lokalizacja.indexOf(wycieczka.Kraj) < 0 ){
+              this.lokalizacja.push(wycieczka.Kraj)
+              if (wycieczka.CenaJednostkowa < this.minPrice)
+                this.minPrice = wycieczka.CenaJednostkowa;
+              if (wycieczka.CenaJednostkowa > this.maxPrice)
+                this.maxPrice = wycieczka.CenaJednostkowa;    
+            }
+          }
+          console.log("min", this.minPrice);
+          console.log("max", this.maxPrice);
+        }
+        this.filtrForm = this.formBuilder.group({
+          lokalizacja: [[]],
+          cenaMin: this.minPrice,
+          cenaMax: this.maxPrice,
+          dataOd: null,
+          dataDo: null,
+          ocenaMin: 0,
+          ocenaMax: 5,
+        });
+        this.isLoading = false;
+      }
+    );
   }
 
   applyFilter() {

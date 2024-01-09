@@ -5,6 +5,7 @@ import { HistoryItem } from '../../structures/history-item';
 import { Cart } from '../../structures/cart';
 import { CartItem } from '../../structures/cart-item';
 import { Photo } from '../../structures/photo';
+import { isLoading } from 'expo-font';
 
 @Component({
   selector: 'app-cart',
@@ -15,11 +16,14 @@ export class CartComponent {
   trips: Wycieczka[] = [];
   cart: Cart = new Cart();
   photos: Photo[] = [];
+  isLoading: boolean = true;
 
   constructor( private DataService: DataService) { 
     }
 
   ngOnInit() {
+    let tripsLoading: boolean= true;
+    let photosLoading: boolean= true;
     this.DataService.cart$.subscribe((data) => {
       if (data != null){
         this.cart = data;
@@ -29,13 +33,17 @@ export class CartComponent {
       if (data != null){
         this.trips = data;
       }
+      tripsLoading = false;
+      this.isLoading = photosLoading || tripsLoading ;
     });
     this.DataService.photos$.subscribe((data) => {
       if (data != null){
         this.photos = data;
       }
+      photosLoading = false;
+      this.isLoading = photosLoading || tripsLoading ;
     });
-    
+
   }
 
   reservePlace(wycieczka: Wycieczka, event:any): void {
@@ -82,6 +90,10 @@ export class CartComponent {
 
   getTrip(id: number): Wycieczka{
     return this.trips.find(i => i.Id === id)!
+  }
+
+  getPhoto(id: number): string {
+    return this.photos.find(i => i.tripId === id)?.url || "";
   }
 
   onChangeCheckbox(cartItem: CartItem){

@@ -13,7 +13,7 @@ export class Cart{
         let item = this.items.find(obj => obj.id === wycieczka.Id)
 
         if (item === undefined){
-            this.items.push(new CartItem(wycieczka.Id, wycieczka.CenaJednostkowa));
+            this.items.push(new CartItem(wycieczka));
         } else{
             item.addItem();
         }
@@ -23,7 +23,7 @@ export class Cart{
         let item = this.items.find(obj => obj.id === wycieczka.Id)
 
         if (item === undefined){
-            this.items.push(new CartItem(wycieczka.Id, wycieczka.CenaJednostkowa));
+            this.items.push(new CartItem(wycieczka));
         } else{
             item.removeItem();
             if (item.reservedNum == 0){
@@ -78,7 +78,12 @@ export class Cart{
                 TripId: item.id,
                 Amount: item.reservedNum,
                 Total: item.getTotal(),
-                dateSold: new Date()
+                Name: item.trip.Nazwa,
+                Country: item.trip.Kraj,
+                Description: item.trip.Opis,
+                dateSold: new Date(),
+                startDate: item.trip.DataRozpoczecia,
+                endDate: item.trip.DataZakonczenia,
               }
             this._removeItemFromCart(item.id);
             return newEntry;
@@ -93,7 +98,12 @@ export class Cart{
                 TripId: item.id,
                 Amount: item.reservedNum,
                 Total: item.getTotal(),
-                dateSold: new Date()
+                Name: item.trip.Nazwa,
+                Country: item.trip.Kraj,
+                Description: item.trip.Opis,
+                dateSold: new Date(),
+                startDate: item.trip.DataRozpoczecia,
+                endDate: item.trip.DataZakonczenia,
               }
             this._removeItemFromCart(item.id);
             history.push(newEntry)

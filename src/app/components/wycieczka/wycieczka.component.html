@@ -1,11 +1,11 @@
-<div class="container">
+<div *ngIf="!isLoading" class="container">
   <a href="#" routerLink="/wycieczki" class="oferta">back</a>
   <div class="wycieczka">
     <c-carousel [interval]="0" style="width: 90%; margin: 20px;">
       <c-carousel-inner>
-        <c-carousel-item *ngFor="let slide of getSlides(wycieczka)">
+        <c-carousel-item *ngFor="let slide of photos">
           <img
-            [src]="slide"
+            [src]="slide.url"
             alt="image url"
             class="d-block w-100"
             style="max-height: 400px; border-radius: 30px;"
@@ -16,29 +16,29 @@
       <c-carousel-control [routerLink] caption="Previous" direction="prev"></c-carousel-control>
       <c-carousel-control [routerLink] caption="Next" direction="next"></c-carousel-control>
     </c-carousel>
-    <h3>{{ wycieczka.Nazwa | uppercase }}</h3>
+    <h3>{{ wycieczka!.Nazwa | uppercase }}</h3>
     <div class="star-container">
         <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" class="star-button">
             <mat-icon>
               {{showIcon(i)}}
             </mat-icon>
         </button>
-        <p>/{{wycieczka.Rating.length}} głosów</p>
+        <p>/{{getRating()}} głosów</p>
     </div>
-    <p>Kraj: {{ wycieczka.Kraj | uppercase }}</p>
-    <p>Data: {{ wycieczka.DataRozpoczecia }} - {{ wycieczka.DataZakonczenia }}</p>
-    <p>Cena: {{ wycieczka.CenaJednostkowa }} zł</p>
-    <p>Opis: {{ wycieczka.DlugiOpis }}</p>
-    <p>Dostępne miejsca: {{ wycieczka.IloscMiejsc }} / {{ wycieczka.MaxIloscMiejsc }}</p>
+    <p>Kraj: {{ wycieczka!.Kraj | uppercase }}</p>
+    <p>Data: {{ wycieczka!.DataRozpoczecia }} - {{ wycieczka!.DataZakonczenia }}</p>
+    <p>Cena: {{ wycieczka!.CenaJednostkowa }} zł</p>
+    <p>Opis: {{ wycieczka!.DlugiOpis }}</p>
+    <p>Dostępne miejsca: {{ wycieczka!.IloscMiejsc || 0}} / {{ wycieczka!.MaxIloscMiejsc || 0 }}</p>
     <div class="buttons">
-      <button *ngIf="this.wycieczka?.IloscMiejsc! > 0" (click)="reservePlace(wycieczka)">+</button>
-      <button *ngIf="cart.getReservedNum(wycieczka) > 0" (click)="cancelReservation(wycieczka)">-</button>
+      <button *ngIf="this.wycieczka?.IloscMiejsc! > 0" (click)="reservePlace(wycieczka!)">+</button>
+      <button *ngIf="cart.getReservedNum(wycieczka!) > 0" (click)="cancelReservation(wycieczka!)">-</button>
     </div>
 </div>
 <button (click)="openFormModal()" class="add-rev">Dodaj opinię</button>
-<div *ngIf="reviews.has(tripId) && reviews.get(tripId)!.length > 0">
+<div *ngIf="reviews.length > 0">
   <h2>Opinie:</h2>
-  <div *ngFor="let review of reviews.get(tripId)" class="review">
+  <div *ngFor="let review of reviews" class="review">
     <p><strong>NICK:</strong> {{ review.nick }}</p>
     <p><strong>Nazwa:</strong> {{ review.name }}</p>
     <div class="star-container">

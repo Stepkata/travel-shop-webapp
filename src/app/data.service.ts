@@ -19,6 +19,7 @@ export class DataService {
   history$: Observable<HistoryItem[]>;
   reviews$: Observable<Review[]>;
   photos$: Observable<Photo[]>;
+  serial$: Observable<any[]>;
 
   tripsCollection: any;
   historyCollection:any;
@@ -32,36 +33,85 @@ export class DataService {
   cart$ = this.cartSubject.asObservable();
 
 
-  constructor(private http: HttpClient, private db: AngularFirestore){
+  constructor(private db: AngularFirestore){
     let cart: Cart = new Cart();
     this.updateCart(cart);
 
-    this.tripsCollection = this.db.collection<Photo>('Zdjecia');
+    this.tripsCollection = this.db.collection<Wycieczka>('Wycieczka');
     this.historyCollection = this.db.collection<HistoryItem>('Historia');
     this.reviewsCollection = this.db.collection<Review>('Recenzje');
-    this.photosCollection = this.db.collection<Wycieczka>('Wycieczka');
+    this.photosCollection = this.db.collection<Photo>('Zdjecia');
 
-    this.photos$ = this.tripsCollection.valueChanges();
+    this.trips$ = this.tripsCollection.valueChanges();
     this.history$ = this.historyCollection.valueChanges();
     this.reviews$ = this.reviewsCollection.valueChanges();
-    this.trips$ = this.photosCollection.valueChanges();  
+    this.photos$ = this.photosCollection.valueChanges(); 
+
+    this.serial$ = this.db.collection<any>("Serial").doc("serial").valueChanges()
 
     console.log("Data constructor!");
   }
 
   addNewTrip(wycieczka:Wycieczka, zdjecia:Photo[]){
-    this.tripsCollection.add({ ...wycieczka });
+    this.tripsCollection.doc(wycieczka.Id.toString()).set({ ...wycieczka });
     for (const zdjecie of zdjecia){
       this.photosCollection.add({ ...zdjecie });
     }
   }
 
   updateIloscMiejsc(_id: number, nowaIlosc: number){
-    this.tripsCollection.doc(_id).update({"IloscMiejsc": nowaIlosc});
+    this.tripsCollection.doc(_id.toString()).update({"IloscMiejsc": nowaIlosc});
+  }
+
+  updateSerial(nextInd: number){
+    this.db.collection<any>("Serial").doc("serial").update({"index": nextInd});
+  }
+
+  updateRating(_id: number){
+    let ratings: Review[] = [];
+    this.reviews$.subscribe((data) => {
+      ratings = data.filter(item => item.tripId === _id);
+      let rating = 0;
+      for (const rev of ratings){
+        rating += rev.rating;
+      }
+      rating = rating/ratings.length;
+      this.tripsCollection.doc(_id.toString()).update({"Ocena": rating});
+    });
   }
 
   deleteTrip(_id:number){
-    this.tripsCollection.doc(_id).delete();
+    this.tripsCollection.doc(_id.toString()).delete();
+    this.deleteDocumentByField("Zdjecia", "tripId", _id).catch((error) => {
+      console.error(error);
+    });
+    this.deleteDocumentByField("Recenzje", "tripId", _id).catch((error) => {
+      console.error(error);
+    }); 
+  }
+
+  deleteDocumentByField(collectionName: string, fieldName: string, value: any): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.db
+        .collection(collectionName, (ref) => ref.where(fieldName, '==', value))
+        .get()
+        .subscribe((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.db
+              .collection(collectionName)
+              .doc(doc.id)
+              .delete()
+              .then(() => {
+                console.log('Document successfully deleted!');
+                resolve();
+              })
+              .catch((error) => {
+                console.error('Error deleting document: ', error);
+                reject(error);
+              });
+          });
+        });
+    });
   }
 
   addReview(review: Review){
@@ -72,9 +122,7 @@ export class DataService {
     this.historyCollection.add({...history})
   }
 
-  
   updateCart(data:Cart){
     this.cartSubject.next(data);
   }
-
 }

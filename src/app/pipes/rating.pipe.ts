@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Wycieczka } from '../structures/wycieczka.model';
+import { DataService } from '../data.service';
 
 @Pipe({
   name: 'rating'
@@ -14,16 +15,8 @@ export class RatingPipe implements PipeTransform {
       return tours;
     }
     return tours.filter(tour => {
-      let avg = this.getAverage(tour.Rating);
-      return avg >= minInclusive && avg <= maxInclusive;                                                                    
+      return tour.Ocena >= minInclusive && tour.Ocena <= maxInclusive;                                                                    
       });
     }
 
-  getAverage(rate: number[]){
-    let sum = 0;
-    for (const n of rate){
-      sum += n;
-    }
-    return sum/rate.length;
-  }
 }

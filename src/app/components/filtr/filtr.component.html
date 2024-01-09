@@ -1,4 +1,4 @@
-<form [formGroup]="filtrForm" (ngSubmit)="onSave()" (ngModelChange)="onSave()">
+<form *ngIf="!isLoading" [formGroup]="filtrForm" (ngSubmit)="onSave()" (ngModelChange)="onSave()">
     <label>Lokalizacja:</label>
     <select multiple formControlName="lokalizacja" ngModel>
       <option *ngFor="let lok of lokalizacja" value="{{lok}}">{{ lok }}</option>
@@ -16,7 +16,7 @@
   
     <label>Ocena:</label>
     <mat-slider min="0" max="5" discrete > 
-      <input matSliderThumb formControlName="ocenaMin" >
+      <input matSliderStartThumb formControlName="ocenaMin" >
       <input matSliderEndThumb formControlName="ocenaMax">
     </mat-slider>
   

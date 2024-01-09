@@ -9,4 +9,5 @@ export interface Wycieczka {
     IloscMiejsc: number;
     Opis: string;
     DlugiOpis: string;
+    Ocena: number;
   }
