@@ -6,6 +6,7 @@ import { Cart } from '../../structures/cart';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewFormComponent } from '../review-form/review-form.component';
 import { Review } from '../../structures/review';
+import { Photo } from '../../structures/photo';
 
 
 @Component({
@@ -14,12 +15,13 @@ import { Review } from '../../structures/review';
   styleUrl: './wycieczka.component.css'
 })
 export class WycieczkaComponent implements OnInit{
-  wycieczka: any;
-  tripId: number = 0;
-  bought: Map<Wycieczka, number> = new Map();
-  reviews: Map<number, Review[]> = new Map();
   trips: Wycieczka[] = [];
+  photos: Photo[] = [];
+  reviews: Review[] = [];
   cart: Cart = new Cart();
+
+  tripId: number = 0;
+  wycieczka: Wycieczka | null = null;
 
   rating: number = 0;
   starCount: number = 5;
@@ -41,8 +43,20 @@ export class WycieczkaComponent implements OnInit{
       if (data == null)
         console.log("null!");
       else{
-        this.wycieczka = data.find(item => item.Id == this.tripId);
+        this.wycieczka = data.find(item => item.Id == this.tripId) || null;
         this.trips = data;
+      }
+    });
+
+    this.DataService.photos$.subscribe((data) => {
+      if (data != null){
+        this.photos = data;
+      }
+    });
+
+    this.DataService.reviews$.subscribe((data) => {
+      if (data != null){
+        this.reviews = data;
       }
     });
 
@@ -55,27 +69,13 @@ export class WycieczkaComponent implements OnInit{
           DataZakonczenia: "",
           CenaJednostkowa: 0,
           MaxIloscMiejsc: 0,
+          IloscMiejsc: 0,
           Opis: "",
-          DlugiOpis: "",
-          Zdjecie:"",
-          DodatkoweZdjecia: [],
-          Rating: []
+          DlugiOpis: ""
       }
     };
 
     this.rating = this.getRating();
-    
-    this.DataService.bought$.subscribe((data) => {
-      if (data != null){
-        this.bought = data;
-      }
-    });
-
-    this.DataService.review$.subscribe((data) => {
-      if (data != null){
-        this.reviews = data;
-      }
-    });
 
     this.DataService.cart$.subscribe((data) => {
       if (data != null){
@@ -85,9 +85,11 @@ export class WycieczkaComponent implements OnInit{
   }
 
   reservePlace(wycieczka: Wycieczka): void {
-    if ( this.cart.getReservedNum(wycieczka) + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
+    if ( this.wycieczka?.IloscMiejsc! > 0){
       this.cart.addItem(wycieczka);
       this.DataService.updateCart(this.cart);
+      let newIlosc = wycieczka.IloscMiejsc - 1;
+      this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
   }
 
@@ -95,25 +97,19 @@ export class WycieczkaComponent implements OnInit{
     if (this.cart.getReservedNum(wycieczka) > 0) {
         this.cart.removeItem(wycieczka);
         this.DataService.updateCart(this.cart);
+        let newIlosc = wycieczka.IloscMiejsc + 1;
+      this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
-  }
-  getRating(): number{
-    if (!this.wycieczka.Rating)
-      return 0;
-    let sum = 0;
-    for (const r of this.wycieczka.Rating){
-      sum += r;
-    }
-    return sum/this.wycieczka.Rating.length;
   }
 
-  onClick(rating:number) {
-    console.log(rating)
-    this.rating = rating;
-    this.wycieczka.Rating.push(this.rating);
-    this.trips[this.tripId-1] = this.wycieczka;
-    this.DataService.updateTrips(this.trips);
-    return false;
+  getRating(): number{
+    console.log("home rating");
+    let sum = 0;
+    let oceny = this.reviews.filter(item => item.tripId === this.tripId);
+    for (const r of oceny){
+      sum += r.rating;
+    }
+    return sum/oceny.length;
   }
 
   showIcon(index:number, rating:number=this.rating) {
@@ -127,7 +123,7 @@ export class WycieczkaComponent implements OnInit{
   getSlides(wycieczka:Wycieczka){
     if (!wycieczka)
       return;
-    return [wycieczka.Zdjecie, ...wycieczka.DodatkoweZdjecia];
+    return this.photos.filter(item => item.tripId === this.tripId);
   }
 
   openFormModal(): void {
@@ -141,16 +137,7 @@ export class WycieczkaComponent implements OnInit{
         console.log('Modal zamykany. Wynik:', result);
         result.tripId = this.tripId;
         result.userId = 0;
-        if (this.reviews.has(this.tripId)){
-          this.reviews.get(this.tripId)?.push(result);
-        } else{
-          this.reviews.set(this.tripId, [result]);
-        }
-        this.DataService.updateReviews(this.reviews);
-        this.rating = result.rating;
-        this.wycieczka.Rating.push(this.rating);
-        this.trips[this.tripId-1] = this.wycieczka;
-        this.DataService.updateTrips(this.trips);
+        this.DataService.addReview(result);
       },
       (reason) => {
         console.log('Modal odrzucony. Powód:', reason);

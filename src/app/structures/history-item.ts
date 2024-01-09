@@ -1,7 +1,7 @@
 import { Wycieczka } from "./wycieczka.model";
 
 export interface HistoryItem {
-    Trip: Wycieczka;
+    TripId: number;
     Amount: number;
     Total: number;
     dateSold: Date;

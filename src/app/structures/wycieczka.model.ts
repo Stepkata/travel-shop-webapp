@@ -6,9 +6,7 @@ export interface Wycieczka {
     DataZakonczenia: string;
     CenaJednostkowa: number;
     MaxIloscMiejsc: number;
+    IloscMiejsc: number;
     Opis: string;
     DlugiOpis: string;
-    Zdjecie: string;
-    DodatkoweZdjecia: [];
-    Rating: number[];
   }

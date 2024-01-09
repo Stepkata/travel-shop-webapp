@@ -31,7 +31,7 @@ import { ReviewFormComponent } from './components/review-form/review-form.compon
 import { SlicePagesPipe } from './pipes/slice-pages.pipe';
 import { AngularFireModule } from "@angular/fire/compat";
 import { environment } from '../environments/environment';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore/';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [
@@ -67,7 +67,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore/';
     MatCheckboxModule, 
     CarouselModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
   ],
   providers: [
     provideClientHydration(),

@@ -1,22 +1,23 @@
+import { DataService } from "../data.service";
 import { Wycieczka } from "./wycieczka.model";
 
 export class CartItem {
-    trip: Wycieczka; // Assuming you have a Trip class or interface
     id: number;
+    price: number;
     reservedNum: number;
     total: number;
     checked: boolean;
   
-    constructor(trip: Wycieczka) {
-      this.trip = trip;
-      this.id = trip.Id;
+    constructor(tripId: number, price: number) {
+      this.id = tripId;
+      this.price = price;
       this.reservedNum = 1;
       this.total = this.getTotal();
       this.checked = true;
     }
 
     getTotal(){
-        return this.reservedNum * this.trip.CenaJednostkowa;
+        return this.reservedNum * this.price;
     }
 
     addItem(){

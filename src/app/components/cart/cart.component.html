@@ -8,7 +8,7 @@
             <mat-checkbox [checked]="cartItem.checked" (change)="onChangeCheckbox(cartItem)"> Include </mat-checkbox>
         </div>
         <div class="buttons">
-            <button *ngIf="cartItem.reservedNum + this.bought.get(cartItem.trip)! < cartItem.trip.MaxIloscMiejsc" (click)="reservePlace(cartItem.trip, $event)">+</button>
+            <button *ngIf="getTrip(cartItem.id).IloscMiejsc > 0" (click)="reservePlace(cartItem.trip, $event)">+</button>
             <button *ngIf="cartItem.reservedNum > 0" (click)="cancelReservation(cartItem.trip, $event)">-</button>
             <button (click)="buy(cartItem.trip)">KUP TERAZ</button>
         </div>

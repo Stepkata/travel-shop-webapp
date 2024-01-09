@@ -5,10 +5,12 @@ import { CartComponent } from './components/cart/cart.component';
 import { WycieczkaComponent } from './components/wycieczka/wycieczka.component';
 import { WycieczkiViewComponent } from './components/wycieczki-view/wycieczki-view.component';
 import { HistoryComponent } from './components/history/history.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 const routes: Routes = [
   {path:'', component:  HomeComponent},
   {path:'cart-page', component: CartComponent},
+  {path: 'wycieczki/add', component: ToolbarComponent},
   {path: 'wycieczki', component: WycieczkiViewComponent},
   { path: 'wycieczki/:id', component: WycieczkaComponent },
   { path: 'historia', component: HistoryComponent}

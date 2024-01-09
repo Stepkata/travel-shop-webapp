@@ -7,11 +7,11 @@
 <div class="history-container"> 
     <div *ngFor="let histItem of history | hist: filterState" [ngClass]="{'hist-item': true}">
         <div class="info">
-            <p>{{ histItem.Trip.Nazwa | uppercase }} </p>
-            <p> Kraj: {{ histItem.Trip.Kraj }}</p>
-            <p>Data: {{histItem.Trip.DataRozpoczecia}} - {{histItem.Trip.DataZakonczenia}}</p>
+            <p>{{ getTrip(histItem).Nazwa | uppercase }} </p>
+            <p> Kraj: {{ getTrip(histItem).Kraj }}</p>
+            <p>Data: {{getTrip(histItem).DataRozpoczecia}} - {{getTrip(histItem).DataZakonczenia}}</p>
             <p>Ilość: {{ histItem.Amount }}</p>
-            <p>Subtotal: {{ histItem.Trip.CenaJednostkowa * histItem.Amount  }}</p>
+            <p>Subtotal: {{ histItem.Total  }}</p>
             <p>Kupiono: {{ histItem.dateSold }}</p>
         </div>
 

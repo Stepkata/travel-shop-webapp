@@ -13,7 +13,7 @@ export class Cart{
         let item = this.items.find(obj => obj.id === wycieczka.Id)
 
         if (item === undefined){
-            this.items.push(new CartItem(wycieczka));
+            this.items.push(new CartItem(wycieczka.Id, wycieczka.CenaJednostkowa));
         } else{
             item.addItem();
         }
@@ -23,7 +23,7 @@ export class Cart{
         let item = this.items.find(obj => obj.id === wycieczka.Id)
 
         if (item === undefined){
-            this.items.push(new CartItem(wycieczka));
+            this.items.push(new CartItem(wycieczka.Id, wycieczka.CenaJednostkowa));
         } else{
             item.removeItem();
             if (item.reservedNum == 0){
@@ -33,7 +33,11 @@ export class Cart{
     }
 
     removeItemFromCart(wycieczka: Wycieczka){
-        let indexToRemove = this.items.findIndex(obj => obj.id === wycieczka.Id);
+        this._removeItemFromCart(wycieczka.Id);
+    }
+
+    _removeItemFromCart(id: number){
+        let indexToRemove = this.items.findIndex(obj => obj.id === id);
 
         if (indexToRemove !== -1) {
             this.items.splice(indexToRemove, 1);
@@ -71,12 +75,12 @@ export class Cart{
             return null
         } else{
             let newEntry: HistoryItem = {
-                Trip: item.trip,
+                TripId: item.id,
                 Amount: item.reservedNum,
                 Total: item.getTotal(),
                 dateSold: new Date()
               }
-            this.removeItemFromCart(item.trip);
+            this._removeItemFromCart(item.id);
             return newEntry;
         }
     }
@@ -86,12 +90,12 @@ export class Cart{
         let history: HistoryItem[] = [];
         for (const item of itemsToBuy){
             let newEntry: HistoryItem = {
-                Trip: item.trip,
+                TripId: item.id,
                 Amount: item.reservedNum,
                 Total: item.getTotal(),
                 dateSold: new Date()
               }
-            this.removeItemFromCart(item.trip);
+            this._removeItemFromCart(item.id);
             history.push(newEntry)
         }
         return history;

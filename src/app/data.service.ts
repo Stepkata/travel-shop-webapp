@@ -1,83 +1,80 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Wycieczka } from './structures/wycieczka.model';
 import { HistoryItem } from './structures/history-item';
 import { Cart } from './structures/cart';
 
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { Review } from './structures/review';
+import { Photo } from './structures/photo';
+
 @Injectable({
   providedIn: 'root'
 })
 
 export class DataService {
-  constructor(private http: HttpClient){
-    let trips: Wycieczka[] = [];
-    let bought: Map<any, number> = new Map();
-    let reviews: Map<number, string[]> = new Map();
+  trips$: Observable<Wycieczka[]>;
+  history$: Observable<HistoryItem[]>;
+  reviews$: Observable<Review[]>;
+  photos$: Observable<Photo[]>;
 
-    let cart: Cart = new Cart();
-    this.updateCart(cart);
-
-    let photos: any;
-    this.http.get<any>('assets/photos.json').subscribe(data => {
-      photos = data;
-    });
-
-    this.http.get<Wycieczka[]>('assets/wycieczki.json').subscribe(data => {
-      trips = data.map((wycieczka, index) => ({
-        ...wycieczka,
-        Id: index + 1,
-        DodatkoweZdjecia: photos!.find((item: { Id: number; Photos: []}) => item.Id === index+1)!.Photos || [],
-        Rating: [],
-      }));
-    });
-    this.updateTrips(trips);
-
-    for (const wycieczka of trips) {
-      bought.set(wycieczka, 0);
-      reviews.set(wycieczka.Id, []);
-    }
-    this.updateBought(bought);
-    console.log("Data constructor!");
-  }
-
-
-  private tripsSubject = new BehaviorSubject<any>(null);
-  trips$ = this.tripsSubject.asObservable();
-  
-  private historySubject = new BehaviorSubject<any>(null);
-  history$ = this.historySubject.asObservable();
+  tripsCollection: any;
+  historyCollection:any;
+  reviewsCollection:any;
+  photosCollection:any;
 
   private boughtSubject = new BehaviorSubject<any>(null);
   bought$ = this.boughtSubject.asObservable();
 
-  private reviewSubject = new BehaviorSubject<any>(null);
-  review$ = this.reviewSubject.asObservable();
-
   private cartSubject = new BehaviorSubject<any>(null);
   cart$ = this.cartSubject.asObservable();
 
-  updateTrips(data:any) {
-    this.tripsSubject.next(data);
-    console.log("update trips");
-    console.log(this.tripsSubject.getValue());
+
+  constructor(private http: HttpClient, private db: AngularFirestore){
+    let cart: Cart = new Cart();
+    this.updateCart(cart);
+
+    this.tripsCollection = this.db.collection<Photo>('Zdjecia');
+    this.historyCollection = this.db.collection<HistoryItem>('Historia');
+    this.reviewsCollection = this.db.collection<Review>('Recenzje');
+    this.photosCollection = this.db.collection<Wycieczka>('Wycieczka');
+
+    this.photos$ = this.tripsCollection.valueChanges();
+    this.history$ = this.historyCollection.valueChanges();
+    this.reviews$ = this.reviewsCollection.valueChanges();
+    this.trips$ = this.photosCollection.valueChanges();  
+
+    console.log("Data constructor!");
   }
 
-  updateHistory(data:any) {
-    this.historySubject.next(data);
+  addNewTrip(wycieczka:Wycieczka, zdjecia:Photo[]){
+    this.tripsCollection.add({ ...wycieczka });
+    for (const zdjecie of zdjecia){
+      this.photosCollection.add({ ...zdjecie });
+    }
   }
 
-  updateBought(data:any) {
-    this.boughtSubject.next(data);
+  updateIloscMiejsc(_id: number, nowaIlosc: number){
+    this.tripsCollection.doc(_id).update({"IloscMiejsc": nowaIlosc});
   }
 
+  deleteTrip(_id:number){
+    this.tripsCollection.doc(_id).delete();
+  }
+
+  addReview(review: Review){
+    this.reviewsCollection.add({...review});
+  }
+
+  addHistory(history: HistoryItem){
+    this.historyCollection.add({...history})
+  }
+
+  
   updateCart(data:Cart){
     this.cartSubject.next(data);
-  }
-
-  updateReviews(data:any){
-    this.reviewSubject.next(data);
   }
 
 }

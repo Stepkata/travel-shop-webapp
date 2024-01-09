@@ -12,6 +12,8 @@ import { PricePipe } from '../../pipes/price.pipe';
 import { RatingPipe } from '../../pipes/rating.pipe';
 import { SlicePagesPipe } from '../../pipes/slice-pages.pipe';
 import { Cart } from '../../structures/cart';
+import { Photo } from '../../structures/photo';
+import { Review } from '../../structures/review';
 
 
 @Component({
@@ -27,10 +29,11 @@ import { Cart } from '../../structures/cart';
 })
 export class WycieczkiViewComponent {
   wycieczki: Wycieczka[] = [];
+  zdjecia: Photo[] = [];
+  reviews: Review[] = [];
 
   cheapest_trip: any;
   expensive_trip: any;
-  bought: Map<Wycieczka, number> = new Map();
   cart: Cart = new Cart();
 
 
@@ -67,9 +70,15 @@ export class WycieczkiViewComponent {
         this.cart = data;
       }
     });
-    this.DataService.bought$.subscribe((data) => {
+    this.DataService.photos$.subscribe((data) => {
       if (data != null){
-        this.bought = data;
+        this.zdjecia = data;
+      }
+    });
+
+    this.DataService.reviews$.subscribe((data) => {
+      if (data != null){
+        this.reviews = data;
       }
     });
 
@@ -82,20 +91,27 @@ export class WycieczkiViewComponent {
   }
 
   reservePlace(wycieczka: Wycieczka, event:any): void {
-    if ( this.cart.getReservedNum(wycieczka) + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
+    if ( wycieczka.IloscMiejsc > 0){
       this.cart.addItem(wycieczka);
       this.DataService.updateCart(this.cart);
+      let newIlosc = wycieczka.IloscMiejsc - 1;
+      this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
     event.stopPropagation()
-
   }
 
   cancelReservation(wycieczka: Wycieczka,  event:any): void {
+    this._cancelReservation(wycieczka);
+    event.stopPropagation()
+  }
+
+  _cancelReservation(wycieczka: Wycieczka): void {
     if (this.cart.getReservedNum(wycieczka) > 0) {
         this.cart.removeItem(wycieczka);
         this.DataService.updateCart(this.cart);
+        let newIlosc = wycieczka.IloscMiejsc + 1;
+      this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
-    event.stopPropagation()
   }
 
   findCheapestOption(): void {
@@ -123,38 +139,12 @@ export class WycieczkiViewComponent {
   }
 
   deleteTrip(wycieczka: Wycieczka): void{
-    const index = this.wycieczki.indexOf(wycieczka);
-    if (index > -1){
-      this.wycieczki.splice(index, 1);
-    }
-    this.DataService.updateTrips(this.wycieczki)
-    this.cart.removeItemFromCart(wycieczka);
-    this.DataService.updateCart(this.cart);
-  
-    this.updateSpecialTrips();
-  }
-
-  openFormModal(): void {
-    const modalRef = this.modalService.open(ToolbarComponent, {
-      centered: true,
-      windowClass: 'modal-custom',
-    });
-
-    modalRef.result.then(
-      (result) => {
-        console.log('Modal zamykany. Wynik:', result);
-        result.Rating = [];
-        result.Id = this.wycieczki.length + 1;
-        this.wycieczki.push(result);
-        this.DataService.updateTrips(this.wycieczki);
-        this.updateSpecialTrips();
-        this.bought.set(result, 0);
-        this.DataService.updateBought(this.bought);
-      },
-      (reason) => {
-        console.log('Modal odrzucony. Powód:', reason);
-      }
-    );
+    let numReserved = this.cart.getReservedNum(wycieczka);
+        for (let i=0; i<numReserved; i++){
+          this._cancelReservation(wycieczka);
+        }
+    this.DataService.deleteTrip(wycieczka.Id); //@TODO: check
+    this.ngOnInit();
   }
 
   openFilterModal(): void {
@@ -195,10 +185,11 @@ export class WycieczkiViewComponent {
   getRating(wycieczka: Wycieczka): number{
     console.log("home rating");
     let sum = 0;
-    for (const r of wycieczka.Rating){
-      sum += r;
+    let oceny = this.reviews.filter(item => item.tripId === wycieczka.Id);
+    for (const r of oceny){
+      sum += r.rating;
     }
-    return sum/wycieczka.Rating.length;
+    return sum/oceny.length;
   }
 
   showIcon(wycieczka:Wycieczka, index:number) {

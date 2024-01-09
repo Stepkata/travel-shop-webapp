@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import { HistoryItem } from '../../structures/history-item';
 import { HistoryStatePipe } from '../../pipes/history-state.pipe';
+import { Wycieczka } from '../../structures/wycieczka.model';
 
 @Component({
   selector: 'app-history',
@@ -11,6 +12,7 @@ import { HistoryStatePipe } from '../../pipes/history-state.pipe';
 })
 export class HistoryComponent implements OnInit{
   history: HistoryItem[] = [];
+  trips: Wycieczka[] = [];
   starCount: number = 5;
   ratingArr:any = [];
   filterState: number | null = null;
@@ -28,12 +30,16 @@ export class HistoryComponent implements OnInit{
         console.log("null!");
       this.history = data;
     });
+    this.DataService.trips$.subscribe((data) => {
+      if (data != null)
+        this.trips = data;
+    });
     console.log("oninit!");
   }
 
   getState(item: HistoryItem){
-    const startDate = new Date(item.Trip.DataRozpoczecia);
-    const endDate = new Date(item.Trip.DataZakonczenia);
+    const startDate = new Date(this.getTrip(item).DataRozpoczecia);
+    const endDate = new Date(this.getTrip(item).DataZakonczenia);
     const currentDate = new Date();
 
     if (currentDate < startDate)
@@ -42,6 +48,10 @@ export class HistoryComponent implements OnInit{
       return 2;
     else 
       return 1;
+  }
+
+  getTrip(item: HistoryItem): Wycieczka{
+    return this.trips.find(i => i.Id === item.TripId)!
   }
 
   toggleFilterState(state: number) {

@@ -18,7 +18,7 @@
     </c-carousel>
     <h3>{{ wycieczka.Nazwa | uppercase }}</h3>
     <div class="star-container">
-        <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" (click)="onClick(i+1)" class="star-button">
+        <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" class="star-button">
             <mat-icon>
               {{showIcon(i)}}
             </mat-icon>
@@ -29,9 +29,9 @@
     <p>Data: {{ wycieczka.DataRozpoczecia }} - {{ wycieczka.DataZakonczenia }}</p>
     <p>Cena: {{ wycieczka.CenaJednostkowa }} zł</p>
     <p>Opis: {{ wycieczka.DlugiOpis }}</p>
-    <p>Dostępne miejsca: {{ wycieczka.MaxIloscMiejsc - (cart.getReservedNum(wycieczka) + ( this.bought.get(wycieczka) || 0))}} / {{ wycieczka.MaxIloscMiejsc }}</p>
+    <p>Dostępne miejsca: {{ wycieczka.IloscMiejsc }} / {{ wycieczka.MaxIloscMiejsc }}</p>
     <div class="buttons">
-      <button *ngIf="cart.getReservedNum(wycieczka) + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc" (click)="reservePlace(wycieczka)">+</button>
+      <button *ngIf="this.wycieczka?.IloscMiejsc! > 0" (click)="reservePlace(wycieczka)">+</button>
       <button *ngIf="cart.getReservedNum(wycieczka) > 0" (click)="cancelReservation(wycieczka)">-</button>
     </div>
 </div>

@@ -4,6 +4,7 @@ import { Wycieczka } from '../../structures/wycieczka.model';
 import { HistoryItem } from '../../structures/history-item';
 import { Cart } from '../../structures/cart';
 import { CartItem } from '../../structures/cart-item';
+import { Photo } from '../../structures/photo';
 
 @Component({
   selector: 'app-cart',
@@ -11,8 +12,9 @@ import { CartItem } from '../../structures/cart-item';
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
-  bought: Map<Wycieczka, number> = new Map();
+  trips: Wycieczka[] = [];
   cart: Cart = new Cart();
+  photos: Photo[] = [];
 
   constructor( private DataService: DataService) { 
     }
@@ -23,18 +25,25 @@ export class CartComponent {
         this.cart = data;
       }
     });
-    this.DataService.bought$.subscribe((data) => {
+    this.DataService.trips$.subscribe((data) => {
       if (data != null){
-        this.bought = data;
+        this.trips = data;
       }
     });
-
+    this.DataService.photos$.subscribe((data) => {
+      if (data != null){
+        this.photos = data;
+      }
+    });
+    
   }
 
   reservePlace(wycieczka: Wycieczka, event:any): void {
-    if ( this.cart.getReservedNum(wycieczka) + this.bought.get(wycieczka)! < wycieczka.MaxIloscMiejsc){
+    if ( wycieczka.IloscMiejsc > 0){
       this.cart.addItem(wycieczka);
       this.DataService.updateCart(this.cart);
+      let newIlosc = wycieczka.IloscMiejsc - 1;
+      this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
     event.stopPropagation()
 
@@ -44,37 +53,17 @@ export class CartComponent {
     if (this.cart.getReservedNum(wycieczka) > 0) {
         this.cart.removeItem(wycieczka);
         this.DataService.updateCart(this.cart);
+        let newIlosc = wycieczka.IloscMiejsc + 1;
+        this.DataService.updateIloscMiejsc(wycieczka.Id, newIlosc);
     }
     event.stopPropagation()
   }
 
   buy(wycieczka: Wycieczka){
-    let history: HistoryItem[] = [];
-    this.DataService.history$.subscribe((data) => {
-      if (data != null){
-        history = data;
-      }
-    })
-
     let newEntry: HistoryItem | null = this.cart.buy(wycieczka);
     if (newEntry === null)
       return;
-    history.push(newEntry);
-    this.DataService.updateHistory(history);
-
-    let bought: Map<Wycieczka, number> = new Map();
-    this.DataService.bought$.subscribe((data) => {
-      if (data != null){
-        bought = data;
-      }
-    })
-    let alreadyBought = 0;
-    if (bought.has(wycieczka)){
-      alreadyBought = bought.get(wycieczka)!;
-    }
-    bought.set(wycieczka, alreadyBought + newEntry.Amount);
-    this.DataService.updateBought(bought);
-
+    this.DataService.addHistory(newEntry);
   }
 
   buyAll(){
@@ -86,26 +75,13 @@ export class CartComponent {
         history = data;
       }
     })
-    history.push(...newHistory);
-    console.log("History", history);
-    this.DataService.updateHistory(history);
+    for (const item of newHistory)
+      this.DataService.addHistory(item);
 
-    let bought: Map<Wycieczka, number> = new Map();
-    this.DataService.bought$.subscribe((data) => {
-      if (data != null){
-        bought = data;
-      }
-    })
+  }
 
-    for (const item of newHistory){
-      let alreadyBought = 0;
-      if (bought.has(item.Trip)){
-        alreadyBought = bought.get(item.Trip)!;
-      }
-      bought.set(item.Trip, alreadyBought + item.Amount);
-      this.DataService.updateBought(bought);
-    }
-
+  getTrip(id: number): Wycieczka{
+    return this.trips.find(i => i.Id === id)!
   }
 
   onChangeCheckbox(cartItem: CartItem){

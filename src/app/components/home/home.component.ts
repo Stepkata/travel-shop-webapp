@@ -24,27 +24,6 @@ export class HomeComponent implements OnInit{
         console.log("null!");
       this.history = data;
     });
-    setInterval(() => {
-      this.tripOncoming();
-    }, 10);
   }
 
-  tripOncoming(): void {
-    if (!this.history || this.history.length === 0){
-      this.oncoming =  false;
-      return
-    }
-    for (const item of this.history){
-      const startDate = new Date(item.Trip.DataRozpoczecia);
-      const currentDate = new Date();
-      const timeDifference = startDate.getTime() - currentDate.getTime();
-      const daysDifference = timeDifference / (1000 * 3600 * 24);
-
-      // Check if the trip is oncoming (within the next 5 days)
-      if (daysDifference >= 0 && daysDifference <= 5) {
-        this.oncoming = true;
-      }
-    }
-    this.oncoming = false;
-  }
 }
