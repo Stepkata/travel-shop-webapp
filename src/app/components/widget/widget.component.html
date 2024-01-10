@@ -4,6 +4,6 @@
         <p>{{ cartItem.trip.Nazwa }}:  {{ cartItem.reservedNum }}</p>
     </div>
     <div class="total">
-        {{cart.getTotal()}}
+        {{(cart.getTotal()/ rate) | currency:getCurrency()}}
     </div>
 </div>

@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewFormComponent } from '../review-form/review-form.component';
 import { Review } from '../../structures/review';
 import { Photo } from '../../structures/photo';
+import { time } from 'console';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class WycieczkaComponent implements OnInit{
   rating: number = 0;
   starCount: number = 5;
   ratingArr:any = [];
+
+  rate: number = 1;
 
   constructor(private DataService: DataService, private route: ActivatedRoute, private modalService: NgbModal) { 
     console.log("wycieczka constructor!");
@@ -76,6 +79,12 @@ export class WycieczkaComponent implements OnInit{
         this.cart = data;
       }
     });
+
+    this.DataService.rate$.subscribe((data) => {
+      if (data != null){
+        this.rate = data;
+      }
+    });
   }
 
   reservePlace(): void {
@@ -123,6 +132,29 @@ export class WycieczkaComponent implements OnInit{
         console.log('Modal odrzucony. Powód:', reason);
       }
     );
+  }
+
+  getFormatedDate(timestamp: any){
+    if (!timestamp)
+      return null;
+    const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    
+    return formattedDate;
+  }
+
+  getCurrency(){
+    if (this.rate == 4.5){
+      return 'EUR';
+    }
+    if (this.rate == 4){
+      return 'USD';
+    }
+    if (this.rate == 5){
+      return 'GBP';
+    }
+    return 'PLN';
   }
 }
 

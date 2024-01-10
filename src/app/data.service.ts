@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, interval } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { BehaviorSubject, Observable} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { Wycieczka } from './structures/wycieczka.model';
 import { HistoryItem } from './structures/history-item';
 import { Cart } from './structures/cart';
@@ -30,10 +28,14 @@ export class DataService {
   private cartSubject = new BehaviorSubject<any>(null);
   cart$ = this.cartSubject.asObservable();
 
+  private rateSubject = new BehaviorSubject<any>(null);
+  rate$ = this.rateSubject.asObservable();
+
 
   constructor(private db: AngularFirestore){
     let cart: Cart = new Cart();
     this.updateCart(cart);
+    this.updateRate(1);
 
     this.tripsCollection = this.db.collection<Wycieczka>('Wycieczka');
     this.historyCollection = this.db.collection<HistoryItem>('Historia');
@@ -124,4 +126,7 @@ export class DataService {
     this.cartSubject.next(data);
   }
 
+  updateRate(data:number){
+    this.rateSubject.next(data);
+  }
 }

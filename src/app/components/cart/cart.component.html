@@ -4,7 +4,7 @@
         <div class="info">
             <a href="#" [routerLink]="['/wycieczki', cartItem.trip.Id]"> {{ cartItem.trip.Nazwa | uppercase }} </a>
             <p> Ilość miejsc: {{ cartItem.reservedNum}}</p>
-            <p>Subtotal: {{ cartItem.getTotal() }}</p>
+            <p>Subtotal: {{ (cartItem.getTotal() * rate) | currency:getCurrency()}}</p>
             <mat-checkbox [checked]="cartItem.checked" (change)="onChangeCheckbox(cartItem)"> Include </mat-checkbox>
         </div>
         <div class="buttons">
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="total">
-        {{cart.getTotal()}}
+        {{(cart.getTotal()/ rate) | currency:getCurrency()}}
     </div>
     <button (click)="buyAll()">KUP WSZYSTKIE</button>
 </div>

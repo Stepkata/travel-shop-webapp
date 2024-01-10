@@ -17,6 +17,7 @@ export class CartComponent {
   cart: Cart = new Cart();
   photos: Photo[] = [];
   isLoading: boolean = true;
+  rate: number = 1;
 
   constructor( private DataService: DataService) { 
     }
@@ -43,7 +44,11 @@ export class CartComponent {
       photosLoading = false;
       this.isLoading = photosLoading || tripsLoading ;
     });
-
+    this.DataService.rate$.subscribe((data) => {
+      if (data != null){
+        this.rate = data;
+      }
+    });
   }
 
   reservePlace(wycieczka: Wycieczka, event:any): void {
@@ -100,6 +105,19 @@ export class CartComponent {
 
   onChangeCheckbox(cartItem: CartItem){
     cartItem.checked = !cartItem.checked;
+  }
+
+  getCurrency(){
+    if (this.rate == 4.5){
+      return 'EUR';
+    }
+    if (this.rate == 4){
+      return 'USD';
+    }
+    if (this.rate == 5){
+      return 'GBP';
+    }
+    return 'PLN';
   }
 
 }

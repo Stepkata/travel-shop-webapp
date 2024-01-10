@@ -55,6 +55,8 @@ export class WycieczkiViewComponent {
 
   isLoading: boolean = true;
 
+  rate: number = 1;
+
 
   constructor(private http: HttpClient, private DataService: DataService, private modalService: NgbModal) { 
     for (let index = 0; index < this.starCount; index++) {
@@ -95,6 +97,12 @@ export class WycieczkiViewComponent {
       reviewsLoading = false;
       this.isLoading = photosLoading || tripsLoading || reviewsLoading;
     });
+
+    this.DataService.rate$.subscribe((data) => {
+      if (data != null){
+        this.rate = data;
+      }
+    })
   }
 
   updateSpecialTrips(): void {
@@ -223,6 +231,24 @@ export class WycieczkiViewComponent {
     if (!photo || photo.length == 0)
       return "";
     return photo[0].url;
+  }
+
+  getCurrency(){
+    if (this.rate == 4.5){
+      return 'EUR';
+    }
+    if (this.rate == 4){
+      return 'USD';
+    }
+    if (this.rate == 5){
+      return 'GBP';
+    }
+    return 'PLN';
+  }
+
+  setRate(rate:number){
+    this.rate = rate;
+    this.DataService.updateRate(rate);
   }
 
 

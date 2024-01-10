@@ -17,6 +17,7 @@ export class HistoryComponent implements OnInit{
   ratingArr:any = [];
   filterState: number | null = null;
   isLoading: boolean = true;
+  rate: number = 1;
 
   constructor(private DataService: DataService) { 
     console.log("constructor!");
@@ -31,6 +32,11 @@ export class HistoryComponent implements OnInit{
         console.log("null!");
       this.history = data;
       this.isLoading = false;
+    });
+    this.DataService.rate$.subscribe((data) => {
+      if (data != null){
+        this.rate = data;
+      }
     });
   }
 
@@ -57,6 +63,19 @@ export class HistoryComponent implements OnInit{
     const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     
     return formattedDate;
+  }
+
+  getCurrency(){
+    if (this.rate == 4.5){
+      return 'EUR';
+    }
+    if (this.rate == 4){
+      return 'USD';
+    }
+    if (this.rate == 5){
+      return 'GBP';
+    }
+    return 'PLN';
   }
 
 }

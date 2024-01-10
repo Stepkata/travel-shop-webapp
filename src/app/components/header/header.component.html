@@ -1,12 +1,34 @@
 <header>
     <div class="container">
-        <div class="left-menu">
+        <c-dropdown *ngIf="isSmallScreen">       
+            <button cButton cDropdownToggle style="color: black;" class="profile">
+                <img src = "assets/logo.svg" alt="Logo"/>
+            </button>
+            <ul cDropdownMenu>
+                <li>
+                    <a href="#" routerLink="/" class="oferta">HOME</a>
+                </li>
+                <li>
+                    <a href="#" routerLink="/wycieczki" class="oferta">OFERTA</a>
+                </li>
+                <li>
+                    <a href="#"> profil </a>
+                </li>
+                <li>
+                    <a href="#" routerLink="/historia"><mat-icon>history</mat-icon> historia </a>
+                </li>
+                <li>
+                    <a href="#">WYLOGUJ SIĘ</a>
+                </li>
+            </ul>
+        </c-dropdown>
+        <div class="left-menu" *ngIf="!isSmallScreen">
             <img src = "assets/logo.svg" alt="Logo"/>
             <a href="#" routerLink="/" class="logo">WYCIECZKI</a>
             <a href="#" routerLink="/wycieczki" class="oferta">OFERTA</a>
         </div>
         <div class="buttons">
-            <c-dropdown>
+            <c-dropdown *ngIf="!isSmallScreen">
                 
                 <button cButton cDropdownToggle style="color: black;" class="profile">
                     <mat-icon>face</mat-icon>

@@ -27,7 +27,7 @@
     </div>
     <p>Kraj: {{ wycieczka!.Kraj | uppercase }}</p>
     <p>Data: {{ wycieczka!.DataRozpoczecia }} - {{ wycieczka!.DataZakonczenia }}</p>
-    <p>Cena: {{ wycieczka!.CenaJednostkowa }} zł</p>
+    <p>Cena: {{ (wycieczka!.CenaJednostkowa / rate) | currency:getCurrency() }}</p>
     <p>Opis: {{ wycieczka!.DlugiOpis }}</p>
     <p>Dostępne miejsca: {{ wycieczka!.IloscMiejsc- cart.getReservedNum(wycieczka!) || 0}} / {{ wycieczka!.MaxIloscMiejsc || 0 }}</p>
     <div class="buttons">
@@ -49,7 +49,7 @@
         </button>
     </div>  
     <p><strong>Recenzja:</strong> {{ review.reviewText }}</p>
-    <p><strong>Data zakupu:</strong> {{ review.purchaseDate || "---" }}</p>
+    <p><strong>Data zakupu:</strong> {{ getFormatedDate(review.purchaseDate)|| "---" }}</p>
     <hr>
 
   </div>

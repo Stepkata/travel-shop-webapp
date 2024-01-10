@@ -12,7 +12,7 @@
             <p>Data: {{ histItem.startDate }} - {{histItem.endDate}}</p>
             <p>Opis: {{ histItem.Description }}</p>
             <p>Ilość: {{ histItem.Amount }}</p>
-            <p>Subtotal: {{ histItem.Total  }}</p>
+            <p>Subtotal: {{ (histItem.Total / rate) | currency:getCurrency() }}</p>
             <p>Kupiono: {{ getFormatedDate(histItem.dateSold) }}</p>
         </div>
 

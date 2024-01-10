@@ -17,6 +17,16 @@
     </div>
 </div>
 
+<div class="page-control">
+    <h4>Waluta</h4>
+    <div class="paginate">
+        <button [ngClass]="{'pag': true, 'pag-active': rate===1}" (click)="setRate(1)">PLN</button>
+        <button [ngClass]="{'pag': true, 'pag-active': rate===4.5}" (click)="setRate(4.5)">EUR</button>
+        <button [ngClass]="{'pag': true, 'pag-active': rate===4}" (click)="setRate(4)">USD</button>
+        <button [ngClass]="{'pag': true, 'pag-active': rate===5}" (click)="setRate(5)">GBP</button>
+    </div>
+</div>
+
 <div *ngIf="!isLoading" class="wycieczki-container">
     <div *ngFor="let wycieczka of wycieczki | country: filterCountry | date: filterStartDate: filterEndDate | price: filterMinPrice: filterMaxPrice | rating: filterMinRating : filterMaxRating | slicePages: currentPage*amountToShow:  (currentPage+1)*amountToShow" [ngClass]="{'wycieczka': true}">
         <div [routerLink]="['/wycieczki', wycieczka.Id]">
@@ -32,7 +42,7 @@
                 <h3>{{ wycieczka.Nazwa | uppercase }}</h3>
                 <p>Kraj: {{ wycieczka.Kraj | uppercase }}</p>
                 <p>Data: {{ wycieczka.DataRozpoczecia }} - {{ wycieczka.DataZakonczenia }}</p>
-                <p>Cena: {{ wycieczka.CenaJednostkowa }} zł</p>
+                <p>Cena: {{ (wycieczka.CenaJednostkowa / rate) | currency:getCurrency()}} </p>
                 <p>Opis: {{ wycieczka.Opis }}</p>
                 <p>Dostępne miejsca: {{ wycieczka.IloscMiejsc - this.cart.getReservedNum(wycieczka) }} / {{ wycieczka.MaxIloscMiejsc }}</p>
                 <div class="buttons">
