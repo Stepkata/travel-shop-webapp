@@ -24,12 +24,13 @@
 .wizytowka{
   background: rgba(122,158,159,0.6);
   border-radius: 20px;
-  padding: 20px;
+  padding: 40px;
   width: 1000px;
-  height: 180px;
+  height: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-around;
 }
 
 .full-offer{
