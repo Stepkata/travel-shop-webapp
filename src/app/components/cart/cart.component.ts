@@ -5,7 +5,6 @@ import { HistoryItem } from '../../structures/history-item';
 import { Cart } from '../../structures/cart';
 import { CartItem } from '../../structures/cart-item';
 import { Photo } from '../../structures/photo';
-import { isLoading } from 'expo-font';
 
 @Component({
   selector: 'app-cart',

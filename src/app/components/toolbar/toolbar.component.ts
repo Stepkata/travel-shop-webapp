@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../data.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Wycieczka } from '../../structures/wycieczka.model';
 import { Photo } from '../../structures/photo';
-import { now } from 'sequelize/types/utils';
 
 @Component({
   selector: 'app-toolbar',
