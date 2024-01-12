@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Wycieczka } from '../structures/wycieczka.model';
-import { DataService } from '../data.service';
+import { DataService } from '../services/data.service';
 
 @Pipe({
   name: 'rating'

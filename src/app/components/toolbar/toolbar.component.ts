@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DataService } from '../../data.service';
+import { DataService } from '../../services/data.service';
 import { Wycieczka } from '../../structures/wycieczka.model';
 import { Photo } from '../../structures/photo';
 

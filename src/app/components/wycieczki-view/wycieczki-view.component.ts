@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DataService } from '../../data.service';
-import { ToolbarComponent } from '../toolbar/toolbar.component';
+import { DataService } from '../../services/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Wycieczka } from '../../structures/wycieczka.model';
 import { FiltrComponent } from '../filtr/filtr.component';
-
 import { CountryPipe } from '../../pipes/country.pipe';
 import { DatePipe } from '@angular/common';
 import { PricePipe } from '../../pipes/price.pipe';
@@ -14,7 +12,6 @@ import { SlicePagesPipe } from '../../pipes/slice-pages.pipe';
 import { Cart } from '../../structures/cart';
 import { Photo } from '../../structures/photo';
 import { Review } from '../../structures/review';
-import { max } from 'rxjs';
 
 
 @Component({

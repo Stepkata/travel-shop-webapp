@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../data.service';
+import { DataService } from '../../services/data.service';
 import { HistoryItem } from '../../structures/history-item';
 import { HistoryStatePipe } from '../../pipes/history-state.pipe';
 import { Wycieczka } from '../../structures/wycieczka.model';

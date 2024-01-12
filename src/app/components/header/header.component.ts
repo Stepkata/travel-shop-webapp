@@ -1,7 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { DataService } from '../../data.service';
+import { DataService } from '../../services/data.service';
 import { Cart } from '../../structures/cart';
 import { HistoryItem } from '../../structures/history-item';
+import { AccountService } from '../../services/account.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,9 +11,10 @@ import { HistoryItem } from '../../structures/history-item';
 export class HeaderComponent implements OnInit{
   cart: Cart = new Cart();
   isSmallScreen = false;
+  isLoggedIn: boolean = false;
 
-  constructor( private DataService: DataService) { 
-    }
+  constructor( private DataService: DataService, private AccountService: AccountService) { 
+  }
 
   ngOnInit(): void {
       this.DataService.cart$.subscribe((data) => {
@@ -20,6 +22,11 @@ export class HeaderComponent implements OnInit{
           this.cart = data;
         }
       });
+    this.AccountService.isLoggedIn$.subscribe((data) => {
+      if (data != null){
+        this.isLoggedIn = data;
+      }
+    });
   }
 
   @HostListener('window:resize', ['$event'])

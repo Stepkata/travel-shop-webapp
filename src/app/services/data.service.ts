@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable} from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Wycieczka } from './structures/wycieczka.model';
-import { HistoryItem } from './structures/history-item';
-import { Cart } from './structures/cart';
+import { Wycieczka } from '../structures/wycieczka.model';
+import { HistoryItem } from '../structures/history-item';
+import { Cart } from '../structures/cart';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Review } from './structures/review';
-import { Photo } from './structures/photo';
+import { Review } from '../structures/review';
+import { Photo } from '../structures/photo';
 
 @Injectable({
   providedIn: 'root'

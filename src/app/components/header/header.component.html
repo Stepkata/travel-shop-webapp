@@ -28,7 +28,21 @@
             <a href="#" routerLink="/wycieczki" class="oferta">OFERTA</a>
         </div>
         <div class="buttons">
-            <c-dropdown *ngIf="!isSmallScreen">
+            <c-dropdown *ngIf="!isSmallScreen && !isLoggedIn">
+                
+                <button cButton cDropdownToggle style="color: black;" class="profile">
+                    <mat-icon>face</mat-icon>
+                </button>
+                <ul cDropdownMenu>
+                    <li>
+                        <a href="#" routerLink="/login">ZALOGUJ SIĘ </a>
+                    </li>
+                    <li>
+                        <a href="#" routerLink="/register">ZAREJESTRUJ SIĘ </a>
+                    </li>
+                </ul>
+            </c-dropdown>
+            <c-dropdown *ngIf="!isSmallScreen && isLoggedIn">
                 
                 <button cButton cDropdownToggle style="color: black;" class="profile">
                     <mat-icon>face</mat-icon>

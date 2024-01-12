@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Wycieczka } from '../../structures/wycieczka.model';
-import { DataService } from '../../data.service';
+import { DataService } from '../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Cart } from '../../structures/cart';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

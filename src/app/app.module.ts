@@ -32,6 +32,12 @@ import { SlicePagesPipe } from './pipes/slice-pages.pipe';
 import { AngularFireModule } from "@angular/fire/compat";
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { AdminViewComponent } from './components/admin-view/admin-view.component';
+import { ManagerViewComponent } from './components/manager-view/manager-view.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +59,10 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     HistoryStatePipe,
     ReviewFormComponent,
     SlicePagesPipe,
+    LoginComponent,
+    RegisterComponent,
+    AdminViewComponent,
+    ManagerViewComponent,
   ],
   imports: [ 
     HttpClientModule,
@@ -68,13 +78,17 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     CarouselModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    AngularFireAuthModule,
+    
   ],
   providers: [
     provideClientHydration(),
+    
   ],
   bootstrap: [AppComponent],
   exports: [
     FormsModule,
+    
   ]
 })
 export class AppModule { } 

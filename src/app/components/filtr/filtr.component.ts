@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { DataService } from '../../data.service';
+import { DataService } from '../../services/data.service';
 import { Wycieczka } from '../../structures/wycieczka.model';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
