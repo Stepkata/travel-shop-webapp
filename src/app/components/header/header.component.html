@@ -48,13 +48,18 @@
                 
                 <button cButton cDropdownToggle style="color: black;" class="profile">
                     <mat-icon>face</mat-icon>
+                    <mat-icon *ngIf="oncoming">announcement</mat-icon>
                 </button>
                 <ul cDropdownMenu>
                     <li>
                         <a href="#"> profil </a>
                     </li>
                     <li>
-                        <a href="#" routerLink="/historia"><mat-icon>history</mat-icon> historia </a>
+                        <a href="#" routerLink="/historia">
+                            <mat-icon>history</mat-icon> 
+                            historia  
+                            <mat-icon *ngIf="oncoming">announcement</mat-icon> 
+                        </a>
                     </li>
                     <li>
                         <a href="#">WYLOGUJ SIĘ</a>

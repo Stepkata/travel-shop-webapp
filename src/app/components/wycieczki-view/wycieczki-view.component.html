@@ -53,8 +53,11 @@
                 {{wycieczka === cheapest_trip ? 'OKAZJA!' : wycieczka === expensive_trip ? 'WYSOKA PÓŁKA' : ''}}
             </div>
 
-            <div [ngClass]="{'hidden': true, 'almost-gone': wycieczka.IloscMiejsc < 4}">
+            <div [ngClass]="{'hidden': true, 'almost-gone': wycieczka.IloscMiejsc- this.cart.getReservedNum(wycieczka) < 4 && wycieczka.IloscMiejsc- this.cart.getReservedNum(wycieczka) > 0 }">
                 OSTATNIE MIEJSCA!
+            </div>
+            <div [ngClass]="{'hidden': true, 'almost-gone': wycieczka.IloscMiejsc- this.cart.getReservedNum(wycieczka) == 0}">
+                BRAK MIEJSC!
             </div>
         </div>
     </div>
