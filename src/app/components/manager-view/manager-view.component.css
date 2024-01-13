@@ -1,0 +1,127 @@
+
+.wycieczki-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: space-around;
+    padding: 10px 50px;
+  }
+
+.wycieczka {
+    border: none;
+    padding: 15px;
+    margin: 30px;
+    width: 300px; 
+    text-align: center;
+    border-radius: 30px;
+    background-color: white;
+    position: relative;
+    box-shadow: rgba(122,158,159,0.2) 0px 1px 3px 0px, rgba(122,158,159,0.6) 0px 1px 2px 0px;
+  }
+
+.wycieczka:hover {
+    transform: scale(1.1); 
+  }
+
+.round-image {
+    border-radius: 50%;
+    width: 100px;  
+    height: 100px; 
+    margin: 10px
+  }
+
+.star-button{
+  background-color: white;
+  border: none;
+  box-shadow: none;
+  color: rgba(122,158,159,0.6);
+  padding: 5px;
+}
+
+.hidden{
+  display: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  top: 8%;
+  color: white;
+  padding: 3px;
+  z-index: 1000;
+  position: absolute;
+}
+
+.expensive {
+  display: block;
+  background-color: #9DDF63;
+}
+
+.cheapest {
+  display: block;
+  background-color: #FE5F55;
+}
+
+.almost-gone{
+  display: block;
+  background-color: #FE5F55;
+  top: 15%;
+}
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 20px;
+}
+  
+.page-control{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.paginate{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin: 5px;
+}
+
+.pag{
+  font-size: smaller;
+  background-color: white;
+  border: 1px solid #9DDF63;
+  color: #4F6367;
+  margin: 3px;
+  padding: 2px;
+  width: 30px;
+}
+
+.pag-active{
+  border: 1px solid rgb(245, 213, 7);
+}
+
+h4{
+  margin: 0;
+  font-size: small;
+  font-style: italic;
+  color: rgba(122,158,159,0.6);
+}
+
+.hidden-border{
+  background: none;
+  border: none;
+  border-radius: 20px;
+  width: 270px; 
+  padding: 10px;
+}
+
+.cheapest-border{
+  border: 2px solid #FE5F55;
+}
+
+.expensive-border{
+  border: 2px solid #9DDF63;
+}

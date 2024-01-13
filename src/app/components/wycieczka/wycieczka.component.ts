@@ -124,7 +124,7 @@ export class WycieczkaComponent implements OnInit{
       (result) => {
         console.log('Modal zamykany. Wynik:', result);
         result.tripId = this.tripId;
-        result.userId = 0;
+        result.userId = "0";
         this.DataService.addReview(result);
         this.DataService.updateRating(this.tripId);
       },

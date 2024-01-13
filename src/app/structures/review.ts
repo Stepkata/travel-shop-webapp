@@ -1,6 +1,6 @@
 export interface Review {
     tripId: number;
-    userId: number;
+    userId: string;
     nick: string;
     name: string;
     rating: number;

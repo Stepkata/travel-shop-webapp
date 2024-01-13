@@ -118,6 +118,38 @@ export class DataService {
     this.reviewsCollection.add({...review});
   }
 
+  deleteReview(tripId: number, userId: string){
+    this.deleteDocumentByFields("Recenzje", "tripId", tripId, "userId", userId).catch((error) => {
+      console.error(error);
+    }); 
+  }
+
+  deleteDocumentByFields(collectionName: string, field1Name: string, value1: any, field2Name: string, value2: any): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.db
+        .collection(collectionName, (ref) => {
+          return ref.where(field1Name, '==', value1).where(field2Name, '==', value2);
+        })
+        .get()
+        .subscribe((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.db
+              .collection(collectionName)
+              .doc(doc.id)
+              .delete()
+              .then(() => {
+                console.log('Document successfully deleted!');
+                resolve();
+              })
+              .catch((error) => {
+                console.error('Error deleting document: ', error);
+                reject(error);
+              });
+          });
+        });
+    });
+  }
+
   addHistory(history: HistoryItem){
     this.historyCollection.add({...history})
   }

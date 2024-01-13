@@ -10,16 +10,26 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AngularFireAuthGuard } from '@angular/fire/compat/auth-guard';
 import { authGuard } from './guard/auth.guard';
+import { AdminViewComponent } from './components/admin-view/admin-view.component';
+import { ManagerViewComponent } from './components/manager-view/manager-view.component';
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
+import { AdminReviewsComponent } from './components/admin-reviews/admin-reviews.component';
+import { EditTripComponent } from './components/edit-trip/edit-trip.component';
 
 const routes: Routes = [
   {path:'', component:  HomeComponent},
   {path:'cart-page', component: CartComponent, canActivate:[authGuard]},
-  {path: 'wycieczki/add', component: ToolbarComponent, canActivate:[authGuard]},
+  {path: 'wycieczki/add', component: ToolbarComponent},
   {path: 'wycieczki', component: WycieczkiViewComponent},
   { path: 'wycieczki/:id', component: WycieczkaComponent, canActivate:[authGuard] },
   { path: 'historia', component: HistoryComponent, canActivate:[authGuard]},
   { path: 'login', component: LoginComponent},
-  { path: 'register', component: RegisterComponent}
+  { path: 'register', component: RegisterComponent},
+  { path: 'admin', component: AdminViewComponent},
+  { path: 'manager', component: ManagerViewComponent},
+  { path: 'admin/users', component: AdminUsersComponent},
+  { path: 'admin/reviews', component: AdminReviewsComponent},
+  { path: 'manager/edit/:id', component: EditTripComponent}
 ];
 
 @NgModule({

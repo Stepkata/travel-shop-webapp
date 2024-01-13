@@ -1,5 +1,4 @@
 <div class="buttons">
-    <button  [routerLink]="['/wycieczki', 'add']" class="add-trip">Dodaj wycieczkę</button>
     <button (click)="openFilterModal()" class="filter">Filtruj</button>
     <button (click)="clearFilters()" class="clear-filter">Wyczyść filtry</button>
       
@@ -48,7 +47,6 @@
                 <div class="buttons">
                     <button *ngIf="wycieczka.IloscMiejsc - this.cart.getReservedNum(wycieczka) > 0" (click)="reservePlace(wycieczka, $event)">+</button>
                     <button *ngIf="cart.getReservedNum(wycieczka) > 0" (click)="cancelReservation(wycieczka, $event)">-</button>
-                    <button class="delete" (click)="deleteTrip(wycieczka, $event)">DELETE</button>
                 </div>
             </div>
             <div [ngClass]="{'hidden': true, 'cheapest': wycieczka === cheapest_trip, 'expensive': wycieczka === expensive_trip}">

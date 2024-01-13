@@ -75,7 +75,7 @@ export class AccountService {
     this.userCollection.doc(user.Uid).update({"Rola": role});
   }
 
-  ban(user: User){
-    this.userCollection.doc(user.Uid).update({"Ban": true});
+  ban(_id: string){
+    this.userCollection.doc(_id).update({"Ban": true});
   }
 }

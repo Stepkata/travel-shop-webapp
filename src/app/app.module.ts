@@ -38,6 +38,9 @@ import { RegisterComponent } from './components/register/register.component';
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AdminViewComponent } from './components/admin-view/admin-view.component';
 import { ManagerViewComponent } from './components/manager-view/manager-view.component';
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
+import { AdminReviewsComponent } from './components/admin-reviews/admin-reviews.component';
+import { EditTripComponent } from './components/edit-trip/edit-trip.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,9 @@ import { ManagerViewComponent } from './components/manager-view/manager-view.com
     RegisterComponent,
     AdminViewComponent,
     ManagerViewComponent,
+    AdminUsersComponent,
+    AdminReviewsComponent,
+    EditTripComponent,
   ],
   imports: [ 
     HttpClientModule,

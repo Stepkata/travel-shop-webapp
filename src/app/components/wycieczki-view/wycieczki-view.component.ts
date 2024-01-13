@@ -151,15 +151,6 @@ export class WycieczkiViewComponent {
     }
   }
 
-  deleteTrip(wycieczka: Wycieczka, event: any): void{
-    let numReserved = this.cart.getReservedNum(wycieczka);
-        for (let i=0; i<numReserved; i++){
-          this._cancelReservation(wycieczka);
-        }
-    this.DataService.deleteTrip(wycieczka.Id); //@TODO: check
-    event.stopPropagation();
-  }
-
   openFilterModal(): void {
     const modalRef = this.modalService.open(FiltrComponent, {
       centered: true,

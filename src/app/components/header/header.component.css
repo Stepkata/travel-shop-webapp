@@ -72,9 +72,13 @@ li{
 .left-menu{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     box-sizing: content-box;
+}
+
+.left-menu a{
+    margin: 0 10px;
 }
 
 img{

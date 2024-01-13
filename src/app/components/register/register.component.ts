@@ -34,6 +34,7 @@ export class RegisterComponent {
           Uid: userCredential.user!.uid,
           Imie: this.registerForm.value.Imie,
           Nazwisko: this.registerForm.value.Nazwisko,
+          Email: this.registerForm.value.Email,
           Rola: "user",
           Ban: false
         };
