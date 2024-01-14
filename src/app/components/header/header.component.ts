@@ -18,28 +18,36 @@ export class HeaderComponent implements OnInit{
   isLoading: boolean = true;
   comingStart: string = "";
   comingName: string = "";
+  userId: string = "";
+  userName: string = "";
 
   constructor( private DataService: DataService, private AccountService: AccountService) { 
   }
 
   ngOnInit(): void {
-    this.DataService.history$.subscribe((data) => {
-      if (data == null)
-        console.log("null!");
-      this.history = data;
-      this.checkTripNotif();
-      this.isLoading = false;
-    });
-      this.DataService.cart$.subscribe((data) => {
-        if (data != null){
-          this.cart = data;
-        }
-      });
     this.AccountService.isLoggedIn$.subscribe((data) => {
       if (data != null){
         this.isLoggedIn = data;
       }
     });
+    this.AccountService.activeUser$.subscribe((data) => {
+      if(data!=null)
+        this.userId = data;   
+      this.DataService.history$.subscribe((data) => {
+            if (data != null)
+              this.history = data.filter(item => item.UserId == this.userId);
+          });
+          this.isLoading = false;
+      });
+      this.DataService.cart$.subscribe((data) => {
+          if (data != null){
+            this.cart = data;
+          }
+      });
+    this.AccountService.activeUserName$.subscribe((data) => {
+      if (data != null)
+        this.userName = data;
+    })
   }
 
   @HostListener('window:resize', ['$event'])

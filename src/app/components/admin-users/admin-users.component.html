@@ -1,1 +1,13 @@
-<p>admin-users works!</p>
+
+<div *ngIf="!isLoading" class="container">
+    <div *ngFor="let user of this.users" class="user">
+        <p>USERS</p>
+        <p>Name: {{ user.Imie }}</p>
+        <p>Surname: {{ user.Nazwisko }}</p>
+        <p>Email: {{ user.Email }}</p>
+        
+        <button (click)="toggleBan(user)"> {{ user.Ban ? 'Unban' : 'Ban' }} </button>
+        <mat-checkbox [checked]="user.isAdmin" (change)="toggleAdmin(user, !user.isAdmin)"> Administrator </mat-checkbox>
+        <mat-checkbox [checked]="user.isManager" (change)="toggleManager(user, !user.isManager)"> Manager </mat-checkbox>
+    </div>
+</div>

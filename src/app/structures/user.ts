@@ -1,8 +1,9 @@
-export class User {
-    Uid?: string;
-    Imie?: string;
-    Nazwisko?: string;
-    Email?: string;
-    Rola?: string;
-    Ban?: boolean;
+export interface User {
+    Uid: string;
+    Imie: string;
+    Nazwisko: string;
+    Email: string;
+    isAdmin: boolean;
+    isManager: boolean;
+    Ban: boolean;
 }

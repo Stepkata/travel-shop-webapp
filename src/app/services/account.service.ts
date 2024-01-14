@@ -9,8 +9,10 @@ import { Router } from '@angular/router';
 })
 export class AccountService {
   
-  private activeUserSubject = new BehaviorSubject<User | null>(null);
-  public activeUser$: Observable<any> | null = this.activeUserSubject.asObservable();
+  private activeUserSubject = new BehaviorSubject<string>("");
+  public activeUser$: Observable<string> = this.activeUserSubject.asObservable();
+  private activeUserNameSubject = new BehaviorSubject<string>("");
+  public activeUserName$: Observable<string> = this.activeUserNameSubject.asObservable();
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
@@ -25,42 +27,29 @@ export class AccountService {
   logIn(credentials: any){
     this.isLoggedIn = true;
     this.isLoggedInSubject.next(true);
-    console.log("Logged In!");
-    console.log(this.checkLogin());
     this.router.navigate(['']);
-    this.getUser(credentials.user.uid).then((result: User) => {
-      this.activeUserSubject.next(result);
-      console.log("CREDENTIALS!");
-    }).catch((error: any) => {
-      // Handle the error here
-    });
+    this.activeUserSubject.next(credentials.user.uid);
+    let username: string = ""
+    this.all_users$.subscribe((data) => {
+      let user: User| any = null;
+      if (data != null){
+        user = data.find(item => item.Uid == credentials.user.uid);
+        if (user){
+          username = user.Imie;
+          this.activeUserNameSubject.next(username);
+      }
+      }
+    })
   }
 
   logOut(){
-    this.activeUserSubject.next(null);
+    this.activeUserSubject.next("");
     this.isLoggedInSubject.next(false);
     this.isLoggedIn = false;
   }
 
   checkLogin(){
     return this.isLoggedIn;
-  }
-
-  getUser(uid: string){
-    const docRef = this.userCollection.doc(uid);
-    return docRef.get().then((docSnapshot: { exists: any; data: () => any; }) => {
-      if (docSnapshot.exists) {
-        const data = docSnapshot.data();
-        console.log('Document data:', data);
-        return data;
-      } else {
-        console.log('Document does not exist.');
-        return null;
-      }
-    }).catch((error: any) => {
-      console.error('Error getting document:', error);
-      throw error;
-    });
   }
 
   createUser(user: User){
@@ -71,8 +60,16 @@ export class AccountService {
     this.userCollection.doc(user.Uid).delete();
   }
 
-  changeRole(user: User, role:string){
-    this.userCollection.doc(user.Uid).update({"Rola": role});
+  changeAdmin(user: User, isAdmin: boolean){
+    this.userCollection.doc(user.Uid).update({"isAdmin": isAdmin});
+  }
+
+  changeManager(user: User, isManager: boolean){
+    this.userCollection.doc(user.Uid).update({"isManager": isManager});
+  }
+
+  changeBan(user: User, isBanned: boolean){
+    this.userCollection.doc(user.Uid).update({"Ban": isBanned});
   }
 
   ban(_id: string){

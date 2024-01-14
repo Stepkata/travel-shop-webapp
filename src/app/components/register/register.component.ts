@@ -35,7 +35,8 @@ export class RegisterComponent {
           Imie: this.registerForm.value.Imie,
           Nazwisko: this.registerForm.value.Nazwisko,
           Email: this.registerForm.value.Email,
-          Rola: "user",
+          isAdmin: false,
+          isManager: false,
           Ban: false
         };
         

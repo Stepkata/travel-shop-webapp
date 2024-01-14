@@ -3,7 +3,7 @@
       <strong>{{ review.nick }}</strong> ({{ review.name }}) - Rating: {{ review.rating }}
     </div>
     <div>{{ review.reviewText }}</div>
-    <div>Purchase Date: {{ getFormatedDate(review.purchaseDate) }}</div>
+    <div>Purchase Date: {{ review.purchaseDate }}</div>
     <button (click)="removeReview(review.tripId, review.userId)">Remove Review</button>
     <button (click)="banAuthor(review.userId)">Ban Author</button>
     <hr />

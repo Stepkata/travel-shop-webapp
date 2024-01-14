@@ -1,10 +1,13 @@
 import { Wycieczka } from "./wycieczka.model";
 import { CartItem } from "./cart-item";
 import { HistoryItem } from "./history-item";
+import { AccountService } from "../services/account.service";
 
 export class Cart{
     items: CartItem[];
     total: number = 0;
+    userId: string = "";
+    
     constructor(){
         this.items = [];
     }
@@ -68,7 +71,7 @@ export class Cart{
         return this.items.length;
     }
 
-    buy(wycieczka: Wycieczka){
+    buy(wycieczka: Wycieczka, userId:string){
         let item = this.items.find(obj => obj.id === wycieczka.Id)
 
         if (item === undefined || item.checked === false){
@@ -76,6 +79,7 @@ export class Cart{
         } else{
             let newEntry: HistoryItem = {
                 TripId: item.id,
+                UserId: userId,
                 Amount: item.reservedNum,
                 Total: item.getTotal(),
                 Name: item.trip.Nazwa,
@@ -90,12 +94,13 @@ export class Cart{
         }
     }
 
-    buyAll(){
+    buyAll(userId: string){
         let itemsToBuy = this.items.filter(item => item.checked);
         let history: HistoryItem[] = [];
         for (const item of itemsToBuy){
             let newEntry: HistoryItem = {
                 TripId: item.id,
+                UserId: userId,
                 Amount: item.reservedNum,
                 Total: item.getTotal(),
                 Name: item.trip.Nazwa,

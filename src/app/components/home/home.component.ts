@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit{
   comingStart: string = "";
   comingName: string = "";
   
-  constructor(private DataService: DataService, private modalService: NgbModal) { 
+  constructor(private DataService: DataService) { 
   }
 
   ngOnInit(): void {

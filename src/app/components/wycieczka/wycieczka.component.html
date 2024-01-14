@@ -35,7 +35,7 @@
       <button *ngIf="cart.getReservedNum(wycieczka!) > 0" (click)="cancelReservation()">-</button>
     </div>
 </div>
-<button (click)="openFormModal()" class="add-rev">Dodaj opinię</button>
+<button *ngIf="canReview()" (click)="openFormModal()" class="add-rev">Dodaj opinię</button>
 <div *ngIf="reviews.length > 0">
   <h2>Opinie:</h2>
   <div *ngFor="let review of reviews" class="review">
@@ -49,7 +49,7 @@
         </button>
     </div>  
     <p><strong>Recenzja:</strong> {{ review.reviewText }}</p>
-    <p><strong>Data zakupu:</strong> {{ getFormatedDate(review.purchaseDate)|| "---" }}</p>
+    <p><strong>Data zakupu:</strong> {{ review.purchaseDate|| "---" }}</p>
     <hr>
 
   </div>

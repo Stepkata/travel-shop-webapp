@@ -8,6 +8,8 @@ import { ReviewFormComponent } from '../review-form/review-form.component';
 import { Review } from '../../structures/review';
 import { Photo } from '../../structures/photo';
 import { time } from 'console';
+import { AccountService } from '../../services/account.service';
+import { HistoryItem } from '../../structures/history-item';
 
 
 @Component({
@@ -19,9 +21,11 @@ export class WycieczkaComponent implements OnInit{
   trips: Wycieczka[] = [];
   photos: Photo[] = [];
   reviews: Review[] = [];
+  history: HistoryItem[] = [];
   cart: Cart = new Cart();
   isLoading: boolean = true;
 
+  userId: string = "";
   tripId: number = 0;
   wycieczka: Wycieczka | null = null;
 
@@ -31,7 +35,7 @@ export class WycieczkaComponent implements OnInit{
 
   rate: number = 1;
 
-  constructor(private DataService: DataService, private route: ActivatedRoute, private modalService: NgbModal) { 
+  constructor(private DataService: DataService, private route: ActivatedRoute, private modalService: NgbModal, private AccountService: AccountService) { 
     console.log("wycieczka constructor!");
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
@@ -42,10 +46,22 @@ export class WycieczkaComponent implements OnInit{
     let tripsLoading: boolean= true;
     let photosLoading: boolean= true;
     let reviewsLoading: boolean= true;
+    let historyLoading: boolean = true;
 
     this.route.paramMap.subscribe(params => {
       this.tripId = parseInt(params.get('id')!);
     });
+
+    this.AccountService.activeUser$.subscribe((data) => {
+      if(data!=null)
+        this.userId = data;
+      this.DataService.history$.subscribe((data) => {
+          if (data != null)
+            this.history = data.filter(item => item.UserId == this.userId);
+        });
+        historyLoading = false;
+        this.isLoading = photosLoading || tripsLoading || reviewsLoading || historyLoading;
+    })
 
     this.DataService.trips$.subscribe((data: Wycieczka[]) => {
       if (data == null)
@@ -55,14 +71,14 @@ export class WycieczkaComponent implements OnInit{
         this.trips = data;
       }
       tripsLoading = false;
-      this.isLoading = photosLoading || tripsLoading || reviewsLoading;
+      this.isLoading = photosLoading || tripsLoading || reviewsLoading || historyLoading;
     });
 
     this.DataService.photos$.subscribe((data) => {
       if (data != null){
         this.photos = data.filter(item => item.tripId == this.tripId);
       photosLoading = false;
-      this.isLoading = photosLoading || tripsLoading || reviewsLoading;
+      this.isLoading = photosLoading || tripsLoading || reviewsLoading|| historyLoading;
       }
     });
 
@@ -71,7 +87,7 @@ export class WycieczkaComponent implements OnInit{
         this.reviews = data.filter(item => item.tripId === this.tripId);
       }
       reviewsLoading = false;
-      this.isLoading = photosLoading || tripsLoading || reviewsLoading;
+      this.isLoading = photosLoading || tripsLoading || reviewsLoading|| historyLoading;
     });
 
     this.DataService.cart$.subscribe((data) => {
@@ -134,9 +150,9 @@ export class WycieczkaComponent implements OnInit{
     );
   }
 
-  getFormatedDate(timestamp: any){
+  getFormatedDate(timestamp: any): string{
     if (!timestamp)
-      return null;
+      return "";
     const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
 
     const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
@@ -144,7 +160,7 @@ export class WycieczkaComponent implements OnInit{
     return formattedDate;
   }
 
-  getCurrency(){
+  getCurrency(): string{
     if (this.rate == 4.5){
       return 'EUR';
     }
@@ -156,10 +172,10 @@ export class WycieczkaComponent implements OnInit{
     }
     return 'PLN';
   }
-}
 
-export enum StarRatingColor {
-  primary = "primary",
-  accent = "accent",
-  warn = "warn"
+  canReview(): boolean{
+    if (this.history.find(item => item.TripId == this.tripId))
+      return true;
+    else return false;
+  }
 }

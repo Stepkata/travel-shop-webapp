@@ -59,6 +59,16 @@ export class DataService {
     }
   }
 
+  updateEntireTrip(wycieczka:Wycieczka, zdjecia:Photo[]){
+    this.tripsCollection.doc(wycieczka.Id.toString()).set({ ...wycieczka });
+    this.deleteDocumentByField("Zdjecia", "tripId", wycieczka.Id).catch((error) => {
+      console.error(error);
+    });
+    for (const zdjecie of zdjecia){
+      this.photosCollection.add({ ...zdjecie });
+    }
+  }
+
   updateIloscMiejsc(_id: number, nowaIlosc: number){
     this.tripsCollection.doc(_id.toString()).update({"IloscMiejsc": nowaIlosc});
   }
@@ -89,6 +99,7 @@ export class DataService {
       console.error(error);
     }); 
   }
+
 
   deleteDocumentByField(collectionName: string, fieldName: string, value: any): Promise<void> {
     return new Promise<void>((resolve, reject) => {

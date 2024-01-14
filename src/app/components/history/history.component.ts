@@ -3,6 +3,7 @@ import { DataService } from '../../services/data.service';
 import { HistoryItem } from '../../structures/history-item';
 import { HistoryStatePipe } from '../../pipes/history-state.pipe';
 import { Wycieczka } from '../../structures/wycieczka.model';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-history',
@@ -18,8 +19,9 @@ export class HistoryComponent implements OnInit{
   filterState: number | null = null;
   isLoading: boolean = true;
   rate: number = 1;
+  userId: string = "";
 
-  constructor(private DataService: DataService) { 
+  constructor(private DataService: DataService, private AccountService: AccountService) { 
     console.log("constructor!");
     for (let index = 0; index < this.starCount; index++) {
       this.ratingArr.push(index);
@@ -27,12 +29,15 @@ export class HistoryComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.DataService.history$.subscribe((data) => {
-      if (data == null)
-        console.log("null!");
-      this.history = data;
-      this.isLoading = false;
-    });
+    this.AccountService.activeUser$.subscribe((data) => {
+      if(data!=null)
+        this.userId = data;
+      this.DataService.history$.subscribe((data) => {
+          if (data != null)
+            this.history = data.filter(item => item.UserId == this.userId);
+        });
+        this.isLoading = false;
+    })
     this.DataService.rate$.subscribe((data) => {
       if (data != null){
         this.rate = data;

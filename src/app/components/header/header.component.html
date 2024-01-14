@@ -5,6 +5,7 @@
                 <img src = "assets/logo.svg" alt="Logo"/>
             </button>
             <ul cDropdownMenu>
+                {{userName}}
                 <li>
                     <a href="#" routerLink="/" class="oferta">HOME</a>
                 </li>
@@ -47,7 +48,7 @@
             <c-dropdown *ngIf="!isSmallScreen && isLoggedIn">
                 
                 <button cButton cDropdownToggle style="color: black;" class="profile">
-                    <mat-icon>face</mat-icon>
+                    <mat-icon>face</mat-icon> {{userName}}
                     <mat-icon *ngIf="oncoming">announcement</mat-icon>
                 </button>
                 <ul cDropdownMenu>

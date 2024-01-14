@@ -5,6 +5,7 @@ import { HistoryItem } from '../../structures/history-item';
 import { Cart } from '../../structures/cart';
 import { CartItem } from '../../structures/cart-item';
 import { Photo } from '../../structures/photo';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-cart',
@@ -17,13 +18,15 @@ export class CartComponent {
   photos: Photo[] = [];
   isLoading: boolean = true;
   rate: number = 1;
+  userId: string = "";
 
-  constructor( private DataService: DataService) { 
-    }
+  constructor( private DataService: DataService, private AccountService: AccountService) { 
+  }
 
   ngOnInit() {
     let tripsLoading: boolean= true;
     let photosLoading: boolean= true;
+    let accountLoading: boolean = true;
     this.DataService.cart$.subscribe((data) => {
       if (data != null){
         this.cart = data;
@@ -34,15 +37,23 @@ export class CartComponent {
         this.trips = data;
       }
       tripsLoading = false;
-      this.isLoading = photosLoading || tripsLoading ;
+      this.isLoading = photosLoading || tripsLoading || accountLoading;
     });
     this.DataService.photos$.subscribe((data) => {
       if (data != null){
         this.photos = data;
       }
       photosLoading = false;
-      this.isLoading = photosLoading || tripsLoading ;
+      this.isLoading = photosLoading || tripsLoading || accountLoading;
     });
+    this.AccountService.activeUser$?.subscribe((data) =>{
+      if (data != null)
+        this.userId = data;
+      console.log(this.userId);
+      accountLoading = false;
+      this.isLoading = photosLoading || tripsLoading || accountLoading;
+    }
+    )
     this.DataService.rate$.subscribe((data) => {
       if (data != null){
         this.rate = data;
@@ -73,7 +84,7 @@ export class CartComponent {
 
   buy(wycieczka: Wycieczka){
     let newIlosc = wycieczka.IloscMiejsc - this.cart.getReservedNum(wycieczka);
-    let newEntry: HistoryItem | null = this.cart.buy(wycieczka);
+    let newEntry: HistoryItem | null = this.cart.buy(wycieczka, this.userId);
     if (newEntry === null)
       return;
     this.DataService.addHistory(newEntry);
@@ -82,7 +93,7 @@ export class CartComponent {
 
   buyAll(){
     
-    let newHistory: HistoryItem[] = this.cart.buyAll();
+    let newHistory: HistoryItem[] = this.cart.buyAll(this.userId);
     if (!newHistory)
       return;
     for (const item of newHistory){
