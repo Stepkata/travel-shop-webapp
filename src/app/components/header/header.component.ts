@@ -31,8 +31,10 @@ export class HeaderComponent implements OnInit{
       }
     });
     this.AccountService.activeUser$.subscribe((data) => {
-      if(data!=null)
-        this.userId = data;   
+      if(data!=null){
+        this.userId = data.Uid;  
+        this.userName = data.Imie;
+      } 
       this.DataService.history$.subscribe((data) => {
             if (data != null)
               this.history = data.filter(item => item.UserId == this.userId);
@@ -44,10 +46,6 @@ export class HeaderComponent implements OnInit{
             this.cart = data;
           }
       });
-    this.AccountService.activeUserName$.subscribe((data) => {
-      if (data != null)
-        this.userName = data;
-    })
   }
 
   @HostListener('window:resize', ['$event'])

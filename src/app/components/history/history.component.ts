@@ -31,7 +31,7 @@ export class HistoryComponent implements OnInit{
   ngOnInit(): void {
     this.AccountService.activeUser$.subscribe((data) => {
       if(data!=null)
-        this.userId = data;
+        this.userId = data.Uid;
       this.DataService.history$.subscribe((data) => {
           if (data != null)
             this.history = data.filter(item => item.UserId == this.userId);

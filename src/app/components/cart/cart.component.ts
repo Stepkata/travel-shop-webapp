@@ -48,8 +48,7 @@ export class CartComponent {
     });
     this.AccountService.activeUser$?.subscribe((data) =>{
       if (data != null)
-        this.userId = data;
-      console.log(this.userId);
+        this.userId = data.Uid;
       accountLoading = false;
       this.isLoading = photosLoading || tripsLoading || accountLoading;
     }

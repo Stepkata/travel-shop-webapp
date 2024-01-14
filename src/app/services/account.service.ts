@@ -9,10 +9,8 @@ import { Router } from '@angular/router';
 })
 export class AccountService {
   
-  private activeUserSubject = new BehaviorSubject<string>("");
-  public activeUser$: Observable<string> = this.activeUserSubject.asObservable();
-  private activeUserNameSubject = new BehaviorSubject<string>("");
-  public activeUserName$: Observable<string> = this.activeUserNameSubject.asObservable();
+  private activeUserSubject = new BehaviorSubject<User | null>(null);
+  public activeUser$: Observable<User | null> = this.activeUserSubject.asObservable();
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
@@ -28,22 +26,19 @@ export class AccountService {
     this.isLoggedIn = true;
     this.isLoggedInSubject.next(true);
     this.router.navigate(['']);
-    this.activeUserSubject.next(credentials.user.uid);
-    let username: string = ""
     this.all_users$.subscribe((data) => {
       let user: User| any = null;
       if (data != null){
         user = data.find(item => item.Uid == credentials.user.uid);
         if (user){
-          username = user.Imie;
-          this.activeUserNameSubject.next(username);
+          this.activeUserSubject.next(user);
       }
       }
     })
   }
 
   logOut(){
-    this.activeUserSubject.next("");
+    this.activeUserSubject.next(null);
     this.isLoggedInSubject.next(false);
     this.isLoggedIn = false;
   }
@@ -69,10 +64,10 @@ export class AccountService {
   }
 
   changeBan(user: User, isBanned: boolean){
-    this.userCollection.doc(user.Uid).update({"Ban": isBanned});
+    this.ban(user.Uid, isBanned);
   }
 
-  ban(_id: string){
-    this.userCollection.doc(_id).update({"Ban": true});
+  ban(_id: string, isBanned: boolean = true){
+    this.userCollection.doc(_id).update({"Ban": isBanned});
   }
 }

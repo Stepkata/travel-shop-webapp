@@ -10,6 +10,7 @@ import { Photo } from '../../structures/photo';
 import { time } from 'console';
 import { AccountService } from '../../services/account.service';
 import { HistoryItem } from '../../structures/history-item';
+import { User } from '../../structures/user';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class WycieczkaComponent implements OnInit{
   cart: Cart = new Cart();
   isLoading: boolean = true;
 
-  userId: string = "";
+  user: User| null = null;
   tripId: number = 0;
   wycieczka: Wycieczka | null = null;
 
@@ -53,11 +54,10 @@ export class WycieczkaComponent implements OnInit{
     });
 
     this.AccountService.activeUser$.subscribe((data) => {
-      if(data!=null)
-        this.userId = data;
+      this.user = data;
       this.DataService.history$.subscribe((data) => {
           if (data != null)
-            this.history = data.filter(item => item.UserId == this.userId);
+            this.history = data.filter(item => item.UserId == this.user?.Uid);
         });
         historyLoading = false;
         this.isLoading = photosLoading || tripsLoading || reviewsLoading || historyLoading;
@@ -174,6 +174,9 @@ export class WycieczkaComponent implements OnInit{
   }
 
   canReview(): boolean{
+    if (this.user?.isAdmin || this.user?.isManager){
+      return false;
+    }
     if (this.history.find(item => item.TripId == this.tripId))
       return true;
     else return false;
