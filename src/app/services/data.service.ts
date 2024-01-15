@@ -85,10 +85,17 @@ export class DataService {
     this.reviews$.subscribe((data) => {
       ratings = data.filter(item => item.tripId === _id);
       let rating = 0;
+      let num = 0;
       for (const rev of ratings){
-        rating += rev.rating;
+        if (rev.rating >= 0){
+          rating += rev.rating;
+          num++;
+        }
       }
-      rating = rating/ratings.length;
+      if (num == 0)
+        rating= 0;
+      else
+        rating = rating/num;
       this.tripsCollection.doc(_id.toString()).update({"Ocena": rating});
     });
   }
@@ -136,6 +143,7 @@ export class DataService {
     this.deleteDocumentByFields("Recenzje", "tripId", tripId, "userId", userId).catch((error) => {
       console.error(error);
     }); 
+    this.updateRating(tripId);
   }
 
   deleteDocumentByFields(collectionName: string, field1Name: string, value1: any, field2Name: string, value2: any): Promise<void> {

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Review } from '../../structures/review';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-review-form',
@@ -14,11 +15,11 @@ export class ReviewFormComponent {
   errors: string[] = [];
   reviews: Review[] = [];
 
-  constructor(private fb: FormBuilder, public activeModal: NgbActiveModal) {
+  constructor(private fb: FormBuilder, public activeModal: NgbActiveModal, public AccountService:AccountService) {
     this.reviewForm = this.fb.group({
       nick: ['', Validators.required],
       name: ['', Validators.required],
-      rating: [0, Validators.required],
+      rating: [-1, Validators.required],
       reviewText: ['', [Validators.required, Validators.minLength(50), Validators.maxLength(500)]],
       purchaseDate: [''],
     });

@@ -1,5 +1,5 @@
 <!-- review-form.component.html -->
-<form [formGroup]="reviewForm" (ngSubmit)="onSave()">
+<form [formGroup]="reviewForm" (ngSubmit)="onSave()" style="width: auto;">
   <label>NICK:</label>
   <input formControlName="nick" />
   <div *ngIf="reviewForm.get('nick')!.hasError('required') && reviewForm.get('nick')!.touched">
@@ -12,8 +12,8 @@
     <p>Pole jest obowiązkowe</p>
   </div>
 
-  <label>Ocena:</label>
-  <mat-slider min="0" max="5" discrete>
+  <label *ngIf="!AccountService.checkManager()">Ocena:</label>
+  <mat-slider *ngIf="!AccountService.checkManager()" min="0" max="5" discrete>
     <input matSliderThumb formControlName="rating">
   </mat-slider>
 
