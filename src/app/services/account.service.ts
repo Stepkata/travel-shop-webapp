@@ -14,9 +14,10 @@ export class AccountService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
-  public isLoggedIn = false;
-  public isManager = false;
-  public isAdmin = false;
+  private isLoggedIn = false;
+  private isManager = false;
+  private isAdmin = false;
+  private isBanned = false;
   public all_users$: Observable<User[]>;
   userCollection: any;
   constructor(private db: AngularFirestore, private router: Router) { 
@@ -36,6 +37,7 @@ export class AccountService {
           this.activeUserSubject.next(user);
           this.isAdmin = user.isAdmin;
           this.isManager = user.isManager;
+          this.isBanned = user.isBanned;
       }
       }
     })
@@ -57,6 +59,10 @@ export class AccountService {
 
   checkAdmin(){
     return this.isAdmin;
+  }
+
+  checkBanned(){
+    return this.isBanned;
   }
 
   createUser(user: User){
