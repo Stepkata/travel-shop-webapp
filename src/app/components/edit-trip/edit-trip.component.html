@@ -1,4 +1,5 @@
-<form [formGroup]="wycieczkaForm" (ngSubmit)="onSave()">
+<div class="form-container">
+  <form [formGroup]="wycieczkaForm" (ngSubmit)="onSave()">
     <label for="nazwa">Nazwa:</label>
     <input type="text" id="nazwa" formControlName="Nazwa" required>
     <div *ngIf="wycieczkaForm.get('Nazwa')!.hasError('required')">
@@ -56,13 +57,12 @@
     <div formArrayName="DodatkoweZdjecia">
       <label>Dodatkowe Zdjęcia:</label>
       <div *ngFor="let zdjecieControl of dodatkoweZdjeciaArray.controls; let i = index">
-        <input formControlName="{{i}}">
-        <div *ngIf="wycieczkaForm.get('{{i}}')!.hasError('required')">
-          Pole jest wymagane.
-        </div>
+        <input type="text" id="{{i}}" formControlName="{{i}}">
+        <button type="button" (click)="removeDodatkoweZdjecie(i)">Remove Image</button>
       </div>
       <button type="button" (click)="addDodatkoweZdjecie()">Add Image</button>
     </div>
 
     <button type="submit" [disabled]="wycieczkaForm.invalid">Zmień</button>
   </form>
+</div>

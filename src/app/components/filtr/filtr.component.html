@@ -1,4 +1,4 @@
-<form *ngIf="!isLoading" [formGroup]="filtrForm" (ngSubmit)="onSave()" (ngModelChange)="onSave()">
+<form *ngIf="!isLoading" [formGroup]="filtrForm" (ngSubmit)="onSave()" (ngModelChange)="onSave()" style="width: auto;">
     <label>Lokalizacja:</label>
     <select multiple formControlName="lokalizacja" ngModel>
       <option *ngFor="let lok of lokalizacja" value="{{lok}}">{{ lok }}</option>

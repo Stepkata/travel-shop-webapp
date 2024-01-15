@@ -1,8 +1,38 @@
-div {
-    margin-bottom: 20px;
-  }
-  
-strong {
-    color: #007bff; /* Kolor tekstu - niebieski */
-  }
-  
+.container{
+  display: flex;
+  flex-wrap: wrap; 
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.review{
+  border: none;
+  padding: 10px;
+  margin: 30px;
+  width: 800px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 30px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+button {
+  background-color:  #FE5F55;
+}
+
+.star-button{
+  margin: 0;
+  padding: none;
+  background: none;
+  color: rgba(122,158,159,0.6);
+  scale: 0.7;
+  border: none;
+  box-shadow: none;
+}
+
+.star-button:hover{
+background: none;
+}

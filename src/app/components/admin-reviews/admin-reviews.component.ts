@@ -12,7 +12,14 @@ export class AdminReviewsComponent implements OnInit {
   reviews: Review[] = [];
   isLoading = true;
 
-  constructor(private DataService: DataService, private AccountService: AccountService){}
+  starCount: number = 5;
+  ratingArr:any = [];
+
+  constructor(private DataService: DataService, private AccountService: AccountService){
+    for (let index = 0; index < this.starCount; index++) {
+      this.ratingArr.push(index);
+    }
+  }
 
   ngOnInit(): void {
     this.DataService.reviews$.subscribe((data) => {
@@ -21,6 +28,14 @@ export class AdminReviewsComponent implements OnInit {
       }
       this.isLoading = false;
     });
+  }
+
+  showIcon(index:number, rating:number) {
+    if (rating >= index + 1) {
+      return 'star';
+    } else {
+      return 'star_border';
+    }
   }
 
   removeReview(tripId: number, userId:string){

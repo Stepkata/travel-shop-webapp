@@ -1,0 +1,19 @@
+.container{
+    display: flex;
+    flex-wrap: wrap; 
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.user {
+    padding: 20px;
+    width: 40em;
+    box-sizing: border-box;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 20px;
+    margin: 30px;
+}
+
+button {
+    background-color:  #FE5F55;
+}

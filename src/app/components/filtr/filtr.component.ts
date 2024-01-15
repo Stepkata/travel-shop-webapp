@@ -17,6 +17,7 @@ export class FiltrComponent {
   lokalizacja: string[] = []
   minPrice = 100000;
   maxPrice = 0;
+  rate = 1;
 
   isLoading: boolean = true;
 
@@ -37,15 +38,23 @@ export class FiltrComponent {
       (data) => {
         if (data != null){
           wycieczki = data;
-          for (const wycieczka of wycieczki){
-            if (this.lokalizacja.indexOf(wycieczka.Kraj) < 0 ){
-              this.lokalizacja.push(wycieczka.Kraj)
-              if (wycieczka.CenaJednostkowa < this.minPrice)
-                this.minPrice = wycieczka.CenaJednostkowa;
-              if (wycieczka.CenaJednostkowa > this.maxPrice)
-                this.maxPrice = wycieczka.CenaJednostkowa;    
+          this.DataService.rate$.subscribe((data) => {
+            if (data != null){
+              this.rate = data;
             }
-          }
+            for (const wycieczka of wycieczki){
+              if (this.lokalizacja.indexOf(wycieczka.Kraj) < 0 ){
+                this.lokalizacja.push(wycieczka.Kraj)
+                if (wycieczka.CenaJednostkowa < this.minPrice)
+                  this.minPrice = wycieczka.CenaJednostkowa;
+                if (wycieczka.CenaJednostkowa > this.maxPrice)
+                  this.maxPrice = wycieczka.CenaJednostkowa;    
+              }
+            }
+            this.minPrice /= Math.round(this.rate);
+            this.maxPrice /= Math.round(this.rate);
+          });
+      
           console.log("min", this.minPrice);
           console.log("max", this.maxPrice);
         }

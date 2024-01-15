@@ -15,6 +15,8 @@ import { ManagerViewComponent } from './components/manager-view/manager-view.com
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { AdminReviewsComponent } from './components/admin-reviews/admin-reviews.component';
 import { EditTripComponent } from './components/edit-trip/edit-trip.component';
+import { adminGuard } from './guard/admin.guard';
+import { managerGuard } from './guard/manager.guard';
 
 const routes: Routes = [
   {path:'', component:  HomeComponent},
@@ -25,11 +27,11 @@ const routes: Routes = [
   { path: 'historia', component: HistoryComponent, canActivate:[authGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'admin', component: AdminViewComponent},
-  { path: 'manager', component: ManagerViewComponent},
-  { path: 'admin/users', component: AdminUsersComponent},
-  { path: 'admin/reviews', component: AdminReviewsComponent},
-  { path: 'manager/edit/:id', component: EditTripComponent}
+  { path: 'admin', component: AdminViewComponent, canActivate:[adminGuard]},
+  { path: 'manager', component: ManagerViewComponent, canActivate:[managerGuard]},
+  { path: 'admin/users', component: AdminUsersComponent, canActivate:[adminGuard]},
+  { path: 'admin/reviews', component: AdminReviewsComponent, canActivate:[adminGuard]},
+  { path: 'manager/edit/:id', component: EditTripComponent, canActivate:[managerGuard]}
 ];
 
 @NgModule({

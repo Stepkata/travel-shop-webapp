@@ -174,7 +174,7 @@ export class WycieczkaComponent implements OnInit{
   }
 
   canReview(): boolean{
-    if (this.user?.isAdmin || this.user?.isManager){
+    if (this.AccountService.checkAdmin() || this.AccountService.checkManager()){
       return false;
     }
     if (this.history.find(item => item.TripId == this.tripId))

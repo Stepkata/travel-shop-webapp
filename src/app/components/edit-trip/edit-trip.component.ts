@@ -133,4 +133,8 @@ export class EditTripComponent {
     }
   }
 
+  removeDodatkoweZdjecie(index: number): void {
+    this.dodatkoweZdjeciaArray.removeAt(index);
+  }
+
 }

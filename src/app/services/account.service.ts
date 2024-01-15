@@ -15,6 +15,8 @@ export class AccountService {
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   public isLoggedIn = false;
+  public isManager = false;
+  public isAdmin = false;
   public all_users$: Observable<User[]>;
   userCollection: any;
   constructor(private db: AngularFirestore, private router: Router) { 
@@ -32,6 +34,8 @@ export class AccountService {
         user = data.find(item => item.Uid == credentials.user.uid);
         if (user){
           this.activeUserSubject.next(user);
+          this.isAdmin = user.isAdmin;
+          this.isManager = user.isManager;
       }
       }
     })
@@ -45,6 +49,14 @@ export class AccountService {
 
   checkLogin(){
     return this.isLoggedIn;
+  }
+
+  checkManager(){
+    return this.isManager;
+  }
+
+  checkAdmin(){
+    return this.isAdmin;
   }
 
   createUser(user: User){

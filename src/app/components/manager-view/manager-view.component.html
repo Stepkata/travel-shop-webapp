@@ -1,9 +1,13 @@
 <div class="buttons">
-    <button  [routerLink]="['/wycieczki', 'add']" class="add-trip">Dodaj wycieczkę</button>
-    <button (click)="openFilterModal()" class="filter">Filtruj</button>
-    <button (click)="clearFilters()" class="clear-filter">Wyczyść filtry</button>
-      
-</div> 
+    <button (click)="openFilterModal()" class="filter" style="width: 120px;">Filtruj</button>
+    <div class="paginate">
+        <button [ngClass]="{'pag': true, 'pag-active': rate===1}" (click)="setRate(1)">PLN</button>
+        <button [ngClass]="{'pag': true, 'pag-active': rate===4.5}" (click)="setRate(4.5)">EUR</button>
+        <button [ngClass]="{'pag': true, 'pag-active': rate===4}" (click)="setRate(4)">USD</button>
+        <button [ngClass]="{'pag': true, 'pag-active': rate===5}" (click)="setRate(5)">GBP</button>
+    </div>
+    <button (click)="clearFilters()" class="clear-filter" style="width: 120px;">Wyczyść filtry</button>
+</div>
 <div class="page-control">
     <div class="center">
         <button class="page-btn" (click)="changePage(-1)">Poprzednia strona</button>
@@ -15,17 +19,10 @@
         <button [ngClass]="{'pag': true, 'pag-active': amountToShow===25}" (click)="setAmountToShow(25)">25</button>
         <button [ngClass]="{'pag': true, 'pag-active': amountToShow===50}" (click)="setAmountToShow(50)">50</button>
     </div>
+    <button  [routerLink]="['/wycieczki', 'add']" class="add-trip">Dodaj wycieczkę</button>
 </div>
 
-<div class="page-control">
-    <h4>Waluta</h4>
-    <div class="paginate">
-        <button [ngClass]="{'pag': true, 'pag-active': rate===1}" (click)="setRate(1)">PLN</button>
-        <button [ngClass]="{'pag': true, 'pag-active': rate===4.5}" (click)="setRate(4.5)">EUR</button>
-        <button [ngClass]="{'pag': true, 'pag-active': rate===4}" (click)="setRate(4)">USD</button>
-        <button [ngClass]="{'pag': true, 'pag-active': rate===5}" (click)="setRate(5)">GBP</button>
-    </div>
-</div>
+
 
 <div *ngIf="!isLoading" class="wycieczki-container">
     <div *ngFor="let wycieczka of wycieczki | country: filterCountry | date: filterStartDate: filterEndDate | price: filterMinPrice: filterMaxPrice | rating: filterMinRating : filterMaxRating | slicePages: currentPage*amountToShow:  (currentPage+1)*amountToShow" [ngClass]="{'wycieczka': true}">

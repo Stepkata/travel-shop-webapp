@@ -61,12 +61,15 @@ export class DataService {
 
   updateEntireTrip(wycieczka:Wycieczka, zdjecia:Photo[]){
     this.tripsCollection.doc(wycieczka.Id.toString()).set({ ...wycieczka });
-    this.deleteDocumentByField("Zdjecia", "tripId", wycieczka.Id).catch((error) => {
+    
+    this.deleteDocumentByField("Zdjecia", "tripId", wycieczka.Id).then(() => {
+      for (const zdjecie of zdjecia){
+        this.photosCollection.add({ ...zdjecie });
+      }
+    }
+    ).catch((error) => {
       console.error(error);
     });
-    for (const zdjecie of zdjecia){
-      this.photosCollection.add({ ...zdjecie });
-    }
   }
 
   updateIloscMiejsc(_id: number, nowaIlosc: number){

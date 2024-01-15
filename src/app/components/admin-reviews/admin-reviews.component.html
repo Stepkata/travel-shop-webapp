@@ -1,12 +1,22 @@
-<div *ngFor="let review of reviews">
-    <div>
-      <strong>{{ review.nick }}</strong> ({{ review.name }}) - Rating: {{ review.rating }}
+<div class="container">
+  <div *ngFor="let review of reviews" class="review">
+    <p><strong>NICK:</strong> {{ review.nick }}</p>
+    <p><strong>Nazwa:</strong> {{ review.name }}</p>
+    <div class="star-container">
+      <button mat-icon-button *ngFor="let ratingId of ratingArr;index as i" [id]="'star_'+i" class="star-button">
+          <mat-icon>
+            {{showIcon(i, review.rating )}}
+          </mat-icon>
+        </button>
+    </div>  
+    <p><strong>Recenzja:</strong> {{ review.reviewText }}</p>
+    <p><strong>Data zakupu:</strong> {{ review.purchaseDate|| "---" }}</p>
+    <div class="buttons">
+      <button (click)="removeReview(review.tripId, review.userId)">Remove Review</button>
+      <button (click)="banAuthor(review.userId)">Ban Author</button>
     </div>
-    <div>{{ review.reviewText }}</div>
-    <div>Purchase Date: {{ review.purchaseDate }}</div>
-    <button (click)="removeReview(review.tripId, review.userId)">Remove Review</button>
-    <button (click)="banAuthor(review.userId)">Ban Author</button>
     <hr />
   </div>
+</div>
 
   

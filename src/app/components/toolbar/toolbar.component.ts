@@ -96,4 +96,8 @@ export class ToolbarComponent {
       console.log("invalid!");
     }
   }
+
+  removeDodatkoweZdjecie(index: number): void {
+    this.dodatkoweZdjeciaArray.removeAt(index);
+  }
 }
