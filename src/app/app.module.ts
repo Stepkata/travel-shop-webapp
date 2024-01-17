@@ -34,6 +34,7 @@ import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AdminViewComponent } from './components/admin-view/admin-view.component';
@@ -41,6 +42,7 @@ import { ManagerViewComponent } from './components/manager-view/manager-view.com
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { AdminReviewsComponent } from './components/admin-reviews/admin-reviews.component';
 import { EditTripComponent } from './components/edit-trip/edit-trip.component';
+
 
 @NgModule({
   declarations: [
@@ -85,7 +87,7 @@ import { EditTripComponent } from './components/edit-trip/edit-trip.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    
+    NgSelectModule,
   ],
   providers: [
     provideClientHydration(),

@@ -14,7 +14,8 @@ export class FiltrComponent {
   @Output() filterChanged = new EventEmitter<any>();
 
   filtrForm: FormGroup;
-  lokalizacja: string[] = []
+  lokalizacja: string[] = [];
+  selected: any = [];
   minPrice = 100000;
   maxPrice = 0;
   rate = 1;
@@ -25,7 +26,7 @@ export class FiltrComponent {
     let wycieczki: Wycieczka[] = [];
 
     this.filtrForm = this.formBuilder.group({
-      lokalizacja: [[]],
+      lokalizacja: [this.selected],
       cenaMin: this.minPrice,
       cenaMax: this.maxPrice,
       dataOd: null,
@@ -54,12 +55,12 @@ export class FiltrComponent {
             this.minPrice /= Math.round(this.rate);
             this.maxPrice /= Math.round(this.rate);
           });
-      
+          console.log(this.lokalizacja);
           console.log("min", this.minPrice);
           console.log("max", this.maxPrice);
         }
         this.filtrForm = this.formBuilder.group({
-          lokalizacja: [[]],
+          lokalizacja: [this.selected],
           cenaMin: this.minPrice,
           cenaMax: this.maxPrice,
           dataOd: null,

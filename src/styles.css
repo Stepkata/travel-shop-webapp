@@ -1,6 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&display=swap');
 
+.ng-dropdown-panel {
+  background-color: rgba(122,158,159,0.9);
+  border-bottom: 1px solid white;
+  color: white;
+  padding: 5px;
+  font-size: medium;
+  box-sizing: border-box;
+  position: absolute;
+  opacity: 1;
+  width: 100%;
+  z-index: 1050;
+  -webkit-overflow-scrolling: touch;
+}
+
 *{
     box-sizing: border-box;
 }

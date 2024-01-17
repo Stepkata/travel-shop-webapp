@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit{
       this.DataService.history$.subscribe((data) => {
             if (data != null)
               this.history = data.filter(item => item.UserId == this.userId);
+            this.checkTripNotif();
           });
           this.isLoading = false;
       });

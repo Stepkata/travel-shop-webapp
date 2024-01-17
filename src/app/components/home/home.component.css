@@ -11,6 +11,7 @@
   margin: 50px;
   width: 1000px;
   height: 30em;
+  width: 90%;
   border-radius: 70px;
   display: flex;
   flex-direction: column;
@@ -25,7 +26,7 @@
   background: rgba(122,158,159,0.6);
   border-radius: 20px;
   padding: 40px;
-  width: 1000px;
+  width: 95%;
   height: auto;
   display: flex;
   flex-direction: row;
@@ -70,4 +71,24 @@ img{
 .remainder a{
   color: #FE5F55;
   font-size: medium;
+}
+
+@media (max-width: 767px) {
+  .full-offer {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  a{
+    word-wrap: break-word;
+    line-height: 1.5;
+  }
+  .wizytowka{
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 768px) {
+  .full-offer {
+    flex-direction: row;
+  }
 }

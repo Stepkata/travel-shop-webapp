@@ -9,6 +9,8 @@ div{
     flex-wrap: wrap; 
     justify-content: space-around;
     align-items: center;
+    width: 90%;
+    height: fit-content;
   }
 
 .wycieczka {

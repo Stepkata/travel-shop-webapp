@@ -14,7 +14,7 @@ export class AccountService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
-  private isLoggedIn = false;
+  private isLoggedIn = true;
   private isManager = false;
   private isAdmin = false;
   private isBanned = false;

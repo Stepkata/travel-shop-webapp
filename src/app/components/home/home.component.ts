@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HistoryItem } from '../../structures/history-item';
+import { AccountService } from '../../services/account.service';
 
 @Component({
   selector: 'app-home',
@@ -11,22 +12,27 @@ import { HistoryItem } from '../../structures/history-item';
 
 export class HomeComponent implements OnInit{
   history: HistoryItem[] = [];
+  userId: string = "";
   oncoming:boolean = false;
   isLoading: boolean = true;
   comingStart: string = "";
   comingName: string = "";
   
-  constructor(private DataService: DataService) { 
+  constructor(private DataService: DataService, private AccountService: AccountService) { 
   }
 
   ngOnInit(): void {
-    this.DataService.history$.subscribe((data) => {
-      if (data == null)
-        console.log("null!");
-      this.history = data;
-      this.checkTripNotif();
-      this.isLoading = false;
-    });
+    this.AccountService.activeUser$.subscribe((data) => {
+      if(data!=null){
+        this.userId = data.Uid;  
+      } 
+      this.DataService.history$.subscribe((data) => {
+            if (data != null)
+              this.history = data.filter(item => item.UserId == this.userId);
+            this.checkTripNotif();
+          });
+          this.isLoading = false;
+      });
   }
 
   checkTripNotif(){

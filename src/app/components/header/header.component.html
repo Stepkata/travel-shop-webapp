@@ -1,6 +1,6 @@
 <header>
     <div class="container">
-        <c-dropdown *ngIf="isSmallScreen">       
+        <c-dropdown *ngIf="isSmallScreen && isLoggedIn">       
             <button cButton cDropdownToggle style="color: black;" class="profile">
                 <img src = "assets/logo.svg" alt="Logo"/>
             </button>
@@ -20,6 +20,26 @@
                 </li>
                 <li>
                     <a href="#">WYLOGUJ SIĘ</a>
+                </li>
+            </ul>
+        </c-dropdown>
+        <c-dropdown *ngIf="isSmallScreen && !isLoggedIn">       
+            <button cButton cDropdownToggle style="color: black;" class="profile">
+                <img src = "assets/logo.svg" alt="Logo"/>
+            </button>
+            <ul cDropdownMenu>
+                {{userName}}
+                <li>
+                    <a href="#" routerLink="/" class="oferta">HOME</a>
+                </li>
+                <li>
+                    <a href="#" routerLink="/wycieczki" class="oferta">OFERTA</a>
+                </li>
+                <li>
+                    <a href="#" routerLink="/login">ZALOGUJ SIĘ </a>
+                </li>
+                <li>
+                    <a href="#" routerLink="/register">ZAREJESTRUJ SIĘ </a>
                 </li>
             </ul>
         </c-dropdown>

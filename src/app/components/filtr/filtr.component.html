@@ -1,8 +1,15 @@
 <form *ngIf="!isLoading" [formGroup]="filtrForm" (ngSubmit)="onSave()" (ngModelChange)="onSave()" style="width: auto;">
     <label>Lokalizacja:</label>
-    <select multiple formControlName="lokalizacja" ngModel>
-      <option *ngFor="let lok of lokalizacja" value="{{lok}}">{{ lok }}</option>
-    </select>
+    <ng-select
+      class="default"
+      id="lokalizacja"
+      [multiple]="true"
+      [(ngModel)]="selected"
+      formControlName="lokalizacja"
+    >
+    <ng-option *ngFor="let lok of lokalizacja" [value]="lok" [disabled]="false">{{lok}}</ng-option>
+    <ng-option [value]="'custom'">Custom</ng-option>
+  </ng-select>
   
     <label>Cena:</label>
     <mat-slider min={{minPrice}} max={{maxPrice}} discrete > 
@@ -22,4 +29,6 @@
   
     <button type="submit">Filtruj</button>
   </form>
+
+
   
