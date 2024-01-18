@@ -31,8 +31,11 @@ export class DataService {
   private rateSubject = new BehaviorSubject<any>(null);
   rate$ = this.rateSubject.asObservable();
 
+  useFirebaseBackend: boolean = true;
 
-  constructor(private db: AngularFirestore){
+  private baseUrl = "http://localhost:5000/api";
+
+  constructor(private db: AngularFirestore, private http: HttpClient){
     let cart: Cart = new Cart();
     this.updateCart(cart);
     this.updateRate(1);
@@ -42,38 +45,171 @@ export class DataService {
     this.reviewsCollection = this.db.collection<Review>('Recenzje');
     this.photosCollection = this.db.collection<Photo>('Zdjecia');
 
-    this.trips$ = this.tripsCollection.valueChanges();
+    /*this.trips$ = this.tripsCollection.valueChanges();
     this.history$ = this.historyCollection.valueChanges();
     this.reviews$ = this.reviewsCollection.valueChanges();
-    this.photos$ = this.photosCollection.valueChanges(); 
+    this.photos$ = this.photosCollection.valueChanges(); */
+
+    this.trips$ = this.getAllWycieczki();
+    this.history$ = this.getHistoryItems();
+    this.reviews$ = this.getAllReviews();
+    this.photos$ = this.getPhotos(); 
 
     this.serial$ = this.db.collection<any>("Serial").doc("serial").valueChanges()
+
 
     console.log("Data constructor!");
   }
 
+  changeBackend(firebase: boolean){
+    this.useFirebaseBackend = firebase;
+    if (firebase)
+      this.initializeFirebase();
+    else
+      this.initializeAPI();
+
+  }
+
+  initializeAPI(){
+    this.trips$ = this.getAllWycieczki();
+    this.history$ = this.getHistoryItems();
+    this.reviews$ = this.getAllReviews();
+    this.photos$ = this.getPhotos(); 
+  }
+
+  initializeFirebase(){
+    this.trips$ = this.tripsCollection.valueChanges();
+    this.history$ = this.historyCollection.valueChanges();
+    this.reviews$ = this.reviewsCollection.valueChanges();
+    this.photos$ = this.photosCollection.valueChanges();
+  }
+
+  getHistoryItems(): Observable<any> {
+    const url = `${this.baseUrl}/history`;
+    return this.http.get(url);
+  }
+
+  getHistoryItemsById(userId: string): Observable<any> {
+    const url = `${this.baseUrl}/history-items/${userId}`;
+    return this.http.get(url);
+  }
+
+  createHistoryItem(data: any): Observable<any> {
+    const url = `${this.baseUrl}/history/new`;
+    return this.http.post(url, data, {responseType: 'text'});
+  }
+
+  getPhotos(): Observable<any> {
+    const url = `${this.baseUrl}/photos`;
+    return this.http.get(url);
+  }
+
+  createPhoto(photoData: any): Observable<any> {
+    const url = `${this.baseUrl}/photos/new`;
+    return this.http.post(url, photoData, {responseType: 'text'});
+  }
+
+  deletePhoto(tripId: string): Observable<any> {
+    const urlWithParams = `${this.baseUrl}/photos/${tripId}`;
+    return this.http.delete(urlWithParams, {responseType: 'text'});
+  }
+
+  getAllReviews(): Observable<any> {
+    const url = `${this.baseUrl}/reviews`;
+    return this.http.get(url);
+  }
+
+  getReviewByTripId(tripId: string): Observable<any> {
+    const url = `${this.baseUrl}/reviews/${tripId}`;
+    return this.http.get(url);
+  }
+
+  createReview(reviewData: any): Observable<any> {
+    const url = `${this.baseUrl}/reviews`;
+    return this.http.post(url, reviewData, {responseType: 'text'});
+  }
+
+  deleteReviewByFields(tripId: string, userId: string): Observable<any> {
+    const url = `${this.baseUrl}/reviews/${tripId}/${userId}`;
+    return this.http.delete(url, {responseType: 'text'});
+  }
+
+  deleteAllReviewsByFields(tripId: string): Observable<any> {
+    const url = `${this.baseUrl}/reviews/all/${tripId}`;
+    return this.http.delete(url, {responseType: 'text'});
+  }
+
+  getAllWycieczki(): Observable<any> {
+    const url = `${this.baseUrl}/wycieczki`;
+    return this.http.get(url);
+  }
+
+  getWycieczkaByTripId(tripId: string): Observable<any> {
+    const url = `${this.baseUrl}/wycieczki/${tripId}`;
+    return this.http.get(url);
+  }
+
+  createWycieczka(wycieczkaData: any, id: string): Observable<any> {
+    const url = `${this.baseUrl}/wycieczki/${id}`;
+    return this.http.post(url, wycieczkaData, {responseType: 'text'});
+  }
+
+  updateWycieczka(tripId: string, updatedData: any): Observable<any> {
+    const url = `${this.baseUrl}/wycieczki/${tripId}`;
+    return this.http.put(url, updatedData, {responseType: 'text'});
+  }
+
+  updateWycieczkaPlaces(tripId: string, updatedData: any): Observable<any> {
+    const url = `${this.baseUrl}/wycieczki/spots/${tripId}`;
+    return this.http.put(url, updatedData, {responseType: 'text'});
+  }
+  deleteWycieczka(tripId: string): Observable<any> {
+    const url = `${this.baseUrl}/wycieczki/${tripId}`;
+    return this.http.delete(url, {responseType: 'text'});
+  }
+
   addNewTrip(wycieczka:Wycieczka, zdjecia:Photo[]){
-    this.tripsCollection.doc(wycieczka.Id.toString()).set({ ...wycieczka });
-    for (const zdjecie of zdjecia){
-      this.photosCollection.add({ ...zdjecie });
+    if (this.useFirebaseBackend){
+      this.tripsCollection.doc(wycieczka.Id.toString()).set({ ...wycieczka });
+      for (const zdjecie of zdjecia){
+        this.photosCollection.add({ ...zdjecie });
+      }
+    } else {
+      this.createWycieczka(wycieczka, wycieczka.Id.toString()).subscribe(() => console.log("wycieczka created"));
+      for (const zdjecie of zdjecia){
+        this.createPhoto(zdjecie).subscribe(() => console.log("photo created"));
+      }
     }
   }
 
   updateEntireTrip(wycieczka:Wycieczka, zdjecia:Photo[]){
-    this.tripsCollection.doc(wycieczka.Id.toString()).set({ ...wycieczka });
+    if (this.useFirebaseBackend){
+      this.tripsCollection.doc(wycieczka.Id.toString()).set({ ...wycieczka });
     
-    this.deleteDocumentByField("Zdjecia", "tripId", wycieczka.Id).then(() => {
+      this.deleteDocumentByField("Zdjecia", "tripId", wycieczka.Id).then(() => {
+        for (const zdjecie of zdjecia){
+          this.photosCollection.add({ ...zdjecie });
+        }
+      }
+      ).catch((error) => {
+        console.error(error);
+      });
+    } else {
+      this.updateWycieczka(wycieczka.Id.toString(), wycieczka).subscribe(() => console.log("wycieczka updated"));
+      this.deletePhoto(wycieczka.Id.toString()).subscribe(() => console.log("photo deleted"));
       for (const zdjecie of zdjecia){
-        this.photosCollection.add({ ...zdjecie });
+        this.createPhoto(zdjecie).subscribe(() => console.log("photo created"));
+        console.log("Successfuly added!");
       }
     }
-    ).catch((error) => {
-      console.error(error);
-    });
   }
 
   updateIloscMiejsc(_id: number, nowaIlosc: number){
-    this.tripsCollection.doc(_id.toString()).update({"IloscMiejsc": nowaIlosc});
+    if (this.useFirebaseBackend){
+      this.tripsCollection.doc(_id.toString()).update({"IloscMiejsc": nowaIlosc});
+    }else{
+      this.updateWycieczkaPlaces(_id.toString(), nowaIlosc).subscribe(() => console.log("update trip"));
+    }
   }
 
   updateSerial(nextInd: number){
@@ -101,13 +237,20 @@ export class DataService {
   }
 
   deleteTrip(_id:number){
-    this.tripsCollection.doc(_id.toString()).delete();
-    this.deleteDocumentByField("Zdjecia", "tripId", _id).catch((error) => {
-      console.error(error);
-    });
-    this.deleteDocumentByField("Recenzje", "tripId", _id).catch((error) => {
-      console.error(error);
-    }); 
+    if (this.useFirebaseBackend){
+      this.tripsCollection.doc(_id.toString()).delete();
+      this.deleteDocumentByField("Zdjecia", "tripId", _id).catch((error) => {
+        console.error(error);
+      });
+      this.deleteDocumentByField("Recenzje", "tripId", _id).catch((error) => {
+        console.error(error);
+      }); 
+    } else {
+      this.deleteWycieczka(_id.toString()).subscribe(() => console.log("delete trip"));
+      this.deletePhoto(_id.toString()).subscribe(() => console.log("delete trip"));
+      this.deleteAllReviewsByFields(_id.toString()).subscribe(() => console.log("delete trip"));
+    }
+
   }
 
 
@@ -136,14 +279,21 @@ export class DataService {
   }
 
   addReview(review: Review){
-    this.reviewsCollection.add({...review});
+    if (this.useFirebaseBackend)
+      this.reviewsCollection.add({...review});
+    else
+      this.createReview(review).subscribe(() => console.log("reate review"));
   }
 
   deleteReview(tripId: number, userId: string){
-    this.deleteDocumentByFields("Recenzje", "tripId", tripId, "userId", userId).catch((error) => {
-      console.error(error);
-    }); 
-    this.updateRating(tripId);
+    if (this.useFirebaseBackend){
+      this.deleteDocumentByFields("Recenzje", "tripId", tripId, "userId", userId).catch((error) => {
+        console.error(error);
+      }); 
+      this.updateRating(tripId);
+    }else {
+      this.deleteReviewByFields(tripId.toString(), userId).subscribe(() => console.log("delete trip"));
+    }
   }
 
   deleteDocumentByFields(collectionName: string, field1Name: string, value1: any, field2Name: string, value2: any): Promise<void> {
@@ -173,7 +323,11 @@ export class DataService {
   }
 
   addHistory(history: HistoryItem){
-    this.historyCollection.add({...history})
+    if (this.useFirebaseBackend){
+      this.historyCollection.add({...history})
+    } else {
+      this.createHistoryItem(history).subscribe(() => console.log("reate review"));
+    }
   }
 
   updateCart(data:Cart){

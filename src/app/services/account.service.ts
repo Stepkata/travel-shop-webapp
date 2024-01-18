@@ -15,8 +15,8 @@ export class AccountService {
   public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
   private isLoggedIn = true;
-  private isManager = false;
-  private isAdmin = false;
+  private isManager = true;
+  private isAdmin = true;
   private isBanned = false;
   public all_users$: Observable<User[]>;
   userCollection: any;

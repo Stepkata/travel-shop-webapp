@@ -1,4 +1,7 @@
-<div class="buttons">
-    <button  [routerLink]="['/admin', 'users']">Zarządzaj użytkownikami</button>
-    <button  [routerLink]="['/admin', 'reviews']">Zarządzaj komentarzami</button>
+<div class="container">
+    <div class="buttons">
+        <button  [routerLink]="['/admin', 'users']">Zarządzaj użytkownikami</button>
+        <button  [routerLink]="['/admin', 'reviews']">Zarządzaj komentarzami</button>
+    </div>
+    <mat-checkbox [checked]="useFire" (change)="changeBackend(!useFire)"> useFirebase </mat-checkbox>
 </div>

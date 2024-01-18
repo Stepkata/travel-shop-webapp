@@ -4,11 +4,6 @@ import { DataService } from '../../services/data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Wycieczka } from '../../structures/wycieczka.model';
 import { FiltrComponent } from '../filtr/filtr.component';
-import { CountryPipe } from '../../pipes/country.pipe';
-import { DatePipe } from '@angular/common';
-import { PricePipe } from '../../pipes/price.pipe';
-import { RatingPipe } from '../../pipes/rating.pipe';
-import { SlicePagesPipe } from '../../pipes/slice-pages.pipe';
 import { Cart } from '../../structures/cart';
 import { Photo } from '../../structures/photo';
 import { Review } from '../../structures/review';
@@ -95,6 +90,7 @@ export class ManagerViewComponent {
   }
 
   deleteTrip(wycieczka: Wycieczka, event: any): void{
+    this.wycieczki.splice(this.wycieczki.indexOf(wycieczka), 1);
     this.DataService.deleteTrip(wycieczka.Id); //@TODO: check
     event.stopPropagation();
   }
