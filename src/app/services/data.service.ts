@@ -185,7 +185,8 @@ export class DataService {
   updateEntireTrip(wycieczka:Wycieczka, zdjecia:Photo[]){
     if (this.useFirebaseBackend){
       this.tripsCollection.doc(wycieczka.Id.toString()).set({ ...wycieczka });
-    
+      
+
       this.deleteDocumentByField("Zdjecia", "tripId", wycieczka.Id).then(() => {
         for (const zdjecie of zdjecia){
           this.photosCollection.add({ ...zdjecie });
@@ -193,6 +194,9 @@ export class DataService {
       }
       ).catch((error) => {
         console.error(error);
+        for (const zdjecie of zdjecia){
+          this.photosCollection.add({ ...zdjecie });
+        }
       });
     } else {
       this.updateWycieczka(wycieczka.Id.toString(), wycieczka).subscribe(() => console.log("wycieczka updated"));
@@ -260,20 +264,25 @@ export class DataService {
         .collection(collectionName, (ref) => ref.where(fieldName, '==', value))
         .get()
         .subscribe((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            this.db
-              .collection(collectionName)
-              .doc(doc.id)
-              .delete()
-              .then(() => {
-                console.log('Document successfully deleted!');
-                resolve();
-              })
-              .catch((error) => {
-                console.error('Error deleting document: ', error);
-                reject(error);
-              });
-          });
+          if (querySnapshot.size == 0)
+            resolve();
+          else{
+            querySnapshot.forEach((doc) => {
+              this.db
+                .collection(collectionName)
+                .doc(doc.id)
+                .delete()
+                .then(() => {
+                  console.log('Document successfully deleted!');
+                  resolve();
+                })
+                .catch((error) => {
+                  console.error('Error deleting document: ', error);
+                  reject(error);
+                });
+            });
+          }
+          
         });
     });
   }
