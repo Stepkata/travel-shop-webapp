@@ -42,6 +42,7 @@ import { ManagerViewComponent } from './components/manager-view/manager-view.com
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { AdminReviewsComponent } from './components/admin-reviews/admin-reviews.component';
 import { EditTripComponent } from './components/edit-trip/edit-trip.component';
+import {NgxWebstorageModule} from 'ngx-webstorage';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { EditTripComponent } from './components/edit-trip/edit-trip.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     NgSelectModule,
+    NgxWebstorageModule.forRoot()
   ],
   providers: [
     provideClientHydration(),

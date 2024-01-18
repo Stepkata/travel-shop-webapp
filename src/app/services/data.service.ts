@@ -6,6 +6,7 @@ import { HistoryItem } from '../structures/history-item';
 import { Cart } from '../structures/cart';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import {LocalStorageService} from 'ngx-webstorage';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Review } from '../structures/review';
@@ -37,7 +38,7 @@ export class DataService {
 
   private baseUrl = "http://localhost:5000/api";
 
-  constructor(private db: AngularFirestore, private http: HttpClient){
+  constructor(private db: AngularFirestore, private http: HttpClient, private storage:LocalStorageService){
     let cart: Cart = new Cart();
     this.updateCart(cart);
     this.updateRate(1);

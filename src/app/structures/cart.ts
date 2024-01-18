@@ -20,6 +20,7 @@ export class Cart{
         } else{
             item.addItem();
         }
+        
     }
 
     removeItem(wycieczka: Wycieczka){
