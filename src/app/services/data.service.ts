@@ -45,15 +45,10 @@ export class DataService {
     this.reviewsCollection = this.db.collection<Review>('Recenzje');
     this.photosCollection = this.db.collection<Photo>('Zdjecia');
 
-    /*this.trips$ = this.tripsCollection.valueChanges();
+    this.trips$ = this.tripsCollection.valueChanges();
     this.history$ = this.historyCollection.valueChanges();
     this.reviews$ = this.reviewsCollection.valueChanges();
-    this.photos$ = this.photosCollection.valueChanges(); */
-
-    this.trips$ = this.getAllWycieczki();
-    this.history$ = this.getHistoryItems();
-    this.reviews$ = this.getAllReviews();
-    this.photos$ = this.getPhotos(); 
+    this.photos$ = this.photosCollection.valueChanges(); 
 
     this.serial$ = this.db.collection<any>("Serial").doc("serial").valueChanges()
 
