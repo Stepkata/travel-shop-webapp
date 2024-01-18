@@ -194,9 +194,6 @@ export class DataService {
       }
       ).catch((error) => {
         console.error(error);
-        for (const zdjecie of zdjecia){
-          this.photosCollection.add({ ...zdjecie });
-        }
       });
     } else {
       this.updateWycieczka(wycieczka.Id.toString(), wycieczka).subscribe(() => console.log("wycieczka updated"));
