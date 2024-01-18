@@ -73,6 +73,16 @@ img{
   font-size: medium;
 }
 
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  font-size: medium;
+  color: #FE5F55;
+}
+
 @media (max-width: 767px) {
   .full-offer {
     flex-direction: column;

@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Wycieczka } from '../structures/wycieczka.model';
 import { HistoryItem } from '../structures/history-item';
 import { Cart } from '../structures/cart';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Review } from '../structures/review';
@@ -192,7 +194,14 @@ export class DataService {
       });
     } else {
       this.updateWycieczka(wycieczka.Id.toString(), wycieczka).subscribe(() => console.log("wycieczka updated"));
-      this.deletePhoto(wycieczka.Id.toString()).subscribe(() => console.log("photo deleted"));
+      this.deletePhoto(wycieczka.Id.toString()).pipe(
+        catchError(error => {
+          console.error('Error deleting photo:', error);
+          // Continue with the observable sequence by returning an empty observable
+          return of(null);
+        })
+      )
+      .subscribe(() => console.log('Photo deleted'));
       for (const zdjecie of zdjecia){
         this.createPhoto(zdjecie).subscribe(() => console.log("photo created"));
         console.log("Successfuly added!");
