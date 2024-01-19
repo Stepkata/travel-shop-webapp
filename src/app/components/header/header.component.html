@@ -19,7 +19,7 @@
                     <a href="#" routerLink="/historia"><mat-icon>history</mat-icon> historia </a>
                 </li>
                 <li>
-                    <a href="#">WYLOGUJ SIĘ</a>
+                    <a href="#" routerLink="/login" onclick="logout() ">WYLOGUJ SIĘ</a>
                 </li>
             </ul>
         </c-dropdown>
@@ -83,7 +83,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">WYLOGUJ SIĘ</a>
+                        <button cButton (click)="logout()">WYLOGUJ SIĘ</button>
                     </li>
                 </ul>
             </c-dropdown>

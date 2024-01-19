@@ -1,5 +1,5 @@
 <div *ngIf="!isLoading"  class="container">
-    <div *ngIf="oncoming" class="remainder" routerLink="/historia">
+    <div *ngIf="oncoming && isLoggedin" class="remainder" routerLink="/historia">
         <a href="#" routerLink="/historia"> Wycieczka już wkrótce: {{comingName}} {{comingStart}} </a>
         
     </div>

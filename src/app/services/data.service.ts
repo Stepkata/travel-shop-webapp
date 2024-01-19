@@ -161,6 +161,12 @@ export class DataService {
     const url = `${this.baseUrl}/wycieczki/spots/${tripId}`;
     return this.http.put(url, updatedData, {responseType: 'text'});
   }
+
+  updateWycieczkaRating(tripId: string, updatedData: any): Observable<any> {
+    const url = `${this.baseUrl}/wycieczki/rating/${tripId}`;
+    return this.http.put(url, updatedData, {responseType: 'text'});
+  }
+
   deleteWycieczka(tripId: string): Observable<any> {
     const url = `${this.baseUrl}/wycieczki/${tripId}`;
     return this.http.delete(url, {responseType: 'text'});
@@ -224,22 +230,42 @@ export class DataService {
 
   updateRating(_id: number){
     let ratings: Review[] = [];
-    this.reviews$.subscribe((data) => {
-      ratings = data.filter(item => item.tripId === _id);
-      let rating = 0;
-      let num = 0;
-      for (const rev of ratings){
-        if (rev.rating >= 0){
-          rating += rev.rating;
-          num++;
+    if (this.useFirebaseBackend){
+      this.reviews$.subscribe((data) => {
+        ratings = data.filter(item => item.tripId === _id);
+        let rating = 0;
+        let num = 0;
+        for (const rev of ratings){
+          if (rev.rating >= 0){
+            rating += rev.rating;
+            num++;
+          }
         }
-      }
-      if (num == 0)
-        rating= 0;
-      else
-        rating = rating/num;
-      this.tripsCollection.doc(_id.toString()).update({"Ocena": rating});
-    });
+        if (num == 0)
+          rating= 0;
+        else
+          rating = rating/num;
+        this.tripsCollection.doc(_id.toString()).update({"Ocena": rating});
+      });
+    } else {
+      this.getReviewByTripId(_id.toString()).subscribe((data) => {
+        ratings = data;
+        let rating = 0;
+        let num = 0;
+        for (const rev of ratings){
+          if (rev.rating >= 0){
+            rating += rev.rating;
+            num++;
+          }
+        }
+        if (num == 0)
+          rating= 0;
+        else
+          rating = rating/num;
+        this.updateWycieczkaRating(_id.toString(), rating.toString());
+      })
+    }
+   
   }
 
   deleteTrip(_id:number){

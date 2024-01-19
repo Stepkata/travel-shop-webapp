@@ -75,5 +75,10 @@ export class HeaderComponent implements OnInit{
     this.oncoming = false;
   }
 
+  logout(){
+    this.AccountService.logOut();
+    this.isLoggedIn = false;
+  }
+
 
 }
