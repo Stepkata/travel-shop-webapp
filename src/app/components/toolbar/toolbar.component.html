@@ -17,11 +17,17 @@
     <div *ngIf="wycieczkaForm.get('DataRozpoczecia')!.hasError('required')">
       Pole jest wymagane.
     </div>
+    <div *ngIf="wycieczkaForm.get('DataRozpoczecia')!.hasError('dateInPast')">
+      Data nie może być wcześniejsza niż dzisiaj.
+    </div>
   
     <label for="dataZakonczenia">Data Zakończenia:</label>
     <input type="date" id="dataZakonczenia" formControlName="DataZakonczenia" required>
     <div *ngIf="wycieczkaForm.get('DataZakonczenia')!.hasError('required')">
       Pole jest wymagane.
+    </div>
+    <div *ngIf="wycieczkaForm.get('DataZakonczenia')!.hasError('dateInPast')">
+      Data nie może być wcześniejsza niż dzisiaj.
     </div>
   
     <label for="cenaJednostkowa">Cena Jednostkowa:</label>
@@ -29,11 +35,17 @@
     <div *ngIf="wycieczkaForm.get('CenaJednostkowa')!.hasError('required')">
       Pole jest wymagane.
     </div>
+    <div *ngIf="wycieczkaForm.get('CenaJednostkowa')!.hasError('nuberBelowZero')">
+      Liczba musi być większa niż 0.
+    </div>
   
     <label for="maxIloscMiejsc">Maksymalna Ilość Miejsc:</label>
     <input type="number" id="maxIloscMiejsc" formControlName="MaxIloscMiejsc" required>
     <div *ngIf="wycieczkaForm.get('MaxIloscMiejsc')!.hasError('required')">
       Pole jest wymagane.
+    </div>
+    <div *ngIf="wycieczkaForm.get('MaxIloscMiejsc')!.hasError('nuberBelowZero')">
+      Liczba musi być większa niż 0.
     </div>
   
     <label for="opis">Krótki opis:</label>

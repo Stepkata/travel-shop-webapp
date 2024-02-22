@@ -37,10 +37,10 @@ export class ToolbarComponent {
     this.wycieczkaForm = this.fb.group({
       Nazwa: ['', Validators.required],
       Kraj: ['', Validators.required],
-      DataRozpoczecia: ['', Validators.required],
-      DataZakonczenia: ['', Validators.required],
-      CenaJednostkowa: ['', Validators.required],
-      MaxIloscMiejsc: ['', Validators.required],
+      DataRozpoczecia: ['', [Validators.required, this.validateDate]],
+      DataZakonczenia: ['', [Validators.required, this.validateDate]],
+      CenaJednostkowa: ['', [Validators.required, this.validateNumber]],
+      MaxIloscMiejsc: ['', [Validators.required, this.validateNumber]],
       Opis: ['', Validators.required],
       DlugiOpis: ['', Validators.required],
       Zdjecie: ['', Validators.required],
@@ -99,5 +99,23 @@ export class ToolbarComponent {
 
   removeDodatkoweZdjecie(index: number): void {
     this.dodatkoweZdjeciaArray.removeAt(index);
+  }
+
+  validateDate(control:any) {
+    const selectedDate = new Date(control.value);
+    const currentDate = new Date();
+
+    if (selectedDate < currentDate) {
+      return { dateInPast: true };
+    }
+
+    return null;
+  }
+
+  validateNumber(control:any){
+    if (control.value <= 0){
+      return {nuberBelowZero: true};
+    }
+    return null;
   }
 }
