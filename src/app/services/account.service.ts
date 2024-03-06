@@ -47,6 +47,9 @@ export class AccountService {
     this.activeUserSubject.next(null);
     this.isLoggedInSubject.next(false);
     this.isLoggedIn = false;
+    this.isAdmin = false;
+    this.isManager = false;
+    console.log("Logged out!");
   }
 
   checkLogin(){

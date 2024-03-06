@@ -180,8 +180,21 @@ export class WycieczkaComponent implements OnInit{
     if (this.AccountService.checkManager()){
       return true;
     }
-    if (this.history.find(item => item.TripId == this.tripId))
+    if (this.history.find(item => item.TripId == this.tripId && this.timeDifference(item) < 0))
       return true;
     else return false;
   }
+
+  timeDifference(item: HistoryItem){
+    const startDate = new Date(item.startDate);
+      const currentDate = new Date();
+      const timeDifference = startDate.getTime() - currentDate.getTime();
+
+      // Convert milliseconds to days
+      const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+      return daysDifference;
+  }
 }
+
+

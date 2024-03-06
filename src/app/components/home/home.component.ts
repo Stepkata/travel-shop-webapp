@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit{
   isLoading: boolean = true;
   comingStart: string = "";
   comingName: string = "";
+
+  isLoggedin: boolean = false;
   
   constructor(private DataService: DataService, private AccountService: AccountService) { 
   }
@@ -33,6 +35,10 @@ export class HomeComponent implements OnInit{
           });
           this.isLoading = false;
       });
+
+    this.AccountService.isLoggedIn$.subscribe((data) => {
+      this.isLoggedin = data;
+    })
   }
 
   checkTripNotif(){
